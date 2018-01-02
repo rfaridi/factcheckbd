@@ -1,5 +1,5 @@
-baseurl = "https://www.example.org/"
-title = "Kiera"
+baseurl = "/"
+title = "factCheckBD"
 copyright = "Copyright &copy; 2017 - Author Name"
 canonifyurls = true
 theme = "hugo-kiera"
