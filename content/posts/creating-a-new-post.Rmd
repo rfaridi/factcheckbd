@@ -1,0 +1,21 @@
+---
+title: Creating a new post
+author: ~
+date: '2018-01-02'
+slug: creating-a-new-post
+categories: []
+tags: []
+---
+
+Hello this is my first Rmd post
+
+```{r rmd  }
+plot(rnorm(10))
+```
+
+Here is data
+
+```{r dat  }
+head(iris)
+```
+
