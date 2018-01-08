@@ -1,0 +1,121 @@
+---
+output: 
+  html_document:
+    css:  ari_style.css
+
+---
+```{r,echo=FALSE}
+library(knitr)
+opts_chunk$set(comment=NA,row.names=FALSE,message=FALSE,echo=F)
+
+```
+
+```{r}
+# Load Required Libraries
+library(reshape2)
+library(ggplot2)
+library(scales)
+library(dplyr)
+```
+
+
+```{r}
+# Set up data
+#file <- "C:/Users/User/Dropbox/Docs/FactCheckBD/ Road Accidents/Data/facts_2013_table4.csv"
+
+if(.Platform$OS.type == "unix") {
+  dir <- "~/Dropbox/Docs/FactCheckBD/ Road Accidents/Data/"
+  
+  } else {
+    dir <- "C:/Users/User/Dropbox/Docs/FactCheckBD/ Road Accidents/Data/"
+}
+
+file <- paste0(dir,"facts_2013_table4.csv")
+ari13.4 <- read.csv(file,header=FALSE,stringsAsFactors = FALSE)
+ari13.4 <- ari13.4[,-dim(ari13.4)[2]]
+varnames <- c("year","head_on","rear_end","right_angle","side_swipe","overturn","hit_on_road","hit_off_road","hit_parked_vehicle","hit_pedestrian","hit_animal","other")
+names(ari13.4) <- varnames
+ari_m <- melt(ari13.4,id.vars = c("year"))
+names(ari_m) <- c("year","acc_type","num")
+ari_m$acc_type <- factor(ari_m$acc_type,levels=c("head_on","rear_end","right_angle","side_swipe","overturn","hit_on_road","hit_off_road","hit_parked_vehicle","hit_pedestrian","hit_animal","other"),labels=c("Head On", "Rear End", "Right Angle", "Side Swipe", "Overturn", "Hit on Road", "Hit Off Road","Hit Parked Vehicle", "Hit Pedestrian", "Hit Animal", "Other"))
+```
+
+```{r}
+# Creating themes and custom functions
+themebar2 <- theme_grey()+
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_text(size = 14,face="bold",color = "#08306B"),
+        axis.line=element_line(linetype="dotted",color="grey"),
+        panel.background=element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border=element_blank(),
+        legend.position="none")
+
+##### A function to create horizontal bar plot ######
+
+ggbar2 <- function(df=ari_m,t=2013){
+   df <- ari_m
+   var <- "acc_type"
+   t <- 2013
+ # var1 <- with(df,get(var))
+ 
+  top5 <- filter(df,year==t) %>% 
+        arrange(desc(num)) %>% 
+          slice(1:5)
+  top5 <- mutate(top5,Perc=round(num/sum(num),2),
+                  acc_type=droplevels(acc_type),
+                  acc_type=reorder(acc_type,Perc))
+#print(top5)
+   p <- ggplot(top5)+geom_bar(aes(x=acc_type,y=Perc),stat='identity') 
+  p <- p+coord_flip()
+  p <- p+scale_y_continuous(labels=percent)
+  p <- p+labs(x=NULL,y=NULL)
+  
+  p <- p+geom_text(data=top5,
+                  aes(x=acc_type,
+                  y=Perc/2,
+                  label=paste0(Perc*100,"%"),
+                  hjust=-0.25),color="white")
+  
+  p <-  p+geom_text(data=top5,
+                  aes(x=acc_type,
+                  y=Perc,label=num,hjust=-0.25),
+                  color="Black")+
+                  ggtitle(paste("Types of Accidents:",t))
+
+ return(p+themebar2+scale_fill_continuous(low="#C6DBEF",high="#2171B5"))
+}  
+```
+## ARI Data Analysis in 2013
+
+A Dhaka tribune report was published last April 3,2015.  The study has been commissioned by Passenger Welfare Commission based on data collected from several news papers in Bangladesh.
+
+Here are some of the facts that came out of the report.
+
+* Between January and December 2014, there were 5,928 road accidents where
+
+* <span class="stext">8589</span> were killed
+* <span class="stext">17,523</span> were hurt
+* <span class="stext">1,623</span> suffered life-long injuries
+
+In the same report we find that National Road Safety Council (NRSC)
+mentioning that published in January that over the last five years, road accidents claimed 2,529 lives on average every year, while last year’s death toll was below 2,000.The NRSC report is based on data collected from police headquarters.
+
+
+In the following we see a graph of the different types of Accidents distribution in 2013
+
+```{r}
+ggbar2()
+```
+
+
+
+
+
+
+
+
+
+

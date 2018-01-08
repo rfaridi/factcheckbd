@@ -1,0 +1,6 @@
+load("impDat.RData")
+source("functions.R")
+p <- ggbar2()
+png("figure/ari13.png")
+print(p)
+dev.off()
