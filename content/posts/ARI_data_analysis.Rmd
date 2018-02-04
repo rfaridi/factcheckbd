@@ -31,17 +31,17 @@ Following analysis is done from the official statistics collected from [Accident
 
 In the following we see a graph of the distribution of different types of Accidents in 2013:
 
-![ari2013graph](../../road_accidents/ARIdatAnalysis/figure/gr13.png) 
+![ari2013graph](/images/gr13.png) 
 
 Out of total 1,754 accidents in 2013, we find almost half of the total accidents involves hitting pedestrian. Head-on collision comes at a distant second causing 22.
 
 In 2012, we see similiar pattern,
 
-![ari2012graph](../../road_accidents/ARIdatAnalysis/figure/gr12.png)
+![ari2012graph](/images/gr12.png) 
 
 Same pattern can be also observed in 2011, 
 
-![ari2011graph](figure/gr11.png)
+![ari2011graph](/images/gr11.png) 
 
 In fact, this very pattern can be observed for all the years dating back to 1998. This begs the very question whether the step will drammatically reduce the number of accidents. Hitting pedestrian may not happen due to slow moving three wheelers roaming around the highway. Its more likely because of different structures and institutions, such as markets are situated so close to highways and sometimes pretty much on the highway. As a result, it has become so common to see people taking the highway as their own yard and that is why probably we see such high rate of accidents involving pedestrians. 
 
