@@ -1,5 +1,5 @@
 baseurl = "/"
-title = "factCheckBD"
+title = "rushad's dataVerse"
 copyright = "Copyright &copy; 2017 - Author Name"
 canonifyurls = true
 theme = "hugo-kiera"
@@ -20,6 +20,6 @@ pygmentsCodeFences = true
     instagram = ""
 
 [params]
-    tagline = "Where facts are revealed"
+    tagline = "data, #rstats and me"
 
 
