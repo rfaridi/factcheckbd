@@ -34,7 +34,7 @@ Since we are talking about health sector, let's have a look at the motion chart 
 
 
 ```{r,results='asis',tidy=FALSE}
-load("../../legacyFidelCuba/RDATA/latin.RData")
+load("./RDATA/latin.RData")
 LE_MR<- gvisMotionChart(latin,
                       idvar="country", timevar="year",
                       xvar="life_expectancy",yvar="Mortality_Rate",
@@ -152,7 +152,7 @@ Now let's try to compare South Asia with Cuba. In South Asia, Sri Lanka leads in
 <span class="stext2">Please be patient, it takes few seconds to load the motion chart </span>
 
 ```{r,results='asis'}
-load("../../legacyFidelCuba/RDATA/sa_cuba.RData")
+load("./RDATA/sa_cuba.RData")
 LE_MR_sa_cuba<- gvisMotionChart(sa_cuba,
                       idvar="country", timevar="year",
                       xvar="life_expectancy",yvar="Mortality_Rate",
