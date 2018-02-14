@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "factcheckbd.netlify.com/"
 title = "factCheckBD"
 copyright = "Copyright &copy; 2017 - Author Name"
 canonifyurls = true
