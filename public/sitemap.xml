@@ -13,6 +13,11 @@
   </url>
   
   <url>
+    <loc>/post/bangla-testing/</loc>
+    <lastmod>2018-02-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/ari-data-analysis/</loc>
     <lastmod>2018-01-03T00:00:00+00:00</lastmod>
   </url>
@@ -39,7 +44,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
+    <lastmod>2018-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -52,10 +57,6 @@
     <loc>/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/bangla-testing/</loc>
   </url>
   
 </urlset>
