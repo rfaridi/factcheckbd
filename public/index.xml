@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>factCheckBD</title>
-    <link>/</link>
+    <link>/factcheckbd.netlify.com/</link>
     <description>Recent content on factCheckBD</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2017 - Author Name</copyright>
     <lastBuildDate>Wed, 09 Apr 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/factcheckbd.netlify.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>About Hugo</title>
-      <link>/about/</link>
+      <link>/factcheckbd.netlify.com/about/</link>
       <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>/about/</guid>
+      <guid>/factcheckbd.netlify.com/about/</guid>
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
@@ -24,37 +24,37 @@ It makes use of a variety of open source projects including:
     
     <item>
       <title>ARI Data Analysis</title>
-      <link>/posts/ari-data-analysis/</link>
+      <link>/factcheckbd.netlify.com/posts/ari-data-analysis/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/ari-data-analysis/</guid>
+      <guid>/factcheckbd.netlify.com/posts/ari-data-analysis/</guid>
       <description>Bangladesh government banned all types three wheelers in 22 national highways effective from last August 1, 2015. It was surely a drastic measure to curb the fatalities in road accidents that has taken epidemic proportion recently in Bangladesh.</description>
     </item>
     
     <item>
       <title>Cuba and Castro&#39;s legacy</title>
-      <link>/posts/cuba-castro-legacy/</link>
+      <link>/factcheckbd.netlify.com/posts/cuba-castro-legacy/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/cuba-castro-legacy/</guid>
+      <guid>/factcheckbd.netlify.com/posts/cuba-castro-legacy/</guid>
       <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
     </item>
     
     <item>
       <title>My first post</title>
-      <link>/post/my-first-post/</link>
+      <link>/factcheckbd.netlify.com/post/my-first-post/</link>
       <pubDate>Tue, 02 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/my-first-post/</guid>
+      <guid>/factcheckbd.netlify.com/post/my-first-post/</guid>
       <description>Hello, this is my very first post. Let&amp;rsquo;s see how it goes.</description>
     </item>
     
     <item>
       <title>Hello R Markdown</title>
-      <link>/post/2015-07-23-r-rmarkdown/</link>
+      <link>/factcheckbd.netlify.com/post/2015-07-23-r-rmarkdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/post/2015-07-23-r-rmarkdown/</guid>
+      <guid>/factcheckbd.netlify.com/post/2015-07-23-r-rmarkdown/</guid>
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.</description>
     </item>
     

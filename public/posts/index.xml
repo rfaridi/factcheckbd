@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on factCheckBD</title>
-    <link>/posts/</link>
+    <link>/factcheckbd.netlify.com/posts/</link>
     <description>Recent content in Posts on factCheckBD</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2017 - Author Name</copyright>
     <lastBuildDate>Wed, 03 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/factcheckbd.netlify.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ARI Data Analysis</title>
-      <link>/posts/ari-data-analysis/</link>
+      <link>/factcheckbd.netlify.com/posts/ari-data-analysis/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/ari-data-analysis/</guid>
+      <guid>/factcheckbd.netlify.com/posts/ari-data-analysis/</guid>
       <description>Bangladesh government banned all types three wheelers in 22 national highways effective from last August 1, 2015. It was surely a drastic measure to curb the fatalities in road accidents that has taken epidemic proportion recently in Bangladesh.</description>
     </item>
     
     <item>
       <title>Cuba and Castro&#39;s legacy</title>
-      <link>/posts/cuba-castro-legacy/</link>
+      <link>/factcheckbd.netlify.com/posts/cuba-castro-legacy/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/cuba-castro-legacy/</guid>
+      <guid>/factcheckbd.netlify.com/posts/cuba-castro-legacy/</guid>
       <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
     </item>
     
