@@ -1,0 +1,55 @@
+---
+title: ggrepel Demo
+author: ~
+date: '2018-02-26'
+slug: ggrepel-demo
+categories: []
+tags: []
+---
+
+
+
+ggrepel has come to the picture to solve the problem of overlapping text. I thing it is pretty useful. 
+
+let's first load the library
+
+```{r llb  }
+library(tidyverse)
+library(ggrepel)
+```
+
+Let's create the data first
+
+```{r llb2  }
+set.seed(1234)
+
+data <- tibble(x = seq_len(100),
+               y = cumsum(rnorm(100)))
+```
+
+Let's now create the annotation data
+
+```{r ann  }
+anno_data <- data %>%
+  filter(x %% 25 == 10) %>%
+  mutate(text = "text")
+```
+
+Now let's have a look at the above code.What is being done is that a subset from original data is being created by a filtering condition. Particularly interesting is the filtering condition. Here `%%` the modulas operator is in action. Whenever x is divided by 25 and remainder is 10, those rows are being filtered out. 
+
+
+Here comes the ggplot with repel functions
+
+```{r ggr  }
+data %>%
+  ggplot(aes(x, y)) +
+  geom_line() +
+  geom_label_repel(aes(label = text), 
+                   data = anno_data,
+                   direction = "y",
+                   nudge_y = c(-5, 5, 5, 5))
+```
+
+
+
+

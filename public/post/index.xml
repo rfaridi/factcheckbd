@@ -6,10 +6,21 @@
     <description>Recent content in Posts on rushad&#39;s dataVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2017 - Author Name</copyright>
-    <lastBuildDate>Wed, 14 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ggrepel Demo</title>
+      <link>/post/ggrepel-demo/</link>
+      <pubDate>Mon, 26 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ggrepel-demo/</guid>
+      <description>ggrepel has come to the picture to solve the problem of overlapping text. I thing it is pretty useful.
+let’s first load the library
+library(tidyverse) ## Loading tidyverse: ggplot2 ## Loading tidyverse: tibble ## Loading tidyverse: tidyr ## Loading tidyverse: readr ## Loading tidyverse: purrr ## Loading tidyverse: dplyr ## Conflicts with tidy packages ---------------------------------------------- ## filter(): dplyr, stats ## lag(): dplyr, stats library(ggrepel) Let’s create the data first</description>
+    </item>
     
     <item>
       <title>বাংলা পরীক্ষা করা হচ্ছে</title>
