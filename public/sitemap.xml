@@ -14,6 +14,11 @@
   
   <url>
     <loc>/post/ggrepel-demo/</loc>
+    <lastmod>2018-03-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/ggrepel-demo/</loc>
     <lastmod>2018-02-26T00:00:00+00:00</lastmod>
   </url>
   
@@ -43,17 +48,13 @@
   </url>
   
   <url>
-    <loc>/post/world_justice_project/</loc>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-02-26T00:00:00+00:00</lastmod>
+    <lastmod>2018-03-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
