@@ -49,5 +49,14 @@ library(tidyverse) ## Loading tidyverse: ggplot2 ## Loading tidyverse: tibble ##
       <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>/post/world_justice_project/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/world_justice_project/</guid>
+      <description>Today (March 2, 2018) I have seen the following the news on the Daily Star, the leading news paper in Bangladesh on Bangladesh being close to bottom in South Asia. I went to World Justice Project and downloaded the data from their project page.</description>
+    </item>
+    
   </channel>
 </rss>
