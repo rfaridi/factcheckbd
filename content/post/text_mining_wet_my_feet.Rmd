@@ -1,0 +1,71 @@
+---
+title: Getting myself started into text mining
+author: Rushad Faridi
+date: '2018-03-07'
+slug: 'intro-text-mining'
+categories: []
+tags: []
+---
+
+I will be just practicing the exercises in the vignette of tidytext package. 
+
+let's first import the  required libraries:
+
+```{r libs}
+library(janeaustenr)
+library(dplyr)
+library(stringr)
+library(tidytext)
+```
+
+As the very first step, we create line number variable and chapter variable. We do this for each separate book. 
+
+```{r lv  }
+original_books  <- austen_books()  %>% 
+                                group_by(book) %>% 
+				mutate(linenumber= row_number(),
+				       chapter=cumsum(str_detect(text,regex("^chapter [\\divxlc]", 
+									    ignore.case=TRUE)))) %>% 
+				       ungroup()
+```
+
+Now we need to have one word per row to work in a tidy data frame. For this to work we will use `unnest_token` function from `tidytext` package. That means, it will break each sentenced into words and put a word in each row. Currently `original_books` data frame has `r dim(original_books)[1]` number of rows. We expect to increase it many fold. Let's check this out. 
+
+```{r tok  }
+tidy_books  <- original_books %>% 
+		unnest_tokens(word, text) 
+```
+
+Now we are going to remove the `stop words` meaning those words which are used repeatedly without any special meaning such `and`, `there` etc.
+
+```{r st  }
+clean_books  <- tidy_books %>% 
+                 anti_join(stop_words)
+save(clean_books, file="../RDATA/clean_books.RData")
+```
+
+We can try to find the most common words used in the following manner:
+
+```{r comm  }
+clean_books %>% 
+    count(word, sort=TRUE)
+```
+
+Now let's go straigh into creating a word cloud. But before that let's install the wordcloud package. 
+
+```{r wc  }
+library(wordcloud)
+```
+
+Now time for word cloud:
+
+```{r wc2  }
+clean_books %>% 
+    count(word) %>% 
+    with(wordcloud(word,n, max.words=100))
+```
+
+That's it! my first ever word cloud in R!
+
+
+

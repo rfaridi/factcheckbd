@@ -1,0 +1,96 @@
+---
+title: "Historic 7th March speech of Sheikh Mujib in word cloud"
+author: "Rushad Faridi"
+date: '2018-03-07'
+tags: []
+categories: []
+---
+
+```{r,echo=FALSE}
+library(knitr)
+opts_chunk$set(comment=NA,warning=FALSE,message=FALSE)
+```
+
+
+In one of my previous posts, I have ventured into creating a word cloud from some tutorial. Now since today is 7th March, the historic day when the founder of Bangladesh,[Sheikh Mujibur Rahman](http://https://en.wikipedia.org/wiki/Sheikh_Mujibur_Rahman "Sheikh Mujibur Rahman") , delivered a speech which greatly energized the nation before the Independence war broke out few days later.
+
+The speech in Bengali can be found in [Bangla Wikipedia](http://https://bn.wikipedia.org/wiki/%E0%A6%B8%E0%A6%BE%E0%A6%A4%E0%A6%87_%E0%A6%AE%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%9A%E0%A7%87%E0%A6%B0_%E0%A6%AD%E0%A6%BE%E0%A6%B7%E0%A6%A3 "Bangla Wikipedia"). I just copied the text into a text file. We will just take it from there and see how it goes.
+
+First I will import the text into R:
+
+```{r imp  }
+speech <- readLines("../RAWDATA/sheikh_mujib_7th_March_speech.txt")
+```
+
+Now I will create a variable call line number recording number of line for each sentence. 
+
+Now let's create a data frame with line number and the speech text. We use `stringsAsFactors=F` to prevent turning the text into `factor`.
+
+```{r}
+speech.df <- data.frame(line=1:length(speech), 
+                        text=speech, 
+                        stringsAsFactors = F)
+```
+
+We observe there are some empty rows, let's get rid of those:
+
+```{r}
+library(dplyr)
+speech.df.clean <- speech.df %>%
+                    filter(!text=="")
+```
+
+Now the sentences are into data frame we are ready to break those down into words.
+
+```{r}
+library(tidytext)
+tidy_speech <- speech.df.clean %>%
+                  unnest_tokens(word, text)
+```
+
+
+Now we can see which words were most frequently used:
+
+```{r}
+tidy_speech %>%
+  count(word, sort=TRUE)
+```
+
+Now let's create the `wordcloud`.
+
+```{r}
+library(wordcloud)
+```
+
+After loading the required package, here in the following, we have the word cloud
+
+```{r}
+tidy_speech %>%
+  count(word) %>%
+  with(wordcloud(word,n, max.words = 100))
+```
+
+Now this wordcloud might be distorted due to presence of some words which are pretty commonly used and usually needed to be removed. Let's create manually such data frame. 
+
+```{r}
+stop.words <- c("আমি", "আমার", "করে", "যে", "আমাকে", "তাকে", "তিনি", "এই", "আছে","আর", "হয়েছে", "আমরা","যে", "আমাদের","যদি","না","হবে", "আপনারা" )
+stop_words <- data.frame(sl=1:length(stop.words), 
+                         word=stop.words,
+                         stringsAsFactors = F)
+```
+
+Now time to remove those stop words. 
+
+```{r}
+clean_speech <- tidy_speech %>%
+                 anti_join(stop_words)
+```
+
+After removing these words, here is the new word cloud:
+
+```{r}
+clean_speech %>%
+  count(word ) %>%
+  with(wordcloud(word,n,max.words = 100))
+```
+

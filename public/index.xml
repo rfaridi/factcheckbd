@@ -23,6 +23,36 @@ It makes use of a variety of open source projects including:
     </item>
     
     <item>
+      <title>Getting myself started into text mining</title>
+      <link>/post/intro-text-mining/</link>
+      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/intro-text-mining/</guid>
+      <description>I will be just practicing the exercises in the vignette of tidytext package.
+let’s first import the required libraries:
+library(janeaustenr) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(stringr) library(tidytext) As the very first step, we create line number variable and chapter variable.</description>
+    </item>
+    
+    <item>
+      <title>Historic 7th March speech of Sheikh Mujib in word cloud</title>
+      <link>/post/text_mining_wordcloud_mujib_speech/</link>
+      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/text_mining_wordcloud_mujib_speech/</guid>
+      <description>In one of my previous posts, I have ventured into creating a word cloud from some tutorial. Now since today is 7th March, the historic day when the founder of Bangladesh,Sheikh Mujibur Rahman , delivered a speech which greatly energized the nation before the Independence war broke out few days later.</description>
+    </item>
+    
+    <item>
+      <title>World Justice Score importing data</title>
+      <link>/post/world-justice-score-import-data/</link>
+      <pubDate>Sat, 03 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/world-justice-score-import-data/</guid>
+      <description>first let’s load the library
+library(readxl) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(tidyr) library(janitor) let’s first load the data</description>
+    </item>
+    
+    <item>
       <title>Have fun with  World Justice Project data</title>
       <link>/post/world-justice-project/</link>
       <pubDate>Fri, 02 Mar 2018 00:00:00 +0000</pubDate>
@@ -85,6 +115,15 @@ library(tidyverse) ## Loading tidyverse: ggplot2 ## Loading tidyverse: tibble ##
       
       <guid>/posts/cuba-castro-legacy/</guid>
       <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/post/bangabandhu_speech_world_cloud/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bangabandhu_speech_world_cloud/</guid>
+      <description></description>
     </item>
     
   </channel>

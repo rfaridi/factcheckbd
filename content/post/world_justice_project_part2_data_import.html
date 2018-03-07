@@ -1,0 +1,38 @@
+---
+title: World Justice Score importing data
+author: ~
+date: '2018-03-03'
+slug: world-justice-score-import-data
+cateogories: []
+tags: []
+---
+
+
+
+<p>first let’s load the library</p>
+<pre class="r"><code>library(readxl)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyr)
+library(janitor)</code></pre>
+<p>let’s first load the data</p>
+<pre class="r"><code> import.file &lt;- read_excel(&quot;../RAWDATA/FINAL_2017-2018_wjp_rule_of_law_index_HISTORICAL_DATA_FILE.xlsx&quot;,
+               sheet=6)</code></pre>
+<p>When I first started to work, I thought I will just work with limited set of data, may be 1 and 4 th row only. But later on I thought it worked so well that the follwoing threee liner is good enough to pull off all the hard work.</p>
+<pre class="r"><code>wjs.score &lt;- import.file %&gt;% 
+          gather(country, rol.ind,-Country) %&gt;% 
+          spread(Country,rol.ind) </code></pre>
+<p>It seems that right now the data is pretty ripe for using <code>janitor</code> package functions.</p>
+<pre class="r"><code>wjs.score.clean &lt;- clean_names(wjs.score) %&gt;% 
+                   remove_empty_cols() %&gt;% 
+           remove_empty_rows()</code></pre>
+<p>Now let’s save the data</p>
+<pre class="r"><code>save(wjs.score.clean, file=&quot;../RDATA/wjs_score_clean.RData&quot;)</code></pre>
+<p>In the next post we are going see some analyis out of this data.</p>

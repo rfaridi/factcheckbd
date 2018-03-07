@@ -13,6 +13,21 @@
   </url>
   
   <url>
+    <loc>/post/intro-text-mining/</loc>
+    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/text_mining_wordcloud_mujib_speech/</loc>
+    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/world-justice-score-import-data/</loc>
+    <lastmod>2018-03-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/world-justice-project/</loc>
     <lastmod>2018-03-02T00:00:00+00:00</lastmod>
   </url>
@@ -48,13 +63,17 @@
   </url>
   
   <url>
+    <loc>/post/bangabandhu_speech_world_cloud/</loc>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-03-02T00:00:00+00:00</lastmod>
+    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
