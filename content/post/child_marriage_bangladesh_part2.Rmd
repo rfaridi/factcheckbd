@@ -11,5 +11,47 @@ Just following up from the earlier post, which was the first post of this series
 
 ```{r ldat  }
 load("../RDATA/cm_clean.RData")
+load("../RDATA/world_template.RData")
 ```
+
+Remember the `world_template.RData` contains a template data frame which has been formed from `map_data(world)` available in `ggplot2` and later was merged with country codes found in `countrycode` package.
+
+Now let's quickly add a country codes to child marriage data.
+
+```{r chm  }
+library(dplyr)
+library(countrycode)
+cm.code  <- cm.clean %>% 
+             mutate(code=countrycode(country, "country.name", "iso3c"))
+```
+
+It seems that it has also some regional name and naturally those do not have any codes. Therefore, we get rid of those. 
+
+```{r chm2  }
+cm.code.clean  <- cm.code %>% 
+                    filter(!is.na(code))
+```
+
+Now let's use the world template data to merge and get the geolocation for mapping purpose. 
+
+```{r chm3  }
+cm.geo <- world.template %>% 
+                 left_join(cm.code.clean, by=c("ccode"="code"))
+```
+
+Now it's ready for mapping
+
+```{r map  }
+library(ggplot2)
+cm.geo %>% 
+ggplot() +
+    geom_polygon(aes(long,lat,group=group,fill=mar.18),
+		 alpha=0.8,
+		 color='black') +
+    #scale_fill_manual(values=c(N="red",Y="green",A="brown",abs="grey"))+
+    coord_equal()+
+    theme_void()
+
+```
+
 

@@ -1,0 +1,58 @@
+---
+title: World Justice Project- Mapping Data
+author: Rushad Faridi
+date: 2018-03-09
+categories: []
+tags: []
+---
+
+In this part, we will be trying to map the data on World Justice Project. 
+
+Let's first load the data:
+
+```{r ldata  }
+load("../RDATA/wjs_score_clean.RData")
+load("../RDATA/world_template.RData")
+```
+
+let's just find a manageable version of data in the following
+
+```{r ldata2  }
+library(dplyr)
+wjs.score.short <- wjs.score.clean %>% 
+                     select(country, income_group,region, justice.score=wjp_rule_of_law_index_overall_score)
+```
+
+Let's now add the country code using `countrycode` package:
+
+```{r ccd  }
+library(countrycode)
+wjs.score.code  <- wjs.score.short %>% 
+                      mutate(code=countrycode(country, "country.name", "iso3c"))
+```
+
+Now let's merge it with world template data frame. 
+
+```{r wf  }
+wjs.score.mg <- world.template %>% 
+                   left_join(wjs.score.code, by=c("ccode"="code"))
+		    
+```
+
+Let's go for the map:
+
+```{r mmap  }
+library(ggplot2)
+wjs.score.mg %>% 
+        ggplot() +
+	   geom_polygon(aes(long,lat, 
+			    group=group, 
+			    fill=justice.score),
+			alpha=0.8, 
+			color="black") +
+                         guides(fill=FALSE) + 
+           coord_equal() 
+	   
+```
+
+

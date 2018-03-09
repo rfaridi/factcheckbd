@@ -54,6 +54,17 @@ library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following
     </item>
     
     <item>
+      <title>World Justice Project- Mapping Data</title>
+      <link>/post/world_justice_project_part3_data_wrangling/</link>
+      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/world_justice_project_part3_data_wrangling/</guid>
+      <description>In this part, we will be trying to map the data on World Justice Project.
+Let’s first load the data:
+load(&amp;quot;../RDATA/wjs_score_clean.RData&amp;quot;) load(&amp;quot;../RDATA/world_template.RData&amp;quot;) let’s just find a manageable version of data in the following</description>
+    </item>
+    
+    <item>
       <title>Chaotic data on child marriage in Bangladesh (Part 1)</title>
       <link>/post/child_marriage_bangladesh/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
