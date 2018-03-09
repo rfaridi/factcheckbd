@@ -1,0 +1,85 @@
+---
+title: UN vote on Jerusalem (Part 2)
+author: Rushad Faridi
+date: 2018-03-09
+categories: []
+tags: []
+---
+
+
+
+<p>let’s load the library</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<p>let’s first load the data</p>
+<pre class="r"><code>load(&quot;../RDATA/all_un.RData&quot;)
+load(&quot;../RDATA/ctry_cont.RData&quot;)
+load(&quot;../RDATA/countries_mg.RData&quot;)</code></pre>
+<p>let’s just have the variables that we would use</p>
+<pre class="r"><code>countries.short  &lt;- countries.mg %&gt;% 
+            select(long,lat,order, hole, piece, id, group,
+                   scalerank,CONTINENT,REGION_UN,ISO_A3,ADM0_A3_UN)</code></pre>
+<p>Now let’s merge with voting</p>
+<pre class="r"><code>un.vote.mg &lt;- left_join(countries.short,all.un, by=c(&quot;ISO_A3&quot;=&quot;ccode&quot;))</code></pre>
+<pre><code>## Warning: Column `ISO_A3`/`ccode` joining factor and character vector,
+## coercing into character vector</code></pre>
+<pre class="r"><code>save(un.vote.mg,file=&quot;../RDATA/un_vote_mg.RData&quot;)</code></pre>
+<p>when i went on to plot, i found that not all 193 countries are available. in fact only 175 are available. so let’s try to redo that once again.</p>
+<p>try the map_data in ggplot</p>
+<pre class="r"><code>world &lt;- map_data(&quot;world&quot;)</code></pre>
+<p>let’s have a look</p>
+<pre class="r"><code>glimpse(world)</code></pre>
+<pre><code>## Observations: 99,338
+## Variables: 6
+## $ long      &lt;dbl&gt; -69.89912, -69.89571, -69.94219, -70.00415, -70.0661...
+## $ lat       &lt;dbl&gt; 12.45200, 12.42300, 12.43853, 12.50049, 12.54697, 12...
+## $ group     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2...
+## $ order     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 1...
+## $ region    &lt;chr&gt; &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;, &quot;Aruba&quot;...
+## $ subregion &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ...</code></pre>
+<p>we find that</p>
+<pre class="r"><code>world %&gt;%
+    distinct(region) %&gt;% 
+    dim()</code></pre>
+<pre><code>## [1] 252   1</code></pre>
+<p>There are total 252 countries</p>
+<p>now I will need to generate code of the countries</p>
+<pre class="r"><code>world  &lt;- world %&gt;% 
+        mutate(ccode=countrycode::countrycode(region,&quot;country.name&quot;,&quot;iso3c&quot;))</code></pre>
+<pre><code>## Warning in countrycode::countrycode(region, &quot;country.name&quot;, &quot;iso3c&quot;): Some values were not matched unambiguously: Ascension Island, Azores, Barbuda, Bonaire, Canary Islands, Chagos Archipelago, Grenadines, Heard Island, Kosovo, Madeira Islands, Micronesia, Saba, Saint Martin, Siachen Glacier, Sint Eustatius, Virgin Islands</code></pre>
+<p>now check the distinct names</p>
+<pre class="r"><code>world %&gt;% 
+    distinct(ccode) %&gt;% 
+    dim()</code></pre>
+<pre><code>## [1] 234   1</code></pre>
+<p>now let’s merge the dat</p>
+<pre class="r"><code>all.un.world  &lt;-  left_join(all.un,world,by=c(&quot;ccode&quot;))</code></pre>
+<p>Now let’s check the names of the variables we have</p>
+<pre class="r"><code>names(all.un.world)</code></pre>
+<pre><code>## [1] &quot;country&quot;   &quot;status&quot;    &quot;ccode&quot;     &quot;long&quot;      &quot;lat&quot;       &quot;group&quot;    
+## [7] &quot;order&quot;     &quot;region&quot;    &quot;subregion&quot;</code></pre>
+<p>let’s just have a quick check on status</p>
+<pre class="r"><code>all.un.world %&gt;% 
+    distinct(country,.keep_all=TRUE) %&gt;% 
+    count(status)</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   status     n
+##   &lt;fctr&gt; &lt;int&gt;
+## 1      A    35
+## 2      N     9
+## 3      Y   128
+## 4    abs    21</code></pre>
+<p>okay seems like matching perfrectly</p>
+<p>now let’s save the data</p>
+<pre class="r"><code>save(all.un.world, file=&quot;../RDATA/all_un_world.RData&quot;)</code></pre>
+<p>Now let’s merge the above done with cc.cont so that we can have the continet data available.</p>
+<pre class="r"><code>all.un.cont &lt;- left_join(all.un.world,ctry.cont,by=c(&quot;ccode&quot;=&quot;iso3c&quot;))
+save(all.un.cont,file=&quot;../RDATA/all_un_cont.RData&quot;)</code></pre>

@@ -23,6 +23,55 @@ It makes use of a variety of open source projects including:
     </item>
     
     <item>
+      <title>UN vote on Jerusalem (Part 1)</title>
+      <link>/post/jerusalem_data_import/</link>
+      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/jerusalem_data_import/</guid>
+      <description>my idea was to do a choloropeth mapping for the voting pattern of jerusalem voting
+first i will have to collect the names of the member countries
+following link finds any un voting results</description>
+    </item>
+    
+    <item>
+      <title>UN vote on Jerusalem (Part 2)</title>
+      <link>/post/jerusalem_data_wrangle/</link>
+      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/jerusalem_data_wrangle/</guid>
+      <description>let’s load the library
+library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(ggplot2) let’s first load the data</description>
+    </item>
+    
+    <item>
+      <title>UN vote on Jerusalem (Part 3)</title>
+      <link>/post/jerusalem_data_explore/</link>
+      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/jerusalem_data_explore/</guid>
+      <description>Housekeeping stuff libraries to use
+library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(ggplot2) library(janitor) library(pander) Let’s source the functions</description>
+    </item>
+    
+    <item>
+      <title>Chaotic data on child marriage in Bangladesh (Part 1)</title>
+      <link>/post/child_marriage_bangladesh/</link>
+      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/child_marriage_bangladesh/</guid>
+      <description>Today, one of the leading Bangla newspaper in Bangladesh Prothom Alo made a headline news which may read as “Child marriage has increased in Bangladesh”. The main point it is focusing on is, even though around the world child marriage is going down but in Bangladesh it is rising.</description>
+    </item>
+    
+    <item>
+      <title>Chaotic data on child marriage in Bangladesh (Part 2)</title>
+      <link>/post/child_marriage_bangladesh_part2/</link>
+      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/child_marriage_bangladesh_part2/</guid>
+      <description>Just following up from the earlier post, which was the first post of this series, I imported UNICEF data on child marriage. Now I will try to play around a bit with this data.</description>
+    </item>
+    
+    <item>
       <title>Getting myself started into text mining</title>
       <link>/post/intro-text-mining/</link>
       <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>

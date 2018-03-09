@@ -1,0 +1,43 @@
+---
+title: Chaotic data on child marriage in Bangladesh (Part 1)
+author: Rushad Faridi
+date: 2018-03-07
+categories: []
+tags: []
+---
+
+
+
+<p>Today, one of the leading Bangla newspaper in Bangladesh <a href="http://www.prothomalo.com" title="Prothom Alo">Prothom Alo</a> made a headline news which may read as “Child marriage has increased in Bangladesh”. The main point it is focusing on is, even though around the world child marriage is going down but in Bangladesh it is rising. In child marriage, Bangladesh has the fourth highest child marriage rate. The other three countries are in Sub-sahran Africa.</p>
+<p>These information were based on <a href="http://https://data.unicef.org/wp-content/uploads/2015/12/Child-marriage-database_Mar-2018.xlsx" title="Child marriage data">data</a> availabe from UNICEF websit.</p>
+<p>Let’s load the data into #rstats and see what we get:</p>
+<pre class="r"><code>library(readxl)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(janitor)
+cm.raw &lt;- read_excel(&quot;../RAWDATA/Child-marriage-database_Mar-2018.xlsx&quot;,skip=9)</code></pre>
+<p>Now let’s use the <a href="https://github.com/sfirke/janitor" title="Janitor">janitor</a> package, which is wonderful by every means to fix initial anomalies in a data set. Let’s get it into some action:</p>
+<pre class="r"><code>cm.clean &lt;- cm.raw %&gt;% 
+              clean_names() %&gt;% 
+          remove_empty_cols() %&gt;% 
+          remove_empty_rows() </code></pre>
+<p>Only <code>clean_names()</code> came to some sort of use since there were no empty columns or rows. But ther are some useless columns and rows and we will have to remove those manually.</p>
+<pre class="r"><code>cm.tidy  &lt;- cm.clean %&gt;% 
+               select(-x_2,-x_3) 
+names(cm.tidy)  &lt;- c(&quot;country&quot;, &quot;mar.15&quot;, &quot;mar.18&quot;, &quot;source&quot;)</code></pre>
+<p>Numeric variables are in character format, so got to change those:</p>
+<pre class="r"><code>cm.clean &lt;- cm.tidy %&gt;% 
+                mutate_at(vars(mar.15,mar.18),as.numeric)</code></pre>
+<pre><code>## Warning in evalq(as.numeric(mar.15), &lt;environment&gt;): NAs introduced by
+## coercion</code></pre>
+<pre><code>## Warning in evalq(as.numeric(mar.18), &lt;environment&gt;): NAs introduced by
+## coercion</code></pre>
+<pre class="r"><code>save(cm.clean, file=&quot;../RDATA/cm_clean.RData&quot;)</code></pre>
+<p>In this series of child marriage in Bangladesh we have only imported the data. In the next part we will try to have some better sense of this data set.</p>

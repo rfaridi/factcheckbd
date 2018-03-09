@@ -1,0 +1,55 @@
+---
+title: UN vote on Jerusalem (Part 1)
+author: Rushad Faridi
+date: 2018-03-09
+categories: []
+tags: []
+---
+
+
+
+<p>my idea was to do a choloropeth mapping for the voting pattern of jerusalem voting</p>
+<p>first i will have to collect the names of the member countries</p>
+<p>following link finds any un voting results</p>
+<p><a href="http://unbisnet.un.org:8080/ipac20/ipac.jsp?session=L51409W81Q629.5738&amp;profile=voting&amp;lang=eng&amp;logout=true&amp;startover=true" class="uri">http://unbisnet.un.org:8080/ipac20/ipac.jsp?session=L51409W81Q629.5738&amp;profile=voting&amp;lang=eng&amp;logout=true&amp;startover=true</a></p>
+<p>or we can just do a google “un voting record search” searched by keyword and jerusalem after the search i came up with the following page: <a href="http://unbisnet.un.org:8080/ipac20/ipac.jsp?session=J514B948F8992.5795&amp;profile=voting&amp;uri=full=3100023" class="uri">http://unbisnet.un.org:8080/ipac20/ipac.jsp?session=J514B948F8992.5795&amp;profile=voting&amp;uri=full=3100023</a><sub>!1155003</sub>!0&amp;ri=1&amp;aspect=power&amp;menu=search&amp;source=~!horizon</p>
+<p>let me first load the library</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(stringr)
+library(countrycode)</code></pre>
+<p>now import data</p>
+<pre class="r"><code>jv &lt;- readLines(&quot;../RAWDATA/jerusalem_voting.txt&quot;)</code></pre>
+<p>now let’s split the data</p>
+<pre class="r"><code>jv.mat &lt;- str_split(jv,&quot;\\s&quot;, simplify=TRUE)
+jv.dat &lt;- as.data.frame(jv.mat)</code></pre>
+<p>i achieved what i intended to do but that probably won’t work, that is because there are long names of the countries which are not particularl very suited for analysis.</p>
+<p>better idea will be to use codes from the country list</p>
+<p>before going for that let’s try another route</p>
+<pre class="r"><code>jv.mat &lt;- str_split(jv,&quot;\\s&quot;, n=2,simplify=TRUE)
+jv.dat &lt;- as.data.frame(jv.mat)</code></pre>
+<p>the difference here is that i tried n=2 so that long country names are not split up</p>
+<p>now let’s remove those countries which are not Y, N or A</p>
+<pre class="r"><code>absentee &lt;- jv.dat %&gt;% 
+        filter(!V1 %in% c(&quot;A&quot;,&quot;N&quot;,&quot;Y&quot;))</code></pre>
+<p>now just do the opposite to have those genuine countries</p>
+<pre class="r"><code>voting &lt;- jv.dat %&gt;% 
+        filter(V1 %in% c(&quot;A&quot;,&quot;N&quot;,&quot;Y&quot;)) %&gt;% 
+        select(country=V2, status=V1) 
+voting$status &lt;- droplevels(voting$status)</code></pre>
+<p>now let’s put lable on absentee</p>
+<pre class="r"><code>abs.f &lt;- absentee %&gt;% 
+    mutate(country=paste(V1,V2),
+       status=&quot;abs&quot;) %&gt;% 
+    select(country,status) </code></pre>
+<p>Now let’s combine those countries</p>
+<pre class="r"><code>all.un &lt;- rbind(voting,abs.f)
+all.un$ccode &lt;- countrycode(all.un$country,&#39;country.name&#39;,&#39;iso3c&#39;)
+save(all.un, file=&quot;../RDATA/all_un.RData&quot;)</code></pre>

@@ -46,6 +46,7 @@ Now the sentences are into data frame we are ready to break those down into word
 library(tidytext)
 tidy_speech <- speech.df.clean %>%
                   unnest_tokens(word, text)
+save(tidy_speech, file="../RDATA/tidy_speech.RData")
 ```
 
 
@@ -84,6 +85,7 @@ Now time to remove those stop words.
 ```{r}
 clean_speech <- tidy_speech %>%
                  anti_join(stop_words)
+save(clean_speech, file="../RDATA/clean_speech.RData")
 ```
 
 After removing these words, here is the new word cloud:

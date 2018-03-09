@@ -1,0 +1,15 @@
+---
+title: Chaotic data on child marriage in Bangladesh (Part 2)
+author: Rushad Faridi
+date: 2018-03-07
+categories: []
+tags: []
+---
+
+Just following up from the earlier post, which was the first post of this series, I imported UNICEF data on child marriage. Now I will try to play around a bit with this data. 
+
+
+```{r ldat  }
+load("../RDATA/cm_clean.RData")
+```
+
