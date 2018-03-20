@@ -1,0 +1,97 @@
+---
+title: Introduction to Rilostat
+author: Rushad Faridi
+date: 2018-03-20
+slug: intro-r-ilostat
+categories: []
+tags: []
+---
+
+
+Today in national daily prothom-alo I found an article titled "মানুষের  কাজের সুযোগ কমেছে".  In that  regard I thought I might have a look in the data of labor force. I found a very nice R package titled [Rilostat](https://cran.r-project.org/web/packages/Rilostat/index.html "Rilostat"). Let me discuss a little bit on that nice package. 
+
+For installation and related instruction please consult [Rilsostat github page](https://github.com/ilostat/Rilostat "Rilostat")
+
+
+Before we start let's load the required libraries:
+
+```{r libs  }
+require(dplyr)
+require(Rilostat)
+```
+
+To have a quick look at the functions available in `Rilostat` package, let's issue the following command:
+
+```{r ilos  }
+ls("package:Rilostat")
+```
+
+I think that is a pretty handy command to have a quick look at all the functions available in a package. Now in the case of `Rilostat` package, we find that there are 7 main functions. It seems `get_ilostat` and `get_ilostat_toc` might be the most frequrently used. But I might be wrong. Let's see. 
+
+
+Let's get the table of contents first:
+
+```{r toc  }
+toc <- get_ilostat_toc()
+dim(toc)
+
+```
+
+This toc has 446 indicators and 14 variables. Let's have a quick look:
+
+```{r head}
+head(toc,2)
+```
+
+Names of the variables are:
+
+```{r namevar  }
+names(toc)
+```
+
+Now time to do some searching
+
+Let's search for the word unemployment
+
+```{r une  }
+toc.unemp  <-  get_ilostat_toc(search=c("unemployment","Annual"))
+dim(toc.unemp)
+```
+In the above we find that there are `dim(toc.unemp)` 23 such indicators. We would like to concentrate on those which has annual frequency. 
+
+```{r annfreq  }
+toc.unemp.ann  <-  get_ilostat_toc(search=c("Combined rate","Annual"))
+```
+
+Let's say, we would like to find data on `Bangladesh`. So let's see what we get:
+
+```{r bd  }
+toc.bd <- get_ilostat_toc(segment='ref_area', search=c('Bangladesh'), fixed=FALSE)
+```
+
+The above just gives a rough idea on what types of data sets are available. But if we want to get specific type of dataset then, we do the following:
+
+```{r bd2  }
+bd.dat <- get_ilostat(id='BGD_A', segment='ref_area')
+```
+
+As expected, it lists all the annual data, but the problem is that there is no indicator labe so I have no clue what is going. Therefore from the `toc` data, I bring in the indicator label
+
+```{r des  }
+bd.ann  <- bd.dat %>% 
+		left_join(toc, by=c("indicator")) %>% 
+		select(indicator,indicator.label,sex,time,obs_value, everything()) 
+save(bd.ann, file="../RDATA/bd_ann.RData")
+```
+
+Let's get to a little bit more specificity. Let's now sort out unemployment related data
+
+```{r spec2016  }
+bd.ann.unem.2016  <- bd.ann %>% filter(grepl("unemployment", indicator.label), time==2016)
+```
+
+Okay, so in this blog post we got a fair bit of idea on the `Rilostat` package. We will get back with more details later.
+
+
+
+
