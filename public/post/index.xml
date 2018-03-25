@@ -6,10 +6,29 @@
     <description>Recent content in Posts on rushad&#39;s dataVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2017 - Author Name</copyright>
-    <lastBuildDate>Tue, 20 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Mar 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Traffic congestion and Development Budget</title>
+      <link>/post/treemap-24mar2018/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/treemap-24mar2018/</guid>
+      <description>Here I am going to compare the traffic congestion cost with the whole development budget of Government of Bangladesh (GOB) in FY 2017-18. This post was based on the information from news on Prothom-alo,25 March, 2018.</description>
+    </item>
+    
+    <item>
+      <title>Prothom-alo Report on LFS in 2017</title>
+      <link>/post/2018-03-23-lfs-pa-report/</link>
+      <pubDate>Fri, 23 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2018-03-23-lfs-pa-report/</guid>
+      <description>Based on the report let’s just crunch some numbers.
+emp &amp;lt;- c(47.4, 54.1,58.1, 59.5) years &amp;lt;- c(2005, 2010, 2013, 2015) emp.dat &amp;lt;- data.frame(year=years, employed=emp) </description>
+    </item>
     
     <item>
       <title>Introduction to Rilostat</title>

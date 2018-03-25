@@ -1,0 +1,45 @@
+---
+title: Traffic congestion and Development Budget
+author: Rushad Faridi
+date: 2018-03-24
+slug: treemap-24mar2018
+categories: []
+tags: []
+---
+
+Here I am going to compare the traffic congestion cost with the whole development budget of Government of Bangladesh (GOB) in FY 2017-18. This post was based on the information from news on [Prothom-alo,25 March, 2018](http://www.prothomalo.com "PA"). I also used budget information from this news from [Daily Star](http://www.thedailystar.net/business/bangladesh-budget-2017-18-pie-charts-1414069 "ds").
+
+```{r tree   }
+require(treemapify)
+require(ggplot2)
+```
+
+let's fix some values here first
+
+```{r fixval  }
+dev.bgt <- 155252
+conges.loss.amount <- 37000 
+conges.loss <- round((conges.loss.amount/dev.bgt)*100,1)
+sectors <- c("agri","admin","conges.loss","edu.tech","fuel.elec","health","local.gov","others","social.sec","transport")
+sectors.name <- c("Agriculture","Administration","Traffic Congestion Loss","Education & Tech","Fuel and Energy","Health","Local Government","Others","Social Security & Welfare","Transport")
+portion <- c(5.7,3.1,23.8,19.4, 13.5 , 6.1 ,15.3,6.7,2.8,27.4)
+dev.bgt <- data.frame(sectors,sectors.name,portion)
+```
+
+Let's do some ggplot
+
+```{r ggp  }
+ ggplot(dev.bgt,aes(area=portion,
+		    fill=sectors,
+		    label=paste0(sectors.name,"(",portion,"%)")))+
+    geom_treemap()+
+    geom_treemap_text(color="black",
+		      place="centre",
+		      grow=F) +
+    scale_fill_brewer(palette="Set1") +
+    theme(legend.position="none")
+```
+
+
+
+
