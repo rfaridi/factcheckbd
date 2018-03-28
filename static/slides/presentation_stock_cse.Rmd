@@ -16,17 +16,13 @@ output:
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(message = F,echo = F,comment = NA)
 ```
-background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
-
-???
-
-
-
+background-image: url(https://i2.wp.com/www.collinseow.com/wp-content/uploads/Chittagong-Stock-Exchange-Logo.jpeg)
+background-size: 100%
 ---
-class: inverse, center, middle
-
-# Get Started
-  
+background-image: url(https://media1.giphy.com/media/sa6KfGNKwd0c/giphy.gif)
+background-size: cover
+class: center,bottom,inverse
+# Let make some money....
 ---
 # Housekeeping stuff
 
@@ -44,51 +40,58 @@ library(forecast)
 load("~/Dropbox/Docs/Research/stock_market/RDATA/cse_clean.RData")
 
 ```
-
 ---
-# CSE index overall chart
+class: center, middle, inverse
 
-.pull-left[
-```{r}
+# Movement in CSE index
+---
+class: center, bottom
+```{r fig.width=12 }
 cse.clean %>% 
-      ggplot(aes(date,index)) +geom_line()
+      ggplot(aes(date,index)) +
+                      geom_line() +
+                          theme_minimal() +
+           theme(axis.line = element_line(color="grey90"))
+
 ```
-]
+### Movement of CSE  index (2004 - 2018)
 
-.pull-right[
+???
+ 2004 - 2018
+ Trend-cyle pattern
+ Reached peak at 2011
+ Some evidence on seasonality
 
-### 2004 - 2018
-### Trend-cyle pattern
-### Reached peak at 2011
-### Some evidence on seasonality
-
-]
 ---
+class: center,bottom
 
-# CSE index last five years
-
-.pull-left[
-
-```{r}
+```{r fig.width=12,fig.height=8}
 recent.years <- 2013:2017
 cse.clean %>% 
   filter(year(date) %in% recent.years ) %>% 
-      ggplot(aes(date,index)) +geom_line()
+      ggplot(aes(date,index)) +
+            geom_line() +
+              theme_minimal()+
+          theme(axis.line=element_line())
   
 ```
-]
+# Movement of CSE index (2013-2017)
 
-.pull-right[
-
+???
 ### Overall rising since 2013
 
 ### Strong growth in 2017
 
-]
+---
+background-image: url(https://media.giphy.com/media/p8Uw3hzdAE2dO/giphy.gif)
+background-size: 100%
+class: center, bottom, inverse
+
+### Damn! How the hell I missed the boom in 2017!
 
 ---
-# Last five years (2013-2017): Year-wise 
-```{r fac  }
+class: center, bottom
+```{r fac,fig.width=14,fig.height=10  }
 cse.clean %>% 
     filter(year(date) %in% recent.years) %>%  
 	ggplot(aes(x=date, y=index)) + 	 		
@@ -97,11 +100,17 @@ cse.clean %>%
 		 facet_wrap(~year(date),scales="free_x")+
 		 theme_tq()
 ```
+### Movement of CSE index (2013-2017): Year-wise 
+
 ---
+background-image: url(https://media.giphy.com/media/p8Uw3hzdAE2dO/giphy.gif)
+background-size: 100%
+class: center, bottom, inverse
 
-# CSE monthly index in last five years
-
-```{r moyr  }
+### Damn! How the hell I missed the boom in 2017!
+---
+class: center,bottom
+```{r moyr, fig.width= 14, fig.height=10  }
 cse.clean %>% 
     filter(year(date) %in% recent.years) %>% 
     group_by(yr=year(date),mo=month(date,label=TRUE)) %>% 
@@ -111,13 +120,16 @@ cse.clean %>%
 	    facet_wrap(~yr) +
 	    theme_tq()
 ```
+### CSE monthly index (2013-2017)
 ???
-We don't see much of a difference in the way, monthly diagrams are just a smoothed version of trend in actual value of index
+We don't see much of a difference in the way, monthly diagrams, are just a smoothed version of trend in actual value of index
 ---
+class: center, middle, inverse
+# Monthly return from CSE index
+---
+class: bottom, center
 
-# CSE Overall monthly return
-
-```{r}
+```{r, fig.width=14, fig.height=10}
 cse.mo.ret <- cse.clean %>% 
     filter(year(date) %in% recent.years) %>%
     tq_transmute(select=index,
@@ -127,67 +139,91 @@ cse.mo.ret <- cse.clean %>%
 	
 cse.mo.ret %>% 
     ggplot(aes(date,monthly.returns))+
-                   geom_line() 
+                   geom_line(size=1) +
+      theme_tq()
 		   
 ```
+###  Monthly return of CSE index (2013-2017)
 ---
-# CSE monthly  return year-wise
-```{r}
+class: center, bottom
+```{r, fig.width=14, fig.height=10}
 cse.mo.ret %>% 
     ggplot(aes(date,monthly.returns))+
-                   geom_line() +
-              facet_wrap(~year(date), scales="free_x" )
+                   geom_bar(stat="identity") +
+              facet_wrap(~year(date), scales="free_x" ) +
+  theme_tq()
 ```
-
-
+### Year-wise CSE monthly  return (2013-2017)
 ---
-# Month-wise charting
-```{r charting  }
+class: center,bottom
+```{r charting, fig.width=14,fig.height=10  }
 cse.mo.ret %>% 
     ggplot(aes(month(date,label=T),monthly.returns))+
-                   geom_boxplot() 
+                   geom_boxplot(fill="black",color="red")  +
+  theme_tq()
 		   
 ```
+### Pattern in overall monthly return
 ---
-# Month-wise numbers
+class: center,  middle
 
+### Month-wise numbers
 ```{r nums  }
 cse.mo.ret %>% 
     group_by(mo=month(date,label=TRUE)) %>% 
     summarize(med.ret=median(monthly.returns)) %>% 
     arrange(desc(med.ret))
 ```
-
 ---
+background-image: url(https://media.giphy.com/media/Lq3ueCSWjnQPu/giphy.gif)
+background-size: 100%
+class: bottom, center
 
-# Time-series decompositon
+# Monthly return is highest on May! 
+---
+class: center, middle, inverse
+# Time-series decomposition
+---
+class: center, bottom, middle
 
-```{r xts  }
+```{r xts, fig.width=14, fig.height=10  }
 cse.xts <- xts(cse.clean$index,order.by=cse.clean$date)
 fit <- stl(ts(as.numeric(cse.xts),frequency=365),s.window=5)
 plot(fit)
 ```
+### Time-series decompositon
 ---
-# Time-series with trend
+class: center, bottom
 
-```{r}
+```{r, fig.width=14, fig.height=10}
 plot(ts(as.numeric(cse.xts),frequency=365))
 lines(fit$time.series[,2],col="red")
 ```
+### Time-series with trend
 ---
+class: center, bottom
 
-# Seasonally adjusted data
-
-Let's find the seasonally adjusted data
-
-```{r seaad  }
+```{r seaad,fig.width=14, fig.height=10  }
 plot(ts(as.numeric(cse.xts),frequency=365),col="grey")
 lines(seasadj(fit),col="red")
 ```
+### Seasonally adjusted data
 ---
-# Moveing average
-Let's do some moving average
+class: center, bottom
 
-```{r maa  }
+```{r maa,fig.width=14, fig.height=10  }
 plot(ma(cse.xts, order=100))
 ```
+### Moving average: Measure of trend
+---
+background-image: url(https://media.giphy.com/media/ZgqJGwh2tLj5C/giphy.gif)
+background-size: 100%
+class: bottom, center,inverse
+
+# Okay, great! I think that was good enough to put everyone into deem comma. 
+---
+background-image: url(https://media.giphy.com/media/jUwpNzg9IcyrK/giphy.gif)
+background-size: 100%
+class: bottom, center,inverse
+# Good-bye!
+---

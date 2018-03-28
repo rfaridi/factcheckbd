@@ -20,17 +20,13 @@ class: center, middle, inverse, title-slide
 
 
 
-background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
-
-???
-
-
-
+background-image: url(https://i2.wp.com/www.collinseow.com/wp-content/uploads/Chittagong-Stock-Exchange-Logo.jpeg)
+background-size: 100%
 ---
-class: inverse, center, middle
-
-# Get Started
-  
+background-image: url(https://media1.giphy.com/media/sa6KfGNKwd0c/giphy.gif)
+background-size: cover
+class: center,bottom,inverse
+# Let make some money....
 ---
 # Housekeeping stuff
 
@@ -49,65 +45,76 @@ library(forecast)
 ```r
 load("~/Dropbox/Docs/Research/stock_market/RDATA/cse_clean.RData")
 ```
-
 ---
-# CSE index overall chart
+class: center, middle, inverse
 
-.pull-left[
+# Movement in CSE index
+---
+class: center, bottom
 ![](presentation_stock_cse_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
-]
+### Movement of CSE  index (2004 - 2018)
 
-.pull-right[
+???
+ 2004 - 2018
+ Trend-cyle pattern
+ Reached peak at 2011
+ Some evidence on seasonality
 
-### 2004 - 2018
-### Trend-cyle pattern
-### Reached peak at 2011
-### Some evidence on seasonality
-
-]
 ---
-
-# CSE index last five years
-
-.pull-left[
+class: center,bottom
 
 ![](presentation_stock_cse_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
-]
+# Movement of CSE index (2013-2017)
 
-.pull-right[
-
+???
 ### Overall rising since 2013
 
 ### Strong growth in 2017
 
-]
+---
+background-image: url(https://media.giphy.com/media/p8Uw3hzdAE2dO/giphy.gif)
+background-size: 100%
+class: center, bottom, inverse
+
+### Damn! How the hell I missed the boom in 2017!
 
 ---
-# Last five years (2013-2017): Year-wise 
+class: center, bottom
 ![](presentation_stock_cse_files/figure-html/fac-1.png)&lt;!-- --&gt;
+### Movement of CSE index (2013-2017): Year-wise 
+
 ---
+background-image: url(https://media.giphy.com/media/p8Uw3hzdAE2dO/giphy.gif)
+background-size: 100%
+class: center, bottom, inverse
 
-# CSE monthly index in last five years
-
+### Damn! How the hell I missed the boom in 2017!
+---
+class: center,bottom
 ![](presentation_stock_cse_files/figure-html/moyr-1.png)&lt;!-- --&gt;
+### CSE monthly index (2013-2017)
 ???
-We don't see much of a difference in the way, monthly diagrams are just a smoothed version of trend in actual value of index
+We don't see much of a difference in the way, monthly diagrams, are just a smoothed version of trend in actual value of index
 ---
-
-# CSE Overall monthly return
+class: center, middle, inverse
+# Monthly return from CSE index
+---
+class: bottom, center
 
 ![](presentation_stock_cse_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+###  Monthly return of CSE index (2013-2017)
 ---
-# CSE monthly  return year-wise
+class: center, bottom
 ![](presentation_stock_cse_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
-
-
+### Year-wise CSE monthly  return (2013-2017)
 ---
-# Month-wise charting
+class: center,bottom
 ![](presentation_stock_cse_files/figure-html/charting-1.png)&lt;!-- --&gt;
+### Pattern in overall monthly return
 ---
-# Month-wise numbers
+class: center,  middle
 
+### Month-wise numbers
 
 ```
 # A tibble: 12 x 2
@@ -126,28 +133,47 @@ We don't see much of a difference in the way, monthly diagrams are just a smooth
 11 Apr   -0.0429 
 12 Mar   -0.0479 
 ```
-
 ---
+background-image: url(https://media.giphy.com/media/Lq3ueCSWjnQPu/giphy.gif)
+background-size: 100%
+class: bottom, center
 
-# Time-series decompositon
+# Monthly return is highest on May! 
+---
+class: center, middle, inverse
+# Time-series decomposition
+---
+class: center, bottom, middle
 
 ![](presentation_stock_cse_files/figure-html/xts-1.png)&lt;!-- --&gt;
+### Time-series decompositon
 ---
-# Time-series with trend
+class: center, bottom
 
 ![](presentation_stock_cse_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+### Time-series with trend
 ---
-
-# Seasonally adjusted data
-
-Let's find the seasonally adjusted data
+class: center, bottom
 
 ![](presentation_stock_cse_files/figure-html/seaad-1.png)&lt;!-- --&gt;
+### Seasonally adjusted data
 ---
-# Moveing average
-Let's do some moving average
+class: center, bottom
 
 ![](presentation_stock_cse_files/figure-html/maa-1.png)&lt;!-- --&gt;
+### Moving average: Measure of trend
+---
+background-image: url(https://media.giphy.com/media/ZgqJGwh2tLj5C/giphy.gif)
+background-size: 100%
+class: bottom, center,inverse
+
+# Okay, great! I think that was good enough to put everyone into deem comma. 
+---
+background-image: url(https://media.giphy.com/media/jUwpNzg9IcyrK/giphy.gif)
+background-size: 100%
+class: bottom, center,inverse
+# Good-bye!
+---
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
