@@ -194,5 +194,14 @@ library(tidyverse) ## Loading tidyverse: ggplot2 ## Loading tidyverse: tibble ##
       <description></description>
     </item>
     
+    <item>
+      <title></title>
+      <link>/post/presentation_stock_cse/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/presentation_stock_cse/</guid>
+      <description>Analysis of CSE index   class: center, middle, inverse, title-slide # Analysis of CSE index ## An exploratory approach ### Rushad Faridi PhD ### 2018/03/27 --- background-image: url(https://upload.</description>
+    </item>
+    
   </channel>
 </rss>

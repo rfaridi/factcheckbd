@@ -117,6 +117,10 @@
   </url>
   
   <url>
+    <loc>/post/presentation_stock_cse/</loc>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
     <priority>0</priority>
   </url>

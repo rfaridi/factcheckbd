@@ -1,0 +1,194 @@
+---
+title: "Analysis of CSE index"
+subtitle: "An exploratory approach"
+author: "Rushad Faridi PhD"
+date: "2018/03/27"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message = F,echo = F,comment = NA)
+```
+background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
+
+???
+
+
+
+---
+class: inverse, center, middle
+
+# Get Started
+  
+---
+# Housekeeping stuff
+
+--
+## Loading library
+```{r, echo=TRUE}
+library(tidyverse)
+library(tidyquant)
+library(forecast)
+```
+
+--
+## Loading data
+```{r, echo=TRUE}
+load("~/Dropbox/Docs/Research/stock_market/RDATA/cse_clean.RData")
+
+```
+
+---
+# CSE index overall chart
+
+.pull-left[
+```{r}
+cse.clean %>% 
+      ggplot(aes(date,index)) +geom_line()
+```
+]
+
+.pull-right[
+
+### 2004 - 2018
+### Trend-cyle pattern
+### Reached peak at 2011
+### Some evidence on seasonality
+
+]
+---
+
+# CSE index last five years
+
+.pull-left[
+
+```{r}
+recent.years <- 2013:2017
+cse.clean %>% 
+  filter(year(date) %in% recent.years ) %>% 
+      ggplot(aes(date,index)) +geom_line()
+  
+```
+]
+
+.pull-right[
+
+### Overall rising since 2013
+
+### Strong growth in 2017
+
+]
+
+---
+# Last five years (2013-2017): Year-wise 
+```{r fac  }
+cse.clean %>% 
+    filter(year(date) %in% recent.years) %>%  
+	ggplot(aes(x=date, y=index)) + 	 		
+		 geom_line() +
+		 scale_x_date(date_labels="%b")+
+		 facet_wrap(~year(date),scales="free_x")+
+		 theme_tq()
+```
+---
+
+# CSE monthly index in last five years
+
+```{r moyr  }
+cse.clean %>% 
+    filter(year(date) %in% recent.years) %>% 
+    group_by(yr=year(date),mo=month(date,label=TRUE)) %>% 
+    summarize(avg.indx=mean(index)) %>% 
+    ggplot(aes(mo,avg.indx)) +
+	    geom_line(group="")+
+	    facet_wrap(~yr) +
+	    theme_tq()
+```
+???
+We don't see much of a difference in the way, monthly diagrams are just a smoothed version of trend in actual value of index
+---
+
+# CSE Overall monthly return
+
+```{r}
+cse.mo.ret <- cse.clean %>% 
+    filter(year(date) %in% recent.years) %>%
+    tq_transmute(select=index,
+		 mutate_fun=periodReturn,
+		 type="log",
+		 period="monthly")
+	
+cse.mo.ret %>% 
+    ggplot(aes(date,monthly.returns))+
+                   geom_line() 
+		   
+```
+---
+# CSE monthly  return year-wise
+```{r}
+cse.mo.ret %>% 
+    ggplot(aes(date,monthly.returns))+
+                   geom_line() +
+              facet_wrap(~year(date), scales="free_x" )
+```
+
+
+---
+# Month-wise charting
+```{r charting  }
+cse.mo.ret %>% 
+    ggplot(aes(month(date,label=T),monthly.returns))+
+                   geom_boxplot() 
+		   
+```
+---
+# Month-wise numbers
+
+```{r nums  }
+cse.mo.ret %>% 
+    group_by(mo=month(date,label=TRUE)) %>% 
+    summarize(med.ret=median(monthly.returns)) %>% 
+    arrange(desc(med.ret))
+```
+
+---
+
+# Time-series decompositon
+
+```{r xts  }
+cse.xts <- xts(cse.clean$index,order.by=cse.clean$date)
+fit <- stl(ts(as.numeric(cse.xts),frequency=365),s.window=5)
+plot(fit)
+```
+---
+# Time-series with trend
+
+```{r}
+plot(ts(as.numeric(cse.xts),frequency=365))
+lines(fit$time.series[,2],col="red")
+```
+---
+
+# Seasonally adjusted data
+
+Let's find the seasonally adjusted data
+
+```{r seaad  }
+plot(ts(as.numeric(cse.xts),frequency=365),col="grey")
+lines(seasadj(fit),col="red")
+```
+---
+# Moveing average
+Let's do some moving average
+
+```{r maa  }
+plot(ma(cse.xts, order=100))
+```
