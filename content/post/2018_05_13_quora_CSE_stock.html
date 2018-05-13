@@ -1,0 +1,140 @@
+---
+title: CSE index return analysis
+author: Rushad Faridi
+date: 2018-05-13
+slug: cse-quora-stock
+categories: []
+tags: []
+---
+
+
+
+<p>let’s load the tidyquant package first</p>
+<pre class="r"><code>library(tidyquant)</code></pre>
+<pre><code>## Loading required package: lubridate</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre><code>## Loading required package: PerformanceAnalytics</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## 
+## Attaching package: &#39;PerformanceAnalytics&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     legend</code></pre>
+<pre><code>## Loading required package: quantmod</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre><code>## Loading required package: tidyverse</code></pre>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## as.difftime(): lubridate, base
+## date():        lubridate, base
+## filter():      dplyr, stats
+## first():       dplyr, xts
+## intersect():   lubridate, base
+## lag():         dplyr, stats
+## last():        dplyr, xts
+## setdiff():     lubridate, base
+## union():       lubridate, base</code></pre>
+<pre><code>## 
+## Attaching package: &#39;tidyquant&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     as_tibble</code></pre>
+<pre><code>## The following object is masked from &#39;package:tibble&#39;:
+## 
+##     as_tibble</code></pre>
+<pre class="r"><code>library(knitr)</code></pre>
+<pre class="r"><code>opts_chunk$set(message=FALSE,warning=FALSE, comment=NA)</code></pre>
+<p>let’s load the cleaned data first</p>
+<pre class="r"><code>load(&quot;../RDATA/cse_clean.RData&quot;)</code></pre>
+<div id="daily-return" class="section level1">
+<h1>Daily Return</h1>
+<pre class="r"><code>cse.clean.daily  &lt;- cse.clean %&gt;% 
+    tq_transmute(select=index,
+         mutate_fun=periodReturn,
+         type=&quot;arithmetic&quot;,
+         period=&quot;daily&quot;) %&gt;% 
+    mutate(return.type=ifelse(daily.returns&lt;0,&quot;Loss&quot;,&quot;Not&quot;))
+
+cse.clean.daily %&gt;% 
+       count(return.type) %&gt;% 
+       mutate(perc=n/sum(n))</code></pre>
+<pre><code># A tibble: 2 x 3
+  return.type     n  perc
+  &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt;
+1 Loss         1614 0.466
+2 Not          1849 0.534</code></pre>
+<pre class="r"><code>cse.clean.daily %&gt;%    ggplot(aes(daily.returns)) +
+    geom_histogram(color=&quot;white&quot;) +
+    theme_tq()</code></pre>
+<p><img src="/post/2018_05_13_quora_CSE_stock_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="monthly-return" class="section level1">
+<h1>Monthly Return</h1>
+<pre class="r"><code>cse.clean.monthly  &lt;- cse.clean %&gt;% 
+    tq_transmute(select=index,
+         mutate_fun=periodReturn,
+         type=&quot;arithmetic&quot;,
+         period=&quot;monthly&quot;) %&gt;% 
+    mutate(return.type=ifelse(monthly.returns&lt;0,&quot;Loss&quot;,&quot;Not&quot;))
+
+cse.clean.monthly %&gt;% 
+       count(return.type) %&gt;% 
+       mutate(perc=n/sum(n))</code></pre>
+<pre><code># A tibble: 2 x 3
+  return.type     n  perc
+  &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt;
+1 Loss           69 0.404
+2 Not           102 0.596</code></pre>
+<pre class="r"><code>cse.clean.monthly %&gt;%     
+    ggplot(aes(monthly.returns)) +
+    geom_histogram(color=&quot;white&quot;) + 
+    theme_tq()</code></pre>
+<p><img src="/post/2018_05_13_quora_CSE_stock_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="yearly-return" class="section level1">
+<h1>Yearly Return</h1>
+<pre class="r"><code>cse.clean.yearly  &lt;- cse.clean %&gt;% 
+    tq_transmute(select=index,
+         mutate_fun=periodReturn,
+         type=&quot;arithmetic&quot;,
+         period=&quot;yearly&quot;) %&gt;% 
+    mutate(return.type=ifelse(yearly.returns&lt;0,&quot;Loss&quot;,&quot;Not&quot;))
+
+
+cse.clean.yearly %&gt;% 
+       count(return.type) %&gt;% 
+       mutate(perc=n/sum(n))</code></pre>
+<pre><code># A tibble: 2 x 3
+  return.type     n  perc
+  &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt;
+1 Loss            5 0.333
+2 Not            10 0.667</code></pre>
+<pre class="r"><code>cse.clean.yearly %&gt;% 
+    ggplot(aes(yearly.returns)) +
+    geom_histogram(color=&quot;white&quot;) + 
+    theme_tq()</code></pre>
+<p><img src="/post/2018_05_13_quora_CSE_stock_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Therefore, we find that,</p>
+<p>The probability of having a negative</p>
+<ul>
+<li>day was 46.6%</li>
+<li>month was 40.4%</li>
+<li>year was 33.3%</li>
+</ul>
+</div>

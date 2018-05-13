@@ -23,6 +23,16 @@ It makes use of a variety of open source projects including:
     </item>
     
     <item>
+      <title>CSE index return analysis</title>
+      <link>/post/cse-quora-stock/</link>
+      <pubDate>Sun, 13 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/cse-quora-stock/</guid>
+      <description>let’s load the tidyquant package first
+library(tidyquant) ## Loading required package: lubridate ## ## Attaching package: &amp;#39;lubridate&amp;#39; ## The following object is masked from &amp;#39;package:base&amp;#39;: ## ## date ## Loading required package: PerformanceAnalytics ## Loading required package: xts ## Loading required package: zoo ## ## Attaching package: &amp;#39;zoo&amp;#39; ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## as.</description>
+    </item>
+    
+    <item>
       <title>Traffic congestion and Development Budget</title>
       <link>/post/treemap-24mar2018/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
