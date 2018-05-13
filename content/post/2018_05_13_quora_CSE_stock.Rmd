@@ -8,16 +8,16 @@ tags: []
 ---
 
 
+```{r setup, echo=FALSE}
+library(knitr)
+opts_chunk$set(message=FALSE,warning=FALSE, comment=NA)
+```
 let's load the tidyquant package first
 
 ```{r libs  }
 library(tidyquant)
-library(knitr)
 ```
 
-```{r setup}
-opts_chunk$set(message=FALSE,warning=FALSE, comment=NA)
-```
 
 
 let's load the cleaned data first

@@ -29,7 +29,8 @@ It makes use of a variety of open source projects including:
       
       <guid>/post/cse-quora-stock/</guid>
       <description>let’s load the tidyquant package first
-library(tidyquant) ## Loading required package: lubridate ## ## Attaching package: &amp;#39;lubridate&amp;#39; ## The following object is masked from &amp;#39;package:base&amp;#39;: ## ## date ## Loading required package: PerformanceAnalytics ## Loading required package: xts ## Loading required package: zoo ## ## Attaching package: &amp;#39;zoo&amp;#39; ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## as.</description>
+library(tidyquant) let’s load the cleaned data first
+load(&amp;quot;../RDATA/cse_clean.RData&amp;quot;) Daily Return cse.clean.daily &amp;lt;- cse.clean %&amp;gt;% tq_transmute(select=index, mutate_fun=periodReturn, type=&amp;quot;arithmetic&amp;quot;, period=&amp;quot;daily&amp;quot;) %&amp;gt;% mutate(return.type=ifelse(daily.returns&amp;lt;0,&amp;quot;Loss&amp;quot;,&amp;quot;Not&amp;quot;)) cse.clean.daily %&amp;gt;% count(return.type) %&amp;gt;% mutate(perc=n/sum(n)) # A tibble: 2 x 3 return.</description>
     </item>
     
     <item>

@@ -69,11 +69,12 @@
 
         
 
-        <li>2 min read</li>
+        <li>1 min read</li>
     </ul>
 </aside>
             <p>let’s load the tidyquant package first
-library(tidyquant) ## Loading required package: lubridate ## ## Attaching package: &#39;lubridate&#39; ## The following object is masked from &#39;package:base&#39;: ## ## date ## Loading required package: PerformanceAnalytics ## Loading required package: xts ## Loading required package: zoo ## ## Attaching package: &#39;zoo&#39; ## The following objects are masked from &#39;package:base&#39;: ## ## as.</p>
+library(tidyquant) let’s load the cleaned data first
+load(&quot;../RDATA/cse_clean.RData&quot;) Daily Return cse.clean.daily &lt;- cse.clean %&gt;% tq_transmute(select=index, mutate_fun=periodReturn, type=&quot;arithmetic&quot;, period=&quot;daily&quot;) %&gt;% mutate(return.type=ifelse(daily.returns&lt;0,&quot;Loss&quot;,&quot;Not&quot;)) cse.clean.daily %&gt;% count(return.type) %&gt;% mutate(perc=n/sum(n)) # A tibble: 2 x 3 return.</p>
             
             <a href="/post/cse-quora-stock/">Read more&hellip;</a>
             
