@@ -1,0 +1,105 @@
+Let's first load the required libraries 
+
+
+```{r}
+library(pdftools)
+library(glue)
+library(tidyverse)
+```
+
+Let's first write down the country codes 
+
+```{r}
+country <- c("bgd", "ind", "pak", "lka")
+```
+
+Let's put the down the url 
+
+```{r}
+url  <- "https://www.who.int/diabetes/country-profiles/{country}_en.pdf?ua=1"
+```
+
+Now let's glue the urls 
+
+
+```{r}
+urls  <- glue(url)
+```
+
+Now I create name of the pdf files in the same manner 
+
+
+```{r}
+pdf_names <- glue("report{country}.pdf")
+```
+
+Now let's download the files 
+
+```{r}
+walk2(urls,pdf_names, download.file, mode="wb")
+```
+
+
+Now let's import the data from each file 
+
+```{r}
+raw_text <- map(pdf_names, pdf_text)
+```
+
+Let's look int the very first element
+
+```{r}
+raw_text[1]
+```
+
+Now let's try to understand the following code line by line 
+
+```{r}
+
+clean_table  <- function(table){
+table  <- str_split(table,"\n", simplify=TRUE)
+country_name  <- table[1,1] %>% 
+                    str_squish() %>% 
+		    str_extract(".+?(?=\\sTotal)")
+                     
+table_start  <-  str_which(table,"Prevalence of diabetes")
+table_end <-  str_which(table,"National response to diabetes")
+table <- table[1, (table_start+1):(table_end-1)]
+table <- str_replace_all(table, "%", "")
+table.dat <- str_split_fixed(table, "[\\s]{2,}", n=4) %>% 
+                               as.data.frame() %>% 
+			       slice(-1)
+names(table.dat)  <- c("Condition", "Males", "Females", "Total")
+table.dat %>% 
+    mutate(Country=country_name) %>% 
+    select(Country, everything()) %>% 
+    mutate_at(.vars=names(table.dat)[-1], function(x) as.numeric(as.character(x)))
+}
+```
+
+Now let's apply this to the original raw_text 
+
+```{r}
+diabetes  <- map_df(raw_text, clean_table) %>% 
+               gather(Sex, Share, Males, Females, Total) %>% 
+	       arrange(Country)
+```
+
+
+Now let's plot
+
+```{r}
+diabetes %>% 
+    filter(Sex=="Total") %>% 
+    ggplot() +
+       geom_bar(aes(x=Sex, y=Share, fill=Country), stat="identity", position="dodge") + 
+       coord_flip()  +
+       facet_wrap(~Condition) +
+       theme_economist_white() +
+       scale_fill_economist()
+       
+```
+
+
+
+
