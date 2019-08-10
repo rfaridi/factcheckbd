@@ -212,11 +212,11 @@ Now run function
 
 ```{r}
 list.file.name <- c()
-for(i in dir.names[1:14]) {
+for(i in dir.names[1:8]) {
    file.name <- str_subset(list.files(i), "lance")
    list.file.name <- c(list.file.name, file.name)
 }
-glance.file.path  <-  glue("{dir.names[1:14]}/{list.file.name}")
+glance.file.path  <-  glue("{dir.names[1:8]}/{list.file.name}")
 ```
 
 
@@ -232,9 +232,7 @@ dat <- rbind(dat,page)
 all.glance[[dir.names[i]]] <- dat
 }
 }
-
 save(all.glance, file="./all_glance.rda")
-
 ```
 
 ```{r}

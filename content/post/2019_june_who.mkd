@@ -1,3 +1,8 @@
+R has vast collection of packages and its no wonder that everyday newer and newer tools are coming up. Today I will blog on an wonderful tool to collect data from PDF files. This is called pdftools and it is just great. There are other packages such as "Tabulizer", tabulizer is heavily dependent on Java. Sometimes it is quite cumbersome to work with Java and particularly integration with R. I had some terrible time with XLSconnect which depended on Java. I am still struggling to make tabulizer work in my arch linux installation. Therefore PDFTools is a welcome relief and alternative in the realm of the PDF extraction. 
+
+
+We issue usual commands to install a library 
+
 Let's first load the required libraries 
 
 
@@ -33,7 +38,7 @@ Now I create name of the pdf files in the same manner
 pdf_names <- glue("report{country}.pdf")
 ```
 
-Now let's download the files 
+Now let's download the files. Now before doing that I have changed the working directory to Desktop/Downloaded, so reports are actually there 
 
 ```{r}
 walk2(urls,pdf_names, download.file, mode="wb")
@@ -73,16 +78,28 @@ names(table.dat)  <- c("Condition", "Males", "Females", "Total")
 table.dat %>% 
     mutate(Country=country_name) %>% 
     select(Country, everything()) %>% 
-    mutate_at(.vars=names(table.dat)[-1], function(x) as.numeric(as.character(x)))
+    mutate_at(vars(-c(Country,Condition)), function(x) as.numeric(as.character(x)))
 }
 ```
 
-Now let's apply this to the original raw_text 
+Now the orginal raw_text[1] was containing a long character vector with line breaks in the middle `\n`. 
+
+So the following code 
 
 ```{r}
-diabetes  <- map_df(raw_text, clean_table) %>% 
+table  <- str_split(table,"\n", simplify=TRUE)
+```
+
+converts the above into a matrix of dimenion (1, 59) in the case of Bangladesh, the very first component. 
+Now let's apply this to the original raw_text, the following commands first picked up the country name, then found the string number from where the table started and ended, extracted those location, converted the text into a matrix, then data frame etc etc.
+
+Now we are actually applyingg that function to each element of raw_text
+
+```{r}
+health.risk.sa <- map_df(raw_text, clean_table) %>% 
                gather(Sex, Share, Males, Females, Total) %>% 
 	       arrange(Country)
+save(health.risk.sa, file="./RDATA/health_risk_sa.rda")
 ```
 
 
