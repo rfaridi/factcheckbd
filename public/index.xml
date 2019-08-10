@@ -23,198 +23,12 @@ It makes use of a variety of open source projects including:
     </item>
     
     <item>
-      <title>Posting after a while</title>
-      <link>/post/after-a-while/</link>
-      <pubDate>Sat, 30 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/after-a-while/</guid>
-      <description>I am going to make this post just to check out how the whole process of publishing from local Rmd file to github through the github integration and then ultimately netlify site gets updated.</description>
-    </item>
-    
-    <item>
-      <title>Comparing GDP</title>
-      <link>/post/comparing-gdp/</link>
-      <pubDate>Mon, 24 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/comparing-gdp/</guid>
-      <description>First load the library
-library(tidyverse) ## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.1.0 ✔ purrr 0.2.5 ## ✔ tibble 1.4.2 ✔ dplyr 0.7.6 ## ✔ tidyr 0.</description>
-    </item>
-    
-    <item>
-      <title>CSE index return analysis</title>
-      <link>/post/cse-quora-stock/</link>
-      <pubDate>Sun, 13 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/cse-quora-stock/</guid>
-      <description>let’s load the tidyquant package first
-library(tidyquant) let’s load the cleaned data first
-load(&amp;quot;../RDATA/cse_clean.RData&amp;quot;) Daily Return cse.clean.daily &amp;lt;- cse.clean %&amp;gt;% tq_transmute(select=index, mutate_fun=periodReturn, type=&amp;quot;arithmetic&amp;quot;, period=&amp;quot;daily&amp;quot;) %&amp;gt;% mutate(return.type=ifelse(daily.returns&amp;lt;0,&amp;quot;Loss&amp;quot;,&amp;quot;Not&amp;quot;)) cse.clean.daily %&amp;gt;% count(return.type) %&amp;gt;% mutate(perc=n/sum(n)) # A tibble: 2 x 3 return.</description>
-    </item>
-    
-    <item>
-      <title>Traffic congestion and Development Budget</title>
-      <link>/post/treemap-24mar2018/</link>
-      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/treemap-24mar2018/</guid>
-      <description>Here I am going to compare the traffic congestion cost with the whole development budget of Government of Bangladesh (GOB) in FY 2017-18. This post was based on the information from news on Prothom-alo,25 March, 2018.</description>
-    </item>
-    
-    <item>
-      <title>Prothom-alo Report on LFS in 2017</title>
-      <link>/post/2018-03-23-lfs-pa-report/</link>
-      <pubDate>Fri, 23 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/2018-03-23-lfs-pa-report/</guid>
-      <description> Based on the report let’s just crunch some numbers.
-emp &amp;lt;- c(47.4, 54.1,58.1, 59.5) years &amp;lt;- c(2005, 2010, 2013, 2015) emp.dat &amp;lt;- data.frame(year=years, employed=emp) </description>
-    </item>
-    
-    <item>
-      <title>Introduction to Rilostat</title>
-      <link>/post/intro-r-ilostat/</link>
-      <pubDate>Tue, 20 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/intro-r-ilostat/</guid>
-      <description>Today in national daily prothom-alo I found an article titled “মানুষের কাজের সুযোগ কমেছে”. In that regard I thought I might have a look in the data of labor force.</description>
-    </item>
-    
-    <item>
-      <title>Budget analysis - Ministry-wise expense</title>
-      <link>/post/budge-analysis-expense/</link>
-      <pubDate>Sun, 11 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/budge-analysis-expense/</guid>
-      <description>Today I am going to have a look at ministry wise expense from budget data of Ministry of Finance of Bangladesh. In the process, we will also see how to use tabulizer package to import data from PDF files.</description>
-    </item>
-    
-    <item>
-      <title>UN vote on Jerusalem (Part 1)</title>
-      <link>/post/jerusalem_data_import/</link>
-      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/jerusalem_data_import/</guid>
-      <description>my idea was to do a choloropeth mapping for the voting pattern of jerusalem voting
-first i will have to collect the names of the member countries
-following link finds any un voting results</description>
-    </item>
-    
-    <item>
-      <title>UN vote on Jerusalem (Part 2)</title>
-      <link>/post/jerusalem_data_wrangle/</link>
-      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/jerusalem_data_wrangle/</guid>
-      <description>let’s load the library
-library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(ggplot2) let’s first load the data</description>
-    </item>
-    
-    <item>
-      <title>UN vote on Jerusalem (Part 3)</title>
-      <link>/post/jerusalem_data_explore/</link>
-      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/jerusalem_data_explore/</guid>
-      <description>Housekeeping stuff libraries to use
-library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(ggplot2) library(janitor) library(pander) Let’s source the functions</description>
-    </item>
-    
-    <item>
-      <title>World Justice Project- Mapping Data</title>
-      <link>/post/world_justice_project_part3_data_wrangling/</link>
-      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/world_justice_project_part3_data_wrangling/</guid>
-      <description>In this part, we will be trying to map the data on World Justice Project.
-Let’s first load the data:
-load(&amp;quot;../RDATA/wjs_score_clean.RData&amp;quot;) load(&amp;quot;../RDATA/world_template.RData&amp;quot;) let’s just find a manageable version of data in the following</description>
-    </item>
-    
-    <item>
-      <title>Chaotic data on child marriage in Bangladesh (Part 1)</title>
-      <link>/post/child_marriage_bangladesh/</link>
-      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/child_marriage_bangladesh/</guid>
-      <description>Today, one of the leading Bangla newspaper in Bangladesh Prothom Alo made a headline news which may read as “Child marriage has increased in Bangladesh”. The main point it is focusing on is, even though around the world child marriage is going down but in Bangladesh it is rising.</description>
-    </item>
-    
-    <item>
-      <title>Chaotic data on child marriage in Bangladesh (Part 2)</title>
-      <link>/post/child_marriage_bangladesh_part2/</link>
-      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/child_marriage_bangladesh_part2/</guid>
-      <description>Just following up from the earlier post, which was the first post of this series, I imported UNICEF data on child marriage. Now I will try to play around a bit with this data.</description>
-    </item>
-    
-    <item>
-      <title>Getting myself started into text mining</title>
-      <link>/post/intro-text-mining/</link>
-      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/intro-text-mining/</guid>
-      <description>I will be just practicing the exercises in the vignette of tidytext package.
-let’s first import the required libraries:
-library(janeaustenr) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(stringr) library(tidytext) As the very first step, we create line number variable and chapter variable.</description>
-    </item>
-    
-    <item>
-      <title>Historic 7th March speech of Sheikh Mujibur Rahman in wordcloud</title>
-      <link>/post/text_mining_wordcloud_mujib_speech/</link>
-      <pubDate>Wed, 07 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/text_mining_wordcloud_mujib_speech/</guid>
-      <description>In one of my previous posts, I have ventured into creating a word cloud from some tutorial. Now since today is 7th March, the historic day when the founder of Bangladesh,Sheikh Mujibur Rahman , delivered a speech which greatly energized the nation before the Independence war broke out few days later.</description>
-    </item>
-    
-    <item>
-      <title>World Justice Score importing data</title>
-      <link>/post/world-justice-score-import-data/</link>
-      <pubDate>Sat, 03 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/world-justice-score-import-data/</guid>
-      <description>first let’s load the library
-library(readxl) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(tidyr) library(janitor) let’s first load the data</description>
-    </item>
-    
-    <item>
-      <title>Have fun with  World Justice Project data</title>
-      <link>/post/world-justice-project/</link>
-      <pubDate>Fri, 02 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/world-justice-project/</guid>
-      <description>Today (March 2, 2018) I have seen the following the news on the Daily Star, the leading news paper in Bangladesh on Bangladesh being close to bottom in South Asia.</description>
-    </item>
-    
-    <item>
-      <title>ggrepel Demo</title>
-      <link>/post/ggrepel-demo/</link>
-      <pubDate>Mon, 26 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/ggrepel-demo/</guid>
-      <description>ggrepel has come to the picture to solve the problem of overlapping text. I thing it is pretty useful.
-let’s first load the library
-library(tidyverse) ## Loading tidyverse: ggplot2 ## Loading tidyverse: tibble ## Loading tidyverse: tidyr ## Loading tidyverse: readr ## Loading tidyverse: purrr ## Loading tidyverse: dplyr ## Conflicts with tidy packages ---------------------------------------------- ## filter(): dplyr, stats ## lag(): dplyr, stats library(ggrepel) Let’s create the data first</description>
-    </item>
-    
-    <item>
       <title>বাংলা পরীক্ষা করা হচ্ছে</title>
       <link>/post/bangla-testing/</link>
       <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/bangla-testing/</guid>
       <description>বাংলা পরীক্ষা করা হচ্ছে</description>
-    </item>
-    
-    <item>
-      <title>ARI Data Analysis</title>
-      <link>/post/ari-data-analysis/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/ari-data-analysis/</guid>
-      <description>Bangladesh government banned all types three wheelers in 22 national highways effective from last August 1, 2015. It was surely a drastic measure to curb the fatalities in road accidents that has taken epidemic proportion recently in Bangladesh.</description>
     </item>
     
     <item>
@@ -228,38 +42,11 @@ library(tidyverse) ## Loading tidyverse: ggplot2 ## Loading tidyverse: tibble ##
     
     <item>
       <title>Cuba and Castro&#39;s legacy</title>
-      <link>/post/cuba-castro-legacy/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/cuba-castro-legacy/</guid>
-      <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
-    </item>
-    
-    <item>
-      <title>Cuba and Castro&#39;s legacy</title>
       <link>/posts/cuba-castro-legacy/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts/cuba-castro-legacy/</guid>
       <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/post/bangabandhu_speech_world_cloud/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/post/bangabandhu_speech_world_cloud/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/post/presentation_stock_cse/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/post/presentation_stock_cse/</guid>
-      <description>Analysis of CSE index   class: center, middle, inverse, title-slide # Analysis of CSE index ## An exploratory approach ### Rushad Faridi PhD ### 2018/03/27 --- background-image: url(https://upload.</description>
     </item>
     
   </channel>
