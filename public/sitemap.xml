@@ -13,6 +13,7 @@
   </url>
   
   <url>
+<<<<<<< HEAD
     <loc>/post/after-a-while/</loc>
     <lastmod>2019-03-30T00:00:00+00:00</lastmod>
   </url>
@@ -115,22 +116,14 @@
   </url>
   
   <url>
+=======
+>>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
     <loc>/post/bangla-testing/</loc>
     <lastmod>2018-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/ari-data-analysis/</loc>
-    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/posts/ari-data-analysis/</loc>
-    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/cuba-castro-legacy/</loc>
     <lastmod>2018-01-03T00:00:00+00:00</lastmod>
   </url>
   
@@ -140,17 +133,26 @@
   </url>
   
   <url>
+<<<<<<< HEAD
     <loc>/post/bangabandhu_speech_world_cloud/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/presentation_stock_cse/</loc>
+=======
+    <loc>/categories/</loc>
+>>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
     <priority>0</priority>
   </url>
   
   <url>
+<<<<<<< HEAD
     <loc>/categories/</loc>
+=======
+    <loc>/post/</loc>
+    <lastmod>2018-02-14T00:00:00+00:00</lastmod>
+>>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
     <priority>0</priority>
   </url>
   
