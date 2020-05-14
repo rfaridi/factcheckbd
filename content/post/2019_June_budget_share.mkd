@@ -1,0 +1,255 @@
+Let's load the required libraries first 
+
+
+```{r}
+library(tidyverse)
+library(pdftools)
+library(glue)
+library(fs)
+```
+
+
+
+Let's put the url
+
+
+```{r}
+url  <- "https://mof.portal.gov.bd/sites/default/files/files/mof.portal.gov.bd/page/cc4c27c7_8395_4378_b724_0bb7403c2904/Brief_EN_8_19.zip"
+dir_create("~/Desktop/Downloaded/budget/budget_2018_19")
+download.file(url, "~/Desktop/Downloaded/budget/budget_2018_19/budget_2018_19.zip", method="wget", extra="--no-check-certificate")
+uzp <- "~/Desktop/Downloaded/budget/budget_2018_19/budget_2018_19.zip"
+unzip(uzp,exdir="~/Desktop/Downloaded/budget/budget_2018_19/")
+```
+
+Now before going into full fledged function let's try one more time
+
+```{r}
+url  <- "https://mof.portal.gov.bd/sites/default/files/files/mof.portal.gov.bd/page/cc4c27c7_8395_4378_b724_0bb7403c2904/Brief_17_18_En.zip"
+dir_create("~/Desktop/Downloaded/budget/budget_2017_18")
+download.file(url, "~/Desktop/Downloaded/budget/budget_2017_18/budget_2017_18.zip", method="wget", extra="--no-check-certificate")
+uzp <- "~/Desktop/Downloaded/budget/budget_2017_18/budget_2017_18.zip"
+unzip(uzp,exdir="~/Desktop/Downloaded/budget/budget_2017_18/")
+```
+
+
+```{r}
+raw.text <- pdf_text("~/Desktop/Downloaded/budget/budget_2017_18/at_a_glance_E.pdf")
+table <- str_split(raw.text, "\n", simplify=TRUE)
+table.digit <- str_replace_all(table, ",","")
+table.digit2 <- str_extract_all(table.digit, "\\d+", simplify=TRUE)
+table.dat  <- str_split_fixed(table.digit2, "\\s+", n=4) 
+```
+
+let's define a function to directly import the data 
+
+```{r}
+import_budget  <- function(pdf_file,page_no) {
+whole.doc <- pdf_data(pdf_file)
+pdf_page <- whole.doc[[page_no]]
+page.clean <- str_replace_all(pdf_page$text,",","")
+nums <- str_extract_all(page.clean,"\\d+", simplify=TRUE)
+nums.dat  <- as.data.frame(nums) %>% 
+                  filter(!V1=="" ,!grepl("^\\d{1}$",V1))
+numsv1.mat <- matrix(nums.dat$V1, ncol=4, byrow=TRUE)
+numsv1.dat <- as.data.frame(numsv1.mat) %>% 
+                map_df(~ as.character(.x) %>% as.numeric(.x)) 
+name.vars <- numsv1.dat[1,] %>% as.character()
+names(numsv1.dat)  <- paste0("FY",name.vars)
+numsv1.dat  <- numsv1.dat %>% 
+                    slice(-1)
+
+return(numsv1.dat)
+}
+```
+
+Let's try that out 
+```{r}
+file.name <- "~/Desktop/Downloaded/budget/budget_2018_19/At_A_Galance_en.pdf"
+page1 <- import_budget(pdf_file=file.name, page_no=1)
+page2 <- import_budget(pdf_file=file.name, page_no=2)
+full.dat <- rbind(page1,page2)
+full.dat
+```
+
+Let's see whether it works for another year
+
+Let's try that out 
+```{r}
+file.name <- "~/Desktop/Downloaded/budget/budget_2017_18/at_a_glance_E.pdf"
+page1 <- import_budget(pdf_file=file.name, page_no=1)
+page2 <- import_budget(pdf_file=file.name, page_no=2)
+full.dat2 <- rbind(page1,page2)
+full.dat2
+```
+
+```{r}
+page2 <- page[[2]]
+page.clean2 <- str_replace_all(page2$text,",","")
+nums2 <- str_extract_all(page.clean2,"\\d+", simplify=TRUE)
+```
+
+
+```{r}
+url <- "https://mof.gov.bd/site/page/f9aab5cd-f644-47bb-bb94-a70cb64c15ce"
+
+ html <- paste(readLines(url), collapse="\n")
+ library(stringr)
+ matched <- str_match_all(html, "<a href=\"(.*?)\"")
+
+```
+
+```{r}
+page  <- read_html("https://mof.gov.bd/site/page/f9aab5cd-f644-47bb-bb94-a70cb64c15ce")
+page %>%  html_nodes("Download") %>% html_attr('href')
+```
+
+
+```{r}
+library(RSelenium)
+rD <- rsDriver(port=4446L,browser="firefox")
+remDr <- rD$client
+```
+
+
+
+
+```{r}
+url <- "https://mof.gov.bd/site/page/f9aab5cd-f644-47bb-bb94-a70cb64c15ce"
+```
+
+
+
+
+
+```{r}
+remDr$navigate(url)
+remDr$refresh()
+stateEle <- remDr$findElements(using="tag", value="a")
+link.list <- map(stateEle, ~ .x$getElementAttribute("href"))
+url.list <- grep("zip", unlist(link.list), value=T)
+```
+
+
+```{r}
+remDr$navigate(url)
+remDr$refresh()
+stateEle <- remDr$findElement(using="css selector", value="#printable_area > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2) > a:nth-child(1)")
+link.text <- map(stateEle, ~ .x$getElementText())
+url.list <- grep("zip", unlist(link.list), value=T)
+
+```
+
+Find the year name 
+
+```{r}
+library(rvest)
+url <- "https://mof.gov.bd/site/page/f9aab5cd-f644-47bb-bb94-a70cb64c15ce"
+rice.price <- read_html(url) %>% 
+			html_node("table") 
+```
+
+The above code is producing error 
+
+So let's try this 
+
+
+```{r}
+download.file(url,destfile="~/page2scrape.html")
+```
+
+Still not working, so I saved the file and then tried
+
+```{r}
+url <- "~/Desktop/Downloaded/files2scrape.html"
+rice.price <- read_html(url) %>% 
+			html_node("table") %>% 
+			html_table()
+
+```
+
+
+```{r}
+remDr$navigate(url)
+remDr$refresh()
+tableEle <- remDr$findElements(using="id", value="printable_area")
+stateEle <- remDr$findElements(using="tag", value="strong")
+
+tab.list <- map(stateEle, ~ .x$getElementText())
+tab.list <- map(tableEle, ~ .x$getElementText())
+str_subset(unlist(tab.list), "\\d{4}-\\d{2}")
+tab.list <- str_extract_all(unlist(tab.list), "\\d{4}-\\d{2}") %>% 
+                unlist()
+```
+
+
+```{r}
+file.names <- glue("brief_{tab.list}.zip")
+dir.names  <- glue("brief_{tab.list}")
+walk(dir.names,dir_create) 
+file.path <- glue("{dir.names}/{file.names}")
+walk2(url.list[15], file.path[15], download.file, method="wget",extra="--no-check-certificate")
+```
+
+
+Unzip all the zip files
+
+```{r}
+for(i in 1:length(file.path)) {
+      unzip(file.path[i], exdir=dir.names[i])
+}
+```
+
+Delete all the zip files 
+
+```{r}
+for(i in 1:length(file.path)) {
+      file_delete(file.path[i])
+}
+
+```
+
+Now run function 
+
+```{r}
+list.file.name <- c()
+for(i in dir.names[1:8]) {
+   file.name <- str_subset(list.files(i), "lance")
+   list.file.name <- c(list.file.name, file.name)
+}
+glance.file.path  <-  glue("{dir.names[1:8]}/{list.file.name}")
+```
+
+
+```{r}
+all.glance <- list()
+for(i in 1:8) {
+page.no <- pdf_info(glance.file.path[i])$page
+dat <- data.frame()
+for(j in 1:page.no){
+page <- import_budget(pdf_file=glance.file.path[i], page_no=j)
+dat <- rbind(dat,page)
+#assign(paste0("dat_",str_sub(dir.names[i],7,10)), dat)
+all.glance[[dir.names[i]]] <- dat
+}
+}
+save(all.glance, file="./all_glance.rda")
+```
+
+```{r}
+all.glance2 <- list()
+for(i in 9:9) {
+page.no <- pdf_info(glance.file.path[i])$page
+dat <- data.frame()
+for(j in 1:page.no){
+page <- import_budget(pdf_file=glance.file.path[i], page_no=j)
+dat <- rbind(dat,page)
+#assign(paste0("dat_",str_sub(dir.names[i],7,10)), dat)
+all.glance2[[dir.names[i]]] <- dat
+}
+}
+
+
+
+```
+
+

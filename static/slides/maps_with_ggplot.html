@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Mapping with ggplot</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rushad Faridi" />
+    <link href="maps_with_ggplot_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="maps_with_ggplot_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Mapping with ggplot
+### Rushad Faridi
+### 2019/08/14
+
+---
+
+
+Let's load the libraries 
+
+
+```r
+library(dplyr)
+library(janitor)
+library(rgdal)
+library(ggplot2)
+library(printr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.height = 6, out.width = "80%", comment = " ", cache = T, dpi = 300, warning = F, message = F)
+source("../../content/RFILES/apply_reveal.R")
+```
+
+---
+
+Let's first import data 
+
+
+
+```r
+poverty.bd &lt;- readxl::read_excel("~/drive_misc/Data_Science/BD_districts/zila_and_upazila_data/zila_indicators.xlsx") %&gt;% 
+                                                                    janitor::clean_names() %&gt;% 
+										dplyr::select(District=zila_name, poverty=poverty_headcount_ratio_percent)
+
+save(poverty.bd, file="~/training/2019_July_IDVR/poverty_bd.rda")
+load("~/training/2019_July_IDVR/poverty_bd.rda")
+```
+
+---
+
+
+Now read shape files 
+
+
+```r
+dirw &lt;- "~/Dropbox/miscStuff/spatialStuff/BGD_adm/BGD2015/ADM2/"
+  
+bd2.shp &lt;-readOGR(dirw,"bgd_bnd_adm2")
+```
+
+```
+  OGR data source with driver: ESRI Shapefile 
+  Source: "/home/arch/Dropbox/miscStuff/spatialStuff/BGD_adm/BGD2015/ADM2", layer: "bgd_bnd_adm2"
+  with 64 features
+  It has 15 fields
+```
+
+```r
+# Let's check the class of the object
+
+#class(bd2.shp)
+
+draw.bd2 &lt;- fortify(bd2.shp,region="DistCode")
+
+
+draw.bd2.mg &lt;- merge(draw.bd2,
+                     bd2.shp,
+                     by.x='id',
+                     by.y='DistCode')
+
+draw.bd2.mg$District &lt;- toupper(draw.bd2.mg$District)
+draw.bd2.mg2 &lt;- left_join(draw.bd2.mg,poverty.bd,by=c('District'))
+```
+
+---
+
+Build coordinate data
+
+
+```r
+crd.bd2 &lt;-  as.data.frame(coordinates(bd2.shp))
+names(crd.bd2) &lt;- c("longitude","latitude")
+crd.bd2.df &lt;- data.frame(crd.bd2,
+                         id=toupper(bd2.shp@data$District))
+
+crd.bd2.df.mg &lt;- inner_join(crd.bd2.df,
+			    poverty.bd,
+                            by=c('id'='District'))
+
+
+crd.bd2.df.mg$id &lt;- sub('(.)(.+)',
+                        '\\U\\1\\L\\2',
+                        crd.bd2.df.mg$id,
+                        perl=TRUE) 
+```
+---
+
+
+
+class: split-40
+count: false
+
+.column[.content[
+
+```r
+ ggplot()   #&lt;&lt;
+```
+]]
+.column[.content.center[
+&lt;img src="maps_with_ggplot_files/figure-html/output_bdmap_1-1.png" width="80%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.column[.content[
+
+```r
+ ggplot()  +
+  geom_map(data=draw.bd2.mg2, #&lt;&lt;
+           aes(x=long,y=lat,map_id=id,fill=poverty),map=draw.bd2.mg2)  #&lt;&lt;
+```
+]]
+.column[.content.center[
+&lt;img src="maps_with_ggplot_files/figure-html/output_bdmap_3-1.png" width="80%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.column[.content[
+
+```r
+ ggplot()  +
+  geom_map(data=draw.bd2.mg2,
+           aes(x=long,y=lat,map_id=id,fill=poverty),map=draw.bd2.mg2) +
+  geom_text(data=crd.bd2.df.mg %&gt;% arrange(poverty) %&gt;% slice(c(1:5,57:62)), #&lt;&lt;
+            aes(label=id,x=longitude,y=latitude))  #&lt;&lt;
+```
+]]
+.column[.content.center[
+&lt;img src="maps_with_ggplot_files/figure-html/output_bdmap_5-1.png" width="80%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.column[.content[
+
+```r
+ ggplot()  +
+  geom_map(data=draw.bd2.mg2,
+           aes(x=long,y=lat,map_id=id,fill=poverty),map=draw.bd2.mg2) +
+  geom_text(data=crd.bd2.df.mg %&gt;% arrange(poverty) %&gt;% slice(c(1:5,57:62)),
+            aes(label=id,x=longitude,y=latitude)) +
+  scale_fill_gradient("Poverty", high = "darkred", low = "darkolivegreen1") #&lt;&lt;
+```
+]]
+.column[.content.center[
+&lt;img src="maps_with_ggplot_files/figure-html/output_bdmap_6-1.png" width="80%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.column[.content[
+
+```r
+ ggplot()  +
+  geom_map(data=draw.bd2.mg2,
+           aes(x=long,y=lat,map_id=id,fill=poverty),map=draw.bd2.mg2) +
+  geom_text(data=crd.bd2.df.mg %&gt;% arrange(poverty) %&gt;% slice(c(1:5,57:62)),
+            aes(label=id,x=longitude,y=latitude)) +
+  scale_fill_gradient("Poverty", high = "darkred", low = "darkolivegreen1")+
+  coord_equal()  #&lt;&lt;
+```
+]]
+.column[.content.center[
+&lt;img src="maps_with_ggplot_files/figure-html/output_bdmap_7-1.png" width="80%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.column[.content[
+
+```r
+ ggplot()  +
+  geom_map(data=draw.bd2.mg2,
+           aes(x=long,y=lat,map_id=id,fill=poverty),map=draw.bd2.mg2) +
+  geom_text(data=crd.bd2.df.mg %&gt;% arrange(poverty) %&gt;% slice(c(1:5,57:62)),
+            aes(label=id,x=longitude,y=latitude)) +
+  scale_fill_gradient("Poverty", high = "darkred", low = "darkolivegreen1")+
+  coord_equal() +
+  theme_minimal() #&lt;&lt;
+```
+]]
+.column[.content.center[
+&lt;img src="maps_with_ggplot_files/figure-html/output_bdmap_8-1.png" width="80%" /&gt;
+]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+---
+title: "Mapping with ggplot"
+author: "Rushad Faridi"
+date: "2019/08/14"
+output:
+  xaringan::moon_reader:
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css: ["kunoichi", "ninjutsu"]
+    nature:
+      ratio: "20:10"
+      highlightLines: true
+---
+
+Let's load the libraries 
+
+```{r}
+library(dplyr)
+library(janitor)
+library(rgdal)
+library(ggplot2)
+library(printr)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.height = 6, out.width = "80%", comment = " ", cache = T, dpi = 300, warning = F, message = F)
+source("../../content/RFILES/apply_reveal.R")
+```
+
+---
+
+Let's first import data 
+
+
+```{r}
+poverty.bd <- readxl::read_excel("~/drive_misc/Data_Science/BD_districts/zila_and_upazila_data/zila_indicators.xlsx") %>% 
+                                                                    janitor::clean_names() %>% 
+										dplyr::select(District=zila_name, poverty=poverty_headcount_ratio_percent)
+
+save(poverty.bd, file="~/training/2019_July_IDVR/poverty_bd.rda")
+load("~/training/2019_July_IDVR/poverty_bd.rda")
+```
+
+---
+
+
+Now read shape files 
+
+```{r}
+dirw <- "~/Dropbox/miscStuff/spatialStuff/BGD_adm/BGD2015/ADM2/"
+  
+bd2.shp <-readOGR(dirw,"bgd_bnd_adm2")
+
+# Let's check the class of the object
+
+#class(bd2.shp)
+
+draw.bd2 <- fortify(bd2.shp,region="DistCode")
+
+
+draw.bd2.mg <- merge(draw.bd2,
+                     bd2.shp,
+                     by.x='id',
+                     by.y='DistCode')
+
+draw.bd2.mg$District <- toupper(draw.bd2.mg$District)
+draw.bd2.mg2 <- left_join(draw.bd2.mg,poverty.bd,by=c('District'))
+```
+
+---
+
+Build coordinate data
+
+```{r}
+
+crd.bd2 <-  as.data.frame(coordinates(bd2.shp))
+names(crd.bd2) <- c("longitude","latitude")
+crd.bd2.df <- data.frame(crd.bd2,
+                         id=toupper(bd2.shp@data$District))
+
+crd.bd2.df.mg <- inner_join(crd.bd2.df,
+			    poverty.bd,
+                            by=c('id'='District'))
+
+
+crd.bd2.df.mg$id <- sub('(.)(.+)',
+                        '\\U\\1\\L\\2',
+                        crd.bd2.df.mg$id,
+                        perl=TRUE) 
+
+
+```
+---
+
+```{r bdmap, echo=FALSE, eval=FALSE}
+ ggplot()  +
+  geom_map(data=draw.bd2.mg2,
+           aes(x=long,y=lat,map_id=id,fill=poverty),map=draw.bd2.mg2) +
+  geom_text(data=crd.bd2.df.mg %>% arrange(poverty) %>% slice(c(1:5,57:62)),
+            aes(label=id,x=longitude,y=latitude)) +
+  scale_fill_gradient("Poverty", high = "darkred", low = "darkolivegreen1")+
+  coord_equal() +
+  theme_minimal()
+```
+
+`r apply_reveal("bdmap")`
+
+

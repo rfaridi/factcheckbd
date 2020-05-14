@@ -18,6 +18,18 @@
   </url>
   
   <url>
+    <loc>/post/</loc>
+    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/post/comparing-gdp/</loc>
     <lastmod>2018-12-24T00:00:00+00:00</lastmod>
   </url>
@@ -129,10 +141,12 @@
   
   <url>
     <loc>/post/bangabandhu_speech_world_cloud/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/presentation_stock_cse/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -141,19 +155,7 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

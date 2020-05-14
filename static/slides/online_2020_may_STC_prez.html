@@ -1,0 +1,5973 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Management   and   Visualization with R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rushad Faridi, PhD" />
+    <script src="libs/header-attrs-2.1/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="myprez.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Management <br> and <br> Visualization with R
+## Save The Children
+### Rushad Faridi, PhD
+### 2020/05/09
+
+---
+
+
+
+
+
+
+
+
+class: inverse, center, middle
+
+# Background 
+
+---
+
+## History of R 
+
+.pull-left[
+
+* R is a dialect of S
+* S was developed by John Chambers and other at Bell Lab in 1976
+* As an internal statistical analysis environment
+* Originally implemented as Fortrant libraries
+* Did not contain functions for statistical modelling
+
+]
+
+.pull-right[
+
+&lt;img src="./images/chambers.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt; &lt;br&gt;
+
+&lt;img src="./images/bell_labs.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# History of R (continued...)
+
+* 1988 - the system was rewritten in C
+* 1991 - R was created by Ross Ithaka and Robert Gentleman 
+   - Department of Statistics
+   - University of Auckland
+* 1997 - Core R group was formed
+* 2000 - R version 1.0.0 was released
+
+
+
+---
+
+## How R works 
+
+R mainly works through two components
+
+* Objects 
+* Functions 
+
+**Objects** are usually created by **functions**
+
+Let's say, we want to find average of a bunch of numbers 
+then we will write `mean()`
+
+A **function** is always followed by _parentheses_ 
+
+In the middle of parenttheses is **arguments**
+
+---
+
+## How R works 
+
+--
+
+* Let's say R is the first letter of our very own personal assistant Mr. Rahim
+--
+
+* We ask him to make tea. 
+--
+
+* How do we communicate? 
+--
+
+* We use a function called make_tea()
+--
+
+* What will be the arguments of make_tea() function? 
+--
+
+* tea_type = raw.tea, milk.tea, green.tea &lt;br&gt;
+sugar= Yes,No
+--
+
+* tea &lt;-  make_tea(tea_type=raw.tea, sugyar="Yes")
+--
+
+* tea is the object created by make_tea() function 
+
+---
+class: center
+
+--
+
+## R and RStudio 
+
+--
+
+.pull-left[
+
+&lt;img src="./images/porsche-engine.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+#### R is the engine
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="./images/car-body.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+#### RStudio is the body of the car
+]
+---
+
+
+class:inverse,middle,center
+
+# IMPORT DATA
+
+---
+
+## Set up
+
+### Load required libraries
+
+
+```r
+library(tidyverse)
+library(readxl)
+library(scales)
+library(tsibble)
+```
+
+---
+
+## Importing data 
+
+Check the current working directory by typing the following in console:
+
+
+```r
+getwd()
+```
+
+
+Change the working directory by typing the following: 
+
+
+```r
+setwd("/path/to/your_directory")
+```
+
+In my case
+
+
+```r
+setwd("~/training/Online_2020_May_STC/Lectures")
+```
+
+---
+
+## Problem 1
+
+#### Import remittance data from "time_series_data1972-2018.xlsx"
+
+#### Sheet titled "TableXXI" 
+
+#### Into an object called "bd_remit"
+
+
+
+```r
+bd_remit &lt;- read_excel("./Data/time_series_data1972-2018.xlsx", 
+		       sheet="TableXXI", skip=2, n_max=31) 
+```
+
+* Instead of `&lt;-`, we can also use `=`
+* `bd_remit` is an object where imported material is stored
+* `bd_remit` name is given by the user
+* The object name can be anything but good idea to make it meaningful
+
+---
+
+## read_excel() function 
+
+* Only available when `readxl` package is loaded 
+* Type `?read_excel` in the  `console` to learn more about it 
+* Particularly focus on the following arguments:
+    - `path`
+    - `sheet`
+    - `skip`
+    - `n_max`
+
+
+---
+
+## More on this arguments
+
+--
+
+#### `path`
+
+the file path
+
+--
+
+#### `sheet`
+
+The number or name of the sheet in an `Excel` worksheet 
+
+--
+
+#### `skip`
+
+Number of rows to skip before the data starts
+
+--
+
+#### `n_max`
+
+Maximum number of rows to read
+
+---
+
+## The data 
+
+&lt;img src="./images/remittance_excel.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## More on the data
+
+&lt;img src="./images/remittance_excel2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Argument name and value 
+
+
+```r
+read_excel(path, sheet = NULL, range = NULL, col_names = TRUE,
+  col_types = NULL, na = "", trim_ws = TRUE, skip = 0,
+  n_max = Inf, guess_max = min(1000, n_max),
+  progress = readxl_progress(), .name_repair = "unique")
+```
+
+---
+
+## Correct syntax
+
+
+### Okay
+
+
+```r
+read_excel(path="./Data/time_series_data1972-2018.xlsx", 
+		       sheet="TableXXI", skip=2, n_max=31) 
+```
+
+### This is also okay
+
+
+```r
+read_excel("./Data/time_series_data1972-2018.xlsx", 
+		       "TableXXI", skip=2, n_max=31) 
+```
+
+### This is also fine
+
+
+```r
+read_excel(skip=2, n_max=31, "./Data/time_series_data1972-2018.xlsx", 
+		       "TableXXI") 
+```
+
+---
+
+## Check the variable types 
+
+
+#### Type `bd_remit` in the console
+
+
+```r
+bd_remit 
+```
+
+```
+# A tibble: 31 x 21
+   Period `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 1987-…           708.   195.  276.  301.    192. 37.7   143.
+ 2 1988-…           705.   197.  217.  310.    270. 32.8   144.
+ 3 1989-…           745.   182.  192.  294.    271. 28.2   133.
+ 4 1990-…           945    279.  246.   32.1   215. 15.0   212.
+ 5 1991-…          1206.   304.  219.  258.    212.  6.31  186.
+ 6 1992-…          1560.   314.  190.  486.    267.  7.72  211.
+ 7 1993-…          1772.   352.  194.  741.    315.  7.61  225.
+ 8 1994-…          1917.   327.  189.  702.    411.  4.1   290.
+ 9 1995-…          2035.   342.  169.  712.    471.  0.69  218.
+10 1996-…          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 13 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;chr&gt;, Malaysia &lt;chr&gt;, Australia &lt;chr&gt;, Italy &lt;chr&gt;,
+#   `South Korea` &lt;chr&gt;, `Hong Kong` &lt;chr&gt;, `Other
+#   Countries` &lt;dbl&gt;, Total &lt;dbl&gt;
+```
+
+---
+
+## `mutate()`
+
+* Creates a new variable
+
+* Changes a current variable
+
+In the following code, a new variable called `year` is created. Then the changed data set is saved again with the same name `bd_remit`
+
+
+```r
+bd_remit &lt;- mutate(bd_remit,year=1987:2017) 
+```
+
+---
+
+## Check the variable types 
+
+
+#### Type `bd_remit` in the console
+
+
+```r
+bd_remit 
+```
+
+```
+# A tibble: 31 x 22
+   Period `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 1987-…           708.   195.  276.  301.    192. 37.7   143.
+ 2 1988-…           705.   197.  217.  310.    270. 32.8   144.
+ 3 1989-…           745.   182.  192.  294.    271. 28.2   133.
+ 4 1990-…           945    279.  246.   32.1   215. 15.0   212.
+ 5 1991-…          1206.   304.  219.  258.    212.  6.31  186.
+ 6 1992-…          1560.   314.  190.  486.    267.  7.72  211.
+ 7 1993-…          1772.   352.  194.  741.    315.  7.61  225.
+ 8 1994-…          1917.   327.  189.  702.    411.  4.1   290.
+ 9 1995-…          2035.   342.  169.  712.    471.  0.69  218.
+10 1996-…          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 14 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;chr&gt;, Malaysia &lt;chr&gt;, Australia &lt;chr&gt;, Italy &lt;chr&gt;,
+#   `South Korea` &lt;chr&gt;, `Hong Kong` &lt;chr&gt;, `Other
+#   Countries` &lt;dbl&gt;, Total &lt;dbl&gt;, year &lt;int&gt;
+```
+
+---
+
+## Check the variable types 
+
+
+```r
+glimpse(bd_remit)
+```
+
+```
+Rows: 31
+Columns: 22
+$ Period            &lt;chr&gt; "1987-88", "1988-89", "1989-90", "1…
+$ `Saudi Arabia`    &lt;dbl&gt; 707.50, 705.12, 744.66, 945.00, 120…
+$ U.A.E.            &lt;dbl&gt; 194.83, 196.80, 181.60, 278.71, 304…
+$ U.K.              &lt;dbl&gt; 276.15, 216.58, 192.26, 245.55, 218…
+$ Kuwait            &lt;dbl&gt; 301.07, 309.85, 293.74, 32.14, 257.…
+$ U.S.A.            &lt;dbl&gt; 191.94, 269.86, 271.21, 214.56, 211…
+$ Libya             &lt;dbl&gt; 37.69, 32.84, 28.17, 14.99, 6.31, 7…
+$ Qatar             &lt;dbl&gt; 142.77, 144.10, 132.58, 212.26, 185…
+$ Oman              &lt;dbl&gt; 162.22, 143.61, 133.49, 177.27, 232…
+$ Singapore         &lt;dbl&gt; 6.59, 6.71, 7.52, 7.72, 5.96, 9.88,…
+$ Germany           &lt;dbl&gt; 23.82, 18.63, 17.30, 24.00, 38.10, …
+$ Bahrain           &lt;dbl&gt; 38.72, 42.59, 47.01, 58.80, 76.91, …
+$ Iran              &lt;dbl&gt; 12.80, 12.03, 7.14, 9.22, 7.73, 3.9…
+$ Japan             &lt;chr&gt; "…", "…", "…", "…", "270.45", "151.…
+$ Malaysia          &lt;chr&gt; "…", "…", "…", "…", "…", "…", "40.8…
+$ Australia         &lt;chr&gt; "…", "…", "…", "…", "…", "…", "…", …
+$ Italy             &lt;chr&gt; "…", "…", "…", "…", "…", "…", "…", …
+$ `South Korea`     &lt;chr&gt; "…", "…", "…", "…", "…", "…", "…", …
+$ `Hong Kong`       &lt;chr&gt; "…", "…", "…", "…", "…", "…", "…", …
+$ `Other Countries` &lt;dbl&gt; 207.7900, 378.7000, 439.4100, 505.4…
+$ Total             &lt;dbl&gt; 2303.89, 2477.42, 2496.09, 2725.62,…
+$ year              &lt;int&gt; 1987, 1988, 1989, 1990, 1991, 1992,…
+```
+---
+
+## Variable types
+
+We find that except `year` all other variables are actually numeric but the variables are coming up as characters. Here are mostly variable types: 
+
+* `character`
+* `double`
+* `integer`
+* `factor`
+
+---
+
+## Change variable types 
+
+
+```r
+bd_remit &lt;- mutate_if(bd_remit,is.character,as.numeric)
+bd_remit
+```
+
+```
+# A tibble: 31 x 22
+   Period `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+    &lt;dbl&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     NA           708.   195.  276.  301.    192. 37.7   143.
+ 2     NA           705.   197.  217.  310.    270. 32.8   144.
+ 3     NA           745.   182.  192.  294.    271. 28.2   133.
+ 4     NA           945    279.  246.   32.1   215. 15.0   212.
+ 5     NA          1206.   304.  219.  258.    212.  6.31  186.
+ 6     NA          1560.   314.  190.  486.    267.  7.72  211.
+ 7     NA          1772.   352.  194.  741.    315.  7.61  225.
+ 8     NA          1917.   327.  189.  702.    411.  4.1   290.
+ 9     NA          2035.   342.  169.  712.    471.  0.69  218.
+10     NA          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 14 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;dbl&gt;, Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;,
+#   `South Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other
+#   Countries` &lt;dbl&gt;, Total &lt;dbl&gt;, year &lt;int&gt;
+```
+
+---
+
+## Further modifications
+
+#### Remove unnecessary variables
+
+
+```r
+bd_remit &lt;- select(bd_remit, -Period,-Total)
+bd_remit
+```
+
+```
+# A tibble: 31 x 20
+   `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar  Oman
+            &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1           708.   195.  276.  301.    192. 37.7   143.  162.
+ 2           705.   197.  217.  310.    270. 32.8   144.  144.
+ 3           745.   182.  192.  294.    271. 28.2   133.  133.
+ 4           945    279.  246.   32.1   215. 15.0   212.  177.
+ 5          1206.   304.  219.  258.    212.  6.31  186.  232.
+ 6          1560.   314.  190.  486.    267.  7.72  211.  235.
+ 7          1772.   352.  194.  741.    315.  7.61  225.  292.
+ 8          1917.   327.  189.  702.    411.  4.1   290.  327.
+ 9          2035.   342.  169.  712.    471.  0.69  218.  334.
+10          2510.   382.  240.  903.    673.  1.91  227.  403.
+# … with 21 more rows, and 12 more variables: Singapore &lt;dbl&gt;,
+#   Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;, Japan &lt;dbl&gt;,
+#   Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;, `South
+#   Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other Countries` &lt;dbl&gt;,
+#   year &lt;int&gt;
+```
+---
+
+
+#### Rearrange variables
+
+
+```r
+bd_remit &lt;- select(bd_remit,year, everything())
+bd_remit
+```
+
+```
+# A tibble: 31 x 20
+    year `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;int&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  1987           708.   195.  276.  301.    192. 37.7   143.
+ 2  1988           705.   197.  217.  310.    270. 32.8   144.
+ 3  1989           745.   182.  192.  294.    271. 28.2   133.
+ 4  1990           945    279.  246.   32.1   215. 15.0   212.
+ 5  1991          1206.   304.  219.  258.    212.  6.31  186.
+ 6  1992          1560.   314.  190.  486.    267.  7.72  211.
+ 7  1993          1772.   352.  194.  741.    315.  7.61  225.
+ 8  1994          1917.   327.  189.  702.    411.  4.1   290.
+ 9  1995          2035.   342.  169.  712.    471.  0.69  218.
+10  1996          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 12 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;dbl&gt;, Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;,
+#   `South Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other
+#   Countries` &lt;dbl&gt;
+```
+
+---
+
+## Summarize the steps 
+
+
+```r
+bd_remit &lt;- read_excel("./Data/time_series_data1972-2018.xlsx", 
+                       sheet="TableXXI", skip=2, n_max=31)
+bd_remit &lt;- mutate(bd_remit,year=1987:2017)
+bd_remit &lt;- mutate_if(bd_remit,is.character,as.numeric)
+bd_remit &lt;- select(bd_remit, -Period,-Total)
+bd_remit &lt;- select(bd_remit,year, everything())
+bd_remit
+```
+
+#### `bd_remit` has been repeated quite a few times
+
+#### Results in inefficiency
+
+---
+class: inverse, center, middle
+
+# `%&gt;%`
+
+# The piping operator
+
+---
+
+## `%&gt;%`  ==&gt; Improves efficiency in code writing
+
+
+
+```r
+bd_remit &lt;- read_excel("./Data/time_series_data1972-2018.xlsx", 
+                       sheet="TableXXI", 
+                       skip=2, 
+                       n_max=31)
+
+bd_remit %&gt;% 
+        mutate(year=1987:2017) %&gt;%
+        mutate_if(is.character,as.numeric) %&gt;% 
+        select(-Period,-Total) %&gt;% 
+        select(year, everything())
+```
+
+---
+
+## The piping operator (`%&gt;%`) explained
+
+* Object on the left of piping operator
+* becomes the first argument of function on the left of piping operator 
+
+.pull-left[
+
+
+```r
+*bd_remit %&gt;%
+*       mutate(year=1987:2017)
+%&gt;%  
+        mutate_if(is.character,as.numeric) %&gt;% 
+        select(-Period,-Total) %&gt;% 
+        select(year, everything())
+```
+]
+
+.pull-right[
+
+
+```r
+mutate(bd_remit, year=1987:2017)
+```
+
+]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*read_excel("./Data/time_series_data1972-2018.xlsx",
+*                      sheet="TableXXI", skip=2, n_max=31)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 31 x 21
+   Period `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 1987-…           708.   195.  276.  301.    192. 37.7   143.
+ 2 1988-…           705.   197.  217.  310.    270. 32.8   144.
+ 3 1989-…           745.   182.  192.  294.    271. 28.2   133.
+ 4 1990-…           945    279.  246.   32.1   215. 15.0   212.
+ 5 1991-…          1206.   304.  219.  258.    212.  6.31  186.
+ 6 1992-…          1560.   314.  190.  486.    267.  7.72  211.
+ 7 1993-…          1772.   352.  194.  741.    315.  7.61  225.
+ 8 1994-…          1917.   327.  189.  702.    411.  4.1   290.
+ 9 1995-…          2035.   342.  169.  712.    471.  0.69  218.
+10 1996-…          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 13 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;chr&gt;, Malaysia &lt;chr&gt;, Australia &lt;chr&gt;, Italy &lt;chr&gt;,
+#   `South Korea` &lt;chr&gt;, `Hong Kong` &lt;chr&gt;, `Other
+#   Countries` &lt;dbl&gt;, Total &lt;dbl&gt;
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+read_excel("./Data/time_series_data1972-2018.xlsx",  
+                       sheet="TableXXI", skip=2, n_max=31) %&gt;%  
+*       mutate(year=1987:2017)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 31 x 22
+   Period `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 1987-…           708.   195.  276.  301.    192. 37.7   143.
+ 2 1988-…           705.   197.  217.  310.    270. 32.8   144.
+ 3 1989-…           745.   182.  192.  294.    271. 28.2   133.
+ 4 1990-…           945    279.  246.   32.1   215. 15.0   212.
+ 5 1991-…          1206.   304.  219.  258.    212.  6.31  186.
+ 6 1992-…          1560.   314.  190.  486.    267.  7.72  211.
+ 7 1993-…          1772.   352.  194.  741.    315.  7.61  225.
+ 8 1994-…          1917.   327.  189.  702.    411.  4.1   290.
+ 9 1995-…          2035.   342.  169.  712.    471.  0.69  218.
+10 1996-…          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 14 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;chr&gt;, Malaysia &lt;chr&gt;, Australia &lt;chr&gt;, Italy &lt;chr&gt;,
+#   `South Korea` &lt;chr&gt;, `Hong Kong` &lt;chr&gt;, `Other
+#   Countries` &lt;dbl&gt;, Total &lt;dbl&gt;, year &lt;int&gt;
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+read_excel("./Data/time_series_data1972-2018.xlsx",  
+                       sheet="TableXXI", skip=2, n_max=31) %&gt;%  
+        mutate(year=1987:2017) %&gt;%  
+*      mutate_if(is.character,as.numeric)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 31 x 22
+   Period `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+    &lt;dbl&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     NA           708.   195.  276.  301.    192. 37.7   143.
+ 2     NA           705.   197.  217.  310.    270. 32.8   144.
+ 3     NA           745.   182.  192.  294.    271. 28.2   133.
+ 4     NA           945    279.  246.   32.1   215. 15.0   212.
+ 5     NA          1206.   304.  219.  258.    212.  6.31  186.
+ 6     NA          1560.   314.  190.  486.    267.  7.72  211.
+ 7     NA          1772.   352.  194.  741.    315.  7.61  225.
+ 8     NA          1917.   327.  189.  702.    411.  4.1   290.
+ 9     NA          2035.   342.  169.  712.    471.  0.69  218.
+10     NA          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 14 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;dbl&gt;, Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;,
+#   `South Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other
+#   Countries` &lt;dbl&gt;, Total &lt;dbl&gt;, year &lt;int&gt;
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+read_excel("./Data/time_series_data1972-2018.xlsx",  
+                       sheet="TableXXI", skip=2, n_max=31) %&gt;%  
+        mutate(year=1987:2017) %&gt;%  
+       mutate_if(is.character,as.numeric) %&gt;%  
+*       select(-Period,-Total)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 31 x 20
+   `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar  Oman
+            &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1           708.   195.  276.  301.    192. 37.7   143.  162.
+ 2           705.   197.  217.  310.    270. 32.8   144.  144.
+ 3           745.   182.  192.  294.    271. 28.2   133.  133.
+ 4           945    279.  246.   32.1   215. 15.0   212.  177.
+ 5          1206.   304.  219.  258.    212.  6.31  186.  232.
+ 6          1560.   314.  190.  486.    267.  7.72  211.  235.
+ 7          1772.   352.  194.  741.    315.  7.61  225.  292.
+ 8          1917.   327.  189.  702.    411.  4.1   290.  327.
+ 9          2035.   342.  169.  712.    471.  0.69  218.  334.
+10          2510.   382.  240.  903.    673.  1.91  227.  403.
+# … with 21 more rows, and 12 more variables: Singapore &lt;dbl&gt;,
+#   Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;, Japan &lt;dbl&gt;,
+#   Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;, `South
+#   Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other Countries` &lt;dbl&gt;,
+#   year &lt;int&gt;
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+read_excel("./Data/time_series_data1972-2018.xlsx",  
+                       sheet="TableXXI", skip=2, n_max=31) %&gt;%  
+        mutate(year=1987:2017) %&gt;%  
+       mutate_if(is.character,as.numeric) %&gt;%  
+        select(-Period,-Total) %&gt;%  
+*       select(year, everything())  -&gt; bd_remit
+```
+]]
+.column[.content[
+
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+read_excel("./Data/time_series_data1972-2018.xlsx",  
+                       sheet="TableXXI", skip=2, n_max=31) %&gt;%  
+        mutate(year=1987:2017) %&gt;%  
+       mutate_if(is.character,as.numeric) %&gt;%  
+        select(-Period,-Total) %&gt;%  
+        select(year, everything())  -&gt; bd_remit  
+*bd_remit
+```
+]]
+.column[.content[
+
+```
+# A tibble: 31 x 20
+    year `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;int&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  1987           708.   195.  276.  301.    192. 37.7   143.
+ 2  1988           705.   197.  217.  310.    270. 32.8   144.
+ 3  1989           745.   182.  192.  294.    271. 28.2   133.
+ 4  1990           945    279.  246.   32.1   215. 15.0   212.
+ 5  1991          1206.   304.  219.  258.    212.  6.31  186.
+ 6  1992          1560.   314.  190.  486.    267.  7.72  211.
+ 7  1993          1772.   352.  194.  741.    315.  7.61  225.
+ 8  1994          1917.   327.  189.  702.    411.  4.1   290.
+ 9  1995          2035.   342.  169.  712.    471.  0.69  218.
+10  1996          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 12 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;dbl&gt;, Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;,
+#   `South Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other
+#   Countries` &lt;dbl&gt;
+```
+]]
+
+---
+
+## Comparison
+
+
+
+
+```r
+bd_remit %&gt;% 
+        mutate(year=1987:2017) %&gt;%
+       mutate_if(is.character,as.numeric) %&gt;% 
+        select(-Period,-Total) %&gt;% 
+        select(year, everything())
+```
+
+
+
+
+
+```r
+bd_remit &lt;- mutate(bd_remit,year=1988:2018)
+bd_remit &lt;- mutate_if(bd_remit,is.character,as.numeric)
+bd_remit &lt;- select(bd_remit, -Period,-Total)
+bd_remit &lt;- select(bd_remit,year, everything())
+bd_remit
+```
+
+---
+class:inverse,middle,center
+
+# Wide to Long 
+
+---
+
+## Another look at the data
+
+
+```
+# A tibble: 31 x 20
+    year `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;int&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  1987           708.   195.  276.  301.    192. 37.7   143.
+ 2  1988           705.   197.  217.  310.    270. 32.8   144.
+ 3  1989           745.   182.  192.  294.    271. 28.2   133.
+ 4  1990           945    279.  246.   32.1   215. 15.0   212.
+ 5  1991          1206.   304.  219.  258.    212.  6.31  186.
+ 6  1992          1560.   314.  190.  486.    267.  7.72  211.
+ 7  1993          1772.   352.  194.  741.    315.  7.61  225.
+ 8  1994          1917.   327.  189.  702.    411.  4.1   290.
+ 9  1995          2035.   342.  169.  712.    471.  0.69  218.
+10  1996          2510.   382.  240.  903.    673.  1.91  227.
+11  1997          2675.   486.  298.  969.    922.  2.4   263.
+12  1998          3294.   602.  260. 1106.   1151.  0.67  307.
+13  1999          4608.   653.  361. 1233.   1214.  0.2   321.
+14  2000          4973.   779.  301. 1336.   1218.  0.53  342.
+15  2001          6599.  1312.  595. 1642.   2048.  0     521.
+16  2002          7262.  1896. 1275. 1960.   2652.  0.96  657.
+17  2003          8169.  2201. 1754. 2129.   2757.  0.77  670.
+18  2004          9291.  2722. 2312. 2499.   3430.  1.66  838.
+19  2005         11385.  3776. 3753. 3326.   5106.  1.22 1179.
+20  2006         11979.  5561. 6133. 4701.   6423. 18.   1610.
+# … with 11 more rows, and 12 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;dbl&gt;, Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;,
+#   `South Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other
+#   Countries` &lt;dbl&gt;
+```
+
+
+---
+
+## Long format
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; year &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Remittance &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Saudi Arabia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Saudi Arabia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Saudi Arabia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1989 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; U.A.E &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1989 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; U.A.E &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1989 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; U.A.E &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; UK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; UK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; UK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; . &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Conversion to long format 
+
+.left-code[
+
+```r
+bd_remit %&gt;% 
+      pivot_longer(cols = -year,
+                   names_to = "country",
+                   values_to = "remittance") %&gt;% 
+                    arrange(country) -&gt; bd_remit_long 
+```
+]
+
+.right-output[
+
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia       NA  
+ 2  1988 Australia       NA  
+ 3  1989 Australia       NA  
+ 4  1990 Australia       NA  
+ 5  1991 Australia       NA  
+ 6  1992 Australia       NA  
+ 7  1993 Australia       NA  
+ 8  1994 Australia       NA  
+ 9  1995 Australia       NA  
+10  1996 Australia       NA  
+11  1997 Australia       NA  
+12  1998 Australia       NA  
+13  1999 Australia       NA  
+14  2000 Australia       NA  
+15  2001 Australia       13.1
+16  2002 Australia       19.6
+17  2003 Australia       28.2
+18  2004 Australia       43.9
+19  2005 Australia       64.6
+20  2006 Australia       78.4
+# … with 569 more rows
+```
+]
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*  bd_remit
+```
+]]
+.column[.content[
+
+```
+# A tibble: 31 x 20
+    year `Saudi Arabia` U.A.E.  U.K. Kuwait U.S.A. Libya Qatar
+   &lt;int&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  1987           708.   195.  276.  301.    192. 37.7   143.
+ 2  1988           705.   197.  217.  310.    270. 32.8   144.
+ 3  1989           745.   182.  192.  294.    271. 28.2   133.
+ 4  1990           945    279.  246.   32.1   215. 15.0   212.
+ 5  1991          1206.   304.  219.  258.    212.  6.31  186.
+ 6  1992          1560.   314.  190.  486.    267.  7.72  211.
+ 7  1993          1772.   352.  194.  741.    315.  7.61  225.
+ 8  1994          1917.   327.  189.  702.    411.  4.1   290.
+ 9  1995          2035.   342.  169.  712.    471.  0.69  218.
+10  1996          2510.   382.  240.  903.    673.  1.91  227.
+# … with 21 more rows, and 12 more variables: Oman &lt;dbl&gt;,
+#   Singapore &lt;dbl&gt;, Germany &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Iran &lt;dbl&gt;,
+#   Japan &lt;dbl&gt;, Malaysia &lt;dbl&gt;, Australia &lt;dbl&gt;, Italy &lt;dbl&gt;,
+#   `South Korea` &lt;dbl&gt;, `Hong Kong` &lt;dbl&gt;, `Other
+#   Countries` &lt;dbl&gt;
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+   bd_remit %&gt;%  
+*     pivot_longer(cols = -year,
+*                  names_to = "country",
+*                  values_to = "remittance")
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country      remittance
+   &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;
+ 1  1987 Saudi Arabia     708.  
+ 2  1987 U.A.E.           195.  
+ 3  1987 U.K.             276.  
+ 4  1987 Kuwait           301.  
+ 5  1987 U.S.A.           192.  
+ 6  1987 Libya             37.7 
+ 7  1987 Qatar            143.  
+ 8  1987 Oman             162.  
+ 9  1987 Singapore          6.59
+10  1987 Germany           23.8 
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+   bd_remit %&gt;%  
+      pivot_longer(cols = -year,  
+                   names_to = "country",  
+                   values_to = "remittance") %&gt;%  
+*                   arrange(year)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country      remittance
+   &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;
+ 1  1987 Saudi Arabia     708.  
+ 2  1987 U.A.E.           195.  
+ 3  1987 U.K.             276.  
+ 4  1987 Kuwait           301.  
+ 5  1987 U.S.A.           192.  
+ 6  1987 Libya             37.7 
+ 7  1987 Qatar            143.  
+ 8  1987 Oman             162.  
+ 9  1987 Singapore          6.59
+10  1987 Germany           23.8 
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+   bd_remit %&gt;%  
+      pivot_longer(cols = -year,  
+                   names_to = "country",  
+                   values_to = "remittance") %&gt;%  
+                    arrange(year)  %&gt;%  
+*	    arrange(country,year)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+   bd_remit %&gt;%  
+      pivot_longer(cols = -year,  
+                   names_to = "country",  
+                   values_to = "remittance") %&gt;%  
+                    arrange(year)  %&gt;%  
+		    arrange(country,year)  
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+
+---
+
+class:inverse,center,middle
+
+# Save the data 
+
+---
+
+## How to save data 
+
+
+```r
+save(bd_remit_long, file="./Data/bd_remit_long.rda")
+```
+
+---
+
+class:inverse,middle,center
+
+# Open saved data 
+
+---
+
+## Open saved data
+
+
+```r
+load("./Data/bd_remit_long.rda")
+```
+
+
+---
+
+
+class:inverse,middle,center
+
+# REMITTANCE ANALYSIS
+
+
+---
+
+## Create region variable
+
+
+
+
+
+```r
+bd_remit_reg &lt;- bd_remit_long %&gt;% 
+         mutate(country=as.factor(country),
+			    region=fct_collapse(country, 
+	"Middle East"=c("Kuwait", "U.A.E.","Saudi Arabia",
+			"Iran","Oman","Qatar","Libya","Bahrain"),
+	"East Asia"= c("South Korea", "Japan", 
+		       "Malaysia","Hong Kong","Singapore"),
+	 Europe= c("Germany","U.K.", "Italy"),
+	 USA="U.S.A."))  
+bd_remit_reg
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*bd_remit_long
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+*     with(., country) %&gt;% class()
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+*bd_remit_long
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+*        mutate(country=as.factor(country))
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+* with(.,country) %&gt;% class()
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+*bd_remit_long
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+bd_remit_long %&gt;%  
+*        mutate(country=as.factor(country))
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+* mutate(region=fct_collapse(country,
+* "Middle East"=c("Kuwait", "U.A.E.","Saudi Arabia",
+*		"Iran","Oman","Qatar","Libya","Bahrain"),
+* "East Asia"= c("South Korea", "Japan",
+*	       "Malaysia","Hong Kong","Singapore"),
+* Europe= c("Germany","U.K.", "Italy"),
+* USA="U.S.A."))
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 mutate(region=fct_collapse(country,  
+	 "Middle East"=c("Kuwait", "U.A.E.","Saudi Arabia",  
+			"Iran","Oman","Qatar","Libya","Bahrain"),  
+	 "East Asia"= c("South Korea", "Japan",  
+		       "Malaysia","Hong Kong","Singapore"),  
+	 Europe= c("Germany","U.K.", "Italy"),  
+	 USA="U.S.A."))  
+*bd_remit_reg
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 mutate(region=fct_collapse(country,  
+	 "Middle East"=c("Kuwait", "U.A.E.","Saudi Arabia",  
+			"Iran","Oman","Qatar","Libya","Bahrain"),  
+	 "East Asia"= c("South Korea", "Japan",  
+		       "Malaysia","Hong Kong","Singapore"),  
+	 Europe= c("Germany","U.K.", "Italy"),  
+	 USA="U.S.A."))  
+bd_remit_reg %&gt;%  
+*   with(., region) %&gt;% class()
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+
+```
+[1] "factor"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 mutate(region=fct_collapse(country,  
+	 "Middle East"=c("Kuwait", "U.A.E.","Saudi Arabia",  
+			"Iran","Oman","Qatar","Libya","Bahrain"),  
+	 "East Asia"= c("South Korea", "Japan",  
+		       "Malaysia","Hong Kong","Singapore"),  
+	 Europe= c("Germany","U.K.", "Italy"),  
+	 USA="U.S.A."))  
+bd_remit_reg %&gt;%  
+    with(., region) %&gt;% class()  
+
+*bd_remit_reg
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long %&gt;%  
+      with(., country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 with(.,country) %&gt;% class()  
+bd_remit_long %&gt;%  
+         mutate(country=as.factor(country)) %&gt;%  
+	 mutate(region=fct_collapse(country,  
+	 "Middle East"=c("Kuwait", "U.A.E.","Saudi Arabia",  
+			"Iran","Oman","Qatar","Libya","Bahrain"),  
+	 "East Asia"= c("South Korea", "Japan",  
+		       "Malaysia","Hong Kong","Singapore"),  
+	 Europe= c("Germany","U.K.", "Italy"),  
+	 USA="U.S.A."))  
+bd_remit_reg %&gt;%  
+    with(., region) %&gt;% class()  
+
+bd_remit_reg %&gt;%  
+*   with(., region) %&gt;% levels()
+```
+]]
+.column[.content[
+
+```
+[1] "character"
+```
+
+```
+[1] "factor"
+```
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+
+```
+[1] "factor"
+```
+
+```
+[1] "Australia"       "Middle East"     "Europe"         
+[4] "East Asia"       "Other Countries" "USA"            
+```
+]]
+
+---
+
+###  Find country-wise total remittance in the whole 20 year period 
+
+.left-code[
+
+```r
+remit_country &lt;- bd_remit_reg %&gt;% 
+		group_by(country) %&gt;% 
+		summarize(total_remit=sum(remittance, na.rm=T)) %&gt;% 
+		arrange(-total_remit)
+remit_country
+```
+
+
+
+]
+
+
+.right-output[
+
+```
+# A tibble: 19 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+11 Singapore            28253.
+12 Italy                27793.
+13 South Korea           4577.
+14 Australia             3768.
+15 Japan                 3562.
+16 Germany               3042.
+17 Libya                 1843.
+18 Hong Kong             1618.
+19 Iran                   227.
+```
+]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*bd_remit_reg
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ bd_remit_reg %&gt;%  
+*       group_by(country)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 4
+# Groups:   country [19]
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ bd_remit_reg %&gt;%  
+        group_by(country) %&gt;%  
+*       summarize(total_remit=sum(remittance, na.rm=T))
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Australia             3768.
+ 2 Bahrain              33495.
+ 3 Germany               3042.
+ 4 Hong Kong             1618.
+ 5 Iran                   227.
+ 6 Italy                27793.
+ 7 Japan                 3562.
+ 8 Kuwait              115011.
+ 9 Libya                 1843.
+10 Malaysia             76725.
+11 Oman                 60466.
+12 Other Countries      55529.
+13 Qatar                42076.
+14 Saudi Arabia        339644.
+15 Singapore            28253.
+16 South Korea           4577.
+17 U.A.E.              212412.
+18 U.K.                 94137.
+19 U.S.A.              185669.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ bd_remit_reg %&gt;%  
+        group_by(country) %&gt;%  
+        summarize(total_remit=sum(remittance, na.rm=T)) %&gt;%  
+*       arrange(-total_remit)   -&gt; remit_country
+```
+]]
+.column[.content[
+
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ bd_remit_reg %&gt;%  
+        group_by(country) %&gt;%  
+        summarize(total_remit=sum(remittance, na.rm=T)) %&gt;%  
+        arrange(-total_remit)   -&gt; remit_country  
+*remit_country
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+11 Singapore            28253.
+12 Italy                27793.
+13 South Korea           4577.
+14 Australia             3768.
+15 Japan                 3562.
+16 Germany               3042.
+17 Libya                 1843.
+18 Hong Kong             1618.
+19 Iran                   227.
+```
+]]
+
+---
+
+### Draw a ggplot showing bar diagram of top 10 country wise remittance
+
+
+
+```r
+remit_country_10 &lt;- remit_country %&gt;% 
+    arrange(desc(total_remit)) %&gt;% 
+    slice(1:10) 
+
+remit_country_10 %&gt;% 
+    ggplot(aes(x=fct_reorder(country,total_remit), y=total_remit)) +
+      geom_col()  +
+      geom_text(aes(y=total_remit/2,
+		    label= number(total_remit,scale=10^-3, accuracy=1) ), 
+		color="white") +
+      coord_flip()  +
+      theme(axis.title=element_blank(),axis.text.x=element_blank())
+```
+
+
+.pull-right[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country-callout-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+
+```r
+ggplot()
+```
+
+&lt;img src="online_2020_may_STC_prez_files/figure-html/unnamed-chunk-34-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*ggplot(data=cars)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_1_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ggplot(data=cars) +  
+*   aes(x=dist)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_2_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ggplot(data=cars) +  
+    aes(x=dist)+  
+*   aes(y=speed)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_3_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ggplot(data=cars) +  
+    aes(x=dist)+  
+    aes(y=speed)+  
+*   geom_point()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_4_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ggplot(data=cars) +  
+    aes(x=dist)+  
+    aes(y=speed)+  
+    geom_point() +  
+*   labs(x="Distance")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_5_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ggplot(data=cars) +  
+    aes(x=dist)+  
+    aes(y=speed)+  
+    geom_point() +  
+    labs(x="Distance")+  
+*   labs(y="Speed")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_6_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+ggplot(data=cars) +  
+    aes(x=dist)+  
+    aes(y=speed)+  
+    geom_point() +  
+    labs(x="Distance")+  
+    labs(y="Speed")+  
+*   theme_minimal()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/ggplot2-demo_auto_7_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_country
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+11 Singapore            28253.
+12 Italy                27793.
+13 South Korea           4577.
+14 Australia             3768.
+15 Japan                 3562.
+16 Germany               3042.
+17 Libya                 1843.
+18 Hong Kong             1618.
+19 Iran                   227.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country %&gt;%  
+*   arrange(desc(total_remit))
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+11 Singapore            28253.
+12 Italy                27793.
+13 South Korea           4577.
+14 Australia             3768.
+15 Japan                 3562.
+16 Germany               3042.
+17 Libya                 1843.
+18 Hong Kong             1618.
+19 Iran                   227.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country %&gt;%  
+    arrange(desc(total_remit)) %&gt;%  
+*   slice(1:10) -&gt; remit_country_10
+```
+]]
+.column[.content[
+
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country %&gt;%  
+    arrange(desc(total_remit)) %&gt;%  
+    slice(1:10) -&gt; remit_country_10  
+*remit_country_10
+```
+]]
+.column[.content[
+
+```
+# A tibble: 10 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+```
+]]
+
+---
+
+
+
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_country_10
+```
+]]
+.column[.content[
+
+```
+# A tibble: 10 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+*   ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_2_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+*       aes(x=country)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_3_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+*aes(y=total_remit)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_4_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+*     geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_5_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+*       aes(x=fct_reorder(country,total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_6_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+*     geom_text(aes(y=total_remit/2,label= total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_7_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+*remit_country_10
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_8_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+```
+# A tibble: 10 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+remit_country_10 %&gt;%  
+*   ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_9_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_9_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+*       aes(x=country)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_10_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_10_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+*aes(y=total_remit)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_11_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_11_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+*     geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_12_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_12_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+*       aes(x=fct_reorder(country,total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_13_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_13_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+      geom_text(aes(y=total_remit/2,label= total_remit))  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+*geom_text(aes(y=total_remit/2,
+*	      label= number(total_remit,scale=10^-3,
+*			    accuracy=1)),
+*	      color="white")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_14_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot_auto_14_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+
+
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_country_10
+```
+]]
+.column[.content[
+
+```
+# A tibble: 10 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+*   ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_2_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+*       aes(x=country)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_3_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+*aes(y=total_remit)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_4_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+*     geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_5_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+*       aes(x=fct_reorder(country,total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_6_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+*geom_text(aes(y=total_remit/2,
+*	      label= number(total_remit,scale=10^-3,
+*			    accuracy=1)),
+*	      color="white")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_7_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+*remit_country_10
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_8_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+```
+# A tibble: 10 x 2
+   country         total_remit
+   &lt;fct&gt;                 &lt;dbl&gt;
+ 1 Saudi Arabia        339644.
+ 2 U.A.E.              212412.
+ 3 U.S.A.              185669.
+ 4 Kuwait              115011.
+ 5 U.K.                 94137.
+ 6 Malaysia             76725.
+ 7 Oman                 60466.
+ 8 Other Countries      55529.
+ 9 Qatar                42076.
+10 Bahrain              33495.
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+*   ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_9_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_9_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+*       aes(x=country)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_10_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_10_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+*aes(y=total_remit)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_11_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_11_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+*     geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_12_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_12_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+*       aes(x=fct_reorder(country,total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_13_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_13_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+*geom_text(aes(y=total_remit/2,
+*	      label= number(total_remit,scale=10^-3,
+*	      accuracy=1)),color="white")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_14_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_14_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+		      accuracy=1)),color="white") +  
+*coord_flip()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_15_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_15_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+		      accuracy=1)),color="white") +  
+	coord_flip() +  
+*labs(x="",y="")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_16_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_16_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+		      accuracy=1)),color="white") +  
+	coord_flip() +  
+	labs(x="",y="") +  
+*ggtitle("Country wise remittance")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_17_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_17_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+				    accuracy=1)),  
+		      color="white")  
+
+remit_country_10 %&gt;%  
+    ggplot() +  
+        aes(x=country) +  
+	aes(y=total_remit) +  
+      geom_col()  +  
+        aes(x=fct_reorder(country,total_remit))+  
+	geom_text(aes(y=total_remit/2,  
+		      label= number(total_remit,scale=10^-3,  
+		      accuracy=1)),color="white") +  
+	coord_flip() +  
+	labs(x="",y="") +  
+	ggtitle("Country wise remittance") +  
+*theme(axis.text.x=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_18_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit_country_10_plot2_auto_18_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+
+
+###  Find region-wise total remittance in last 20 years
+
+.left-code[
+
+```r
+remit_reg &lt;- bd_remit_reg %&gt;% 
+		group_by(region) %&gt;% 
+		summarize(total_remit=sum(remittance, na.rm=T)) %&gt;% 
+		arrange(-total_remit)
+remit_reg
+```
+]
+
+--
+
+.right-output[
+
+
+```
+# A tibble: 6 x 2
+  region          total_remit
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 Middle East         805174.
+2 USA                 185669.
+3 Europe              124972.
+4 East Asia           114735.
+5 Other Countries      55529.
+6 Australia             3768.
+```
+
+]
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*bd_remit_reg
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 4
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_reg %&gt;%  
+*	group_by(region)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 4
+# Groups:   region [6]
+    year country   remittance region   
+   &lt;int&gt; &lt;fct&gt;          &lt;dbl&gt; &lt;fct&gt;    
+ 1  1987 Australia         NA Australia
+ 2  1988 Australia         NA Australia
+ 3  1989 Australia         NA Australia
+ 4  1990 Australia         NA Australia
+ 5  1991 Australia         NA Australia
+ 6  1992 Australia         NA Australia
+ 7  1993 Australia         NA Australia
+ 8  1994 Australia         NA Australia
+ 9  1995 Australia         NA Australia
+10  1996 Australia         NA Australia
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_reg %&gt;%  
+		group_by(region) %&gt;%  
+*	summarize(total_remit=sum(remittance, na.rm=T))
+```
+]]
+.column[.content[
+
+```
+# A tibble: 6 x 2
+  region          total_remit
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 Australia             3768.
+2 Middle East         805174.
+3 Europe              124972.
+4 East Asia           114735.
+5 Other Countries      55529.
+6 USA                 185669.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_reg %&gt;%  
+		group_by(region) %&gt;%  
+		summarize(total_remit=sum(remittance, na.rm=T)) %&gt;%  
+*	arrange(-total_remit)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 6 x 2
+  region          total_remit
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 Middle East         805174.
+2 USA                 185669.
+3 Europe              124972.
+4 East Asia           114735.
+5 Other Countries      55529.
+6 Australia             3768.
+```
+]]
+---
+
+### Draw a ggplot showing bar diagram of region-wise remittance.
+
+
+.left-plot-code[
+
+```r
+remit_reg %&gt;% 
+    ggplot(aes(x=fct_reorder(region,total_remit), 
+               y=total_remit)) +
+      geom_col()  +
+      geom_text(aes(y=total_remit/2,
+		label= number(total_remit,
+		              scale=10^-3, 
+		              accuracy=1)), 
+		               color="white") +
+      coord_flip()  +
+      theme(axis.title=element_blank(),
+            axis.text.x=element_blank()) 
+```
+]
+
+.right-plot-output[
+
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country-out2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+
+
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_reg
+```
+]]
+.column[.content[
+
+```
+# A tibble: 6 x 2
+  region          total_remit
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 Middle East         805174.
+2 USA                 185669.
+3 Europe              124972.
+4 East Asia           114735.
+5 Other Countries      55529.
+6 Australia             3768.
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+*   ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_2_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+*   aes(x=region)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_3_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+*   aes(y=total_remit)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_4_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+*     geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_5_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+*   aes(x=fct_reorder(region,total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_6_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+*     geom_text(aes(y=total_remit/2,
+*	label= number(total_remit,
+*	              scale=10^-3,
+*	              accuracy=1)),
+*	               color="white")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_7_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+*remit_reg
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_8_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+```
+# A tibble: 6 x 2
+  region          total_remit
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 Middle East         805174.
+2 USA                 185669.
+3 Europe              124972.
+4 East Asia           114735.
+5 Other Countries      55529.
+6 Australia             3768.
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+*   ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_9_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_9_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+*   aes(x=region)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_10_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_10_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+*   aes(y=total_remit)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_11_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_11_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+*     geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_12_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_12_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+*   aes(x=fct_reorder(region,total_remit))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_13_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_13_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+*     geom_text(aes(y=total_remit/2,
+*	label= number(total_remit,
+*	              scale=10^-3,
+*	              accuracy=1)),
+*	               color="white")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_14_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_14_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white") +  
+*     coord_flip()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_15_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_15_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white") +  
+      coord_flip()  +  
+*     theme(axis.title=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_16_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_16_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white") +  
+      coord_flip()  +  
+      theme(axis.title=element_blank()) +  
+*     theme(axis.text.x=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_17_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_17_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white")  
+remit_reg %&gt;%  
+    ggplot()+  
+    aes(x=region)+  
+    aes(y=total_remit) +  
+      geom_col()  +  
+    aes(x=fct_reorder(region,total_remit))+  
+      geom_text(aes(y=total_remit/2,  
+		label= number(total_remit,  
+		              scale=10^-3,  
+		              accuracy=1)),  
+		               color="white") +  
+      coord_flip()  +  
+      theme(axis.title=element_blank()) +  
+      theme(axis.text.x=element_blank())  
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_18_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-country3_auto_18_output-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+
+class:inverse,middle,center
+
+# TIME SERIES
+
+---
+
+
+### Convert the original long format  into a `tsibble` object. 
+
+
+
+
+
+```r
+bd_remit_ts &lt;- bd_remit_long %&gt;% 
+                     as_tsibble(key=country, index=year) 
+bd_remit_ts
+```
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+---
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*bd_remit_long
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long  
+*bd_remit_long
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_long  
+bd_remit_long %&gt;%  
+*       as_tsibble(key=country, index=year)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 589 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+
+### How many time series is available in the data? 
+
+ As apparent from the meta data, 19 time series are available, which matches the number of available countries
+
+---
+
+### Find total amount of remittance in the AL regime by country and sort in descending order.
+
+
+```r
+remit_AL_yrs &lt;- bd_remit_ts %&gt;% 
+    filter_index(1996 ~ 2001,2009 ~ .) 
+
+remit_AL &lt;- remit_AL_yrs  %&gt;% 
+    as_tibble() %&gt;% 
+    group_by(country) %&gt;% 
+    summarize(total_remit_AL=sum(remittance, na.rm=T)) %&gt;% 
+    arrange(-total_remit_AL)
+remit_AL
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia          244348. 
+ 2 U.A.E.                173898. 
+ 3 U.S.A.                142372. 
+ 4 Kuwait                 83955. 
+ 5 Malaysia               72765. 
+ 6 U.K.                   65438. 
+ 7 Oman                   50286. 
+ 8 Other Countries        48322. 
+ 9 Qatar                  31011. 
+10 Bahrain                28603. 
+11 Singapore              24485. 
+12 Italy                  22919. 
+13 South Korea             3915. 
+14 Australia               3397. 
+15 Japan                   2137. 
+16 Germany                 2071. 
+17 Libya                   1669. 
+18 Hong Kong               1322. 
+19 Iran                      90.7
+```
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*bd_remit_ts
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_ts  
+*bd_remit_ts
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_ts  
+bd_remit_ts %&gt;%  
+*   filter_index(1996 ~ 2001,2009 ~ .)
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tsibble: 285 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1996 Australia       NA  
+ 2  1997 Australia       NA  
+ 3  1998 Australia       NA  
+ 4  1999 Australia       NA  
+ 5  2000 Australia       NA  
+ 6  2001 Australia       13.1
+ 7  2009 Australia       58.5
+ 8  2010 Australia       94.0
+ 9  2011 Australia      423. 
+10  2012 Australia      488. 
+# … with 275 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_ts  
+bd_remit_ts %&gt;%  
+    filter_index(1996 ~ 2001,2009 ~ .)  %&gt;%  
+*   as_tibble()
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tibble: 285 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1996 Australia       NA  
+ 2  1997 Australia       NA  
+ 3  1998 Australia       NA  
+ 4  1999 Australia       NA  
+ 5  2000 Australia       NA  
+ 6  2001 Australia       13.1
+ 7  2009 Australia       58.5
+ 8  2010 Australia       94.0
+ 9  2011 Australia      423. 
+10  2012 Australia      488. 
+# … with 275 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_ts  
+bd_remit_ts %&gt;%  
+    filter_index(1996 ~ 2001,2009 ~ .)  %&gt;%  
+    as_tibble() %&gt;%  
+*   group_by(country)
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tibble: 285 x 3
+# Groups:   country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1996 Australia       NA  
+ 2  1997 Australia       NA  
+ 3  1998 Australia       NA  
+ 4  1999 Australia       NA  
+ 5  2000 Australia       NA  
+ 6  2001 Australia       13.1
+ 7  2009 Australia       58.5
+ 8  2010 Australia       94.0
+ 9  2011 Australia      423. 
+10  2012 Australia      488. 
+# … with 275 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_ts  
+bd_remit_ts %&gt;%  
+    filter_index(1996 ~ 2001,2009 ~ .)  %&gt;%  
+    as_tibble() %&gt;%  
+    group_by(country) %&gt;%  
+*   summarize(total_remit_AL=sum(remittance, na.rm=T))
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Australia               3397. 
+ 2 Bahrain                28603. 
+ 3 Germany                 2071. 
+ 4 Hong Kong               1322. 
+ 5 Iran                      90.7
+ 6 Italy                  22919. 
+ 7 Japan                   2137. 
+ 8 Kuwait                 83955. 
+ 9 Libya                   1669. 
+10 Malaysia               72765. 
+11 Oman                   50286. 
+12 Other Countries        48322. 
+13 Qatar                  31011. 
+14 Saudi Arabia          244348. 
+15 Singapore              24485. 
+16 South Korea             3915. 
+17 U.A.E.                173898. 
+18 U.K.                   65438. 
+19 U.S.A.                142372. 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+bd_remit_ts  
+bd_remit_ts %&gt;%  
+    filter_index(1996 ~ 2001,2009 ~ .)  %&gt;%  
+    as_tibble() %&gt;%  
+    group_by(country) %&gt;%  
+    summarize(total_remit_AL=sum(remittance, na.rm=T)) %&gt;%  
+*   arrange(-total_remit_AL)
+```
+]]
+.column[.content[
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia          244348. 
+ 2 U.A.E.                173898. 
+ 3 U.S.A.                142372. 
+ 4 Kuwait                 83955. 
+ 5 Malaysia               72765. 
+ 6 U.K.                   65438. 
+ 7 Oman                   50286. 
+ 8 Other Countries        48322. 
+ 9 Qatar                  31011. 
+10 Bahrain                28603. 
+11 Singapore              24485. 
+12 Italy                  22919. 
+13 South Korea             3915. 
+14 Australia               3397. 
+15 Japan                   2137. 
+16 Germany                 2071. 
+17 Libya                   1669. 
+18 Hong Kong               1322. 
+19 Iran                      90.7
+```
+]]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*print(remit_country, n=5)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+  country      total_remit
+  &lt;fct&gt;              &lt;dbl&gt;
+1 Saudi Arabia     339644.
+2 U.A.E.           212412.
+3 U.S.A.           185669.
+4 Kuwait           115011.
+5 U.K.              94137.
+# … with 14 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+print(remit_country, n=5)  
+*print(remit_AL,n=5)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+  country      total_remit
+  &lt;fct&gt;              &lt;dbl&gt;
+1 Saudi Arabia     339644.
+2 U.A.E.           212412.
+3 U.S.A.           185669.
+4 Kuwait           115011.
+5 U.K.              94137.
+# … with 14 more rows
+```
+
+```
+# A tibble: 19 x 2
+  country      total_remit_AL
+  &lt;chr&gt;                 &lt;dbl&gt;
+1 Saudi Arabia        244348.
+2 U.A.E.              173898.
+3 U.S.A.              142372.
+4 Kuwait               83955.
+5 Malaysia             72765.
+# … with 14 more rows
+```
+]]
+
+---
+
+### Find total amount of remittance in the non-AL regime by country and sort in the descending order.
+
+
+```r
+remit_NAL_yrs &lt;- bd_remit_ts  %&gt;% 
+     anti_join(remit_AL_yrs, by=c("year","country", "remittance")) 
+remit_NAL &lt;- remit_NAL_yrs  %&gt;% 
+    as_tibble() %&gt;% 
+    group_by(country) %&gt;% 
+    summarize(total_remit_NAL=sum(remittance, na.rm=T)) %&gt;% 
+    arrange(-total_remit_NAL)
+remit_NAL
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_NAL
+   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Saudi Arabia             95296.
+ 2 U.S.A.                   43297.
+ 3 U.A.E.                   38514.
+ 4 Kuwait                   31056.
+ 5 U.K.                     28698.
+ 6 Qatar                    11065.
+ 7 Oman                     10180.
+ 8 Other Countries           7207.
+ 9 Bahrain                   4893.
+10 Italy                     4874.
+11 Malaysia                  3960.
+12 Singapore                 3768.
+13 Japan                     1425.
+14 Germany                    971.
+15 South Korea                663.
+16 Australia                  371.
+17 Hong Kong                  297.
+18 Libya                      174.
+19 Iran                       136.
+```
+
+---
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_AL %&gt;% print(n=10)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+*bd_remit_ts
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tsibble: 589 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia         NA
+ 2  1988 Australia         NA
+ 3  1989 Australia         NA
+ 4  1990 Australia         NA
+ 5  1991 Australia         NA
+ 6  1992 Australia         NA
+ 7  1993 Australia         NA
+ 8  1994 Australia         NA
+ 9  1995 Australia         NA
+10  1996 Australia         NA
+# … with 579 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+bd_remit_ts %&gt;%  
+*    anti_join(remit_AL_yrs, by=c("year","country", "remittance"))
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tsibble: 304 x 3 [1Y]
+# Key:       country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia       NA  
+ 2  1988 Australia       NA  
+ 3  1989 Australia       NA  
+ 4  1990 Australia       NA  
+ 5  1991 Australia       NA  
+ 6  1992 Australia       NA  
+ 7  1993 Australia       NA  
+ 8  1994 Australia       NA  
+ 9  1995 Australia       NA  
+10  2002 Australia       19.6
+# … with 294 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+bd_remit_ts %&gt;%  
+     anti_join(remit_AL_yrs, by=c("year","country", "remittance")) %&gt;%  
+*   as_tibble()
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tibble: 304 x 3
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia       NA  
+ 2  1988 Australia       NA  
+ 3  1989 Australia       NA  
+ 4  1990 Australia       NA  
+ 5  1991 Australia       NA  
+ 6  1992 Australia       NA  
+ 7  1993 Australia       NA  
+ 8  1994 Australia       NA  
+ 9  1995 Australia       NA  
+10  2002 Australia       19.6
+# … with 294 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+bd_remit_ts %&gt;%  
+     anti_join(remit_AL_yrs, by=c("year","country", "remittance")) %&gt;%  
+    as_tibble() %&gt;%  
+*   group_by(country)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tibble: 304 x 3
+# Groups:   country [19]
+    year country   remittance
+   &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1  1987 Australia       NA  
+ 2  1988 Australia       NA  
+ 3  1989 Australia       NA  
+ 4  1990 Australia       NA  
+ 5  1991 Australia       NA  
+ 6  1992 Australia       NA  
+ 7  1993 Australia       NA  
+ 8  1994 Australia       NA  
+ 9  1995 Australia       NA  
+10  2002 Australia       19.6
+# … with 294 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+bd_remit_ts %&gt;%  
+     anti_join(remit_AL_yrs, by=c("year","country", "remittance")) %&gt;%  
+    as_tibble() %&gt;%  
+    group_by(country) %&gt;%  
+*   summarize(total_remit_NAL=sum(remittance, na.rm=T))
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_NAL
+   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Australia                  371.
+ 2 Bahrain                   4893.
+ 3 Germany                    971.
+ 4 Hong Kong                  297.
+ 5 Iran                       136.
+ 6 Italy                     4874.
+ 7 Japan                     1425.
+ 8 Kuwait                   31056.
+ 9 Libya                      174.
+10 Malaysia                  3960.
+11 Oman                     10180.
+12 Other Countries           7207.
+13 Qatar                    11065.
+14 Saudi Arabia             95296.
+15 Singapore                 3768.
+16 South Korea                663.
+17 U.A.E.                   38514.
+18 U.K.                     28698.
+19 U.S.A.                   43297.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+bd_remit_ts %&gt;%  
+     anti_join(remit_AL_yrs, by=c("year","country", "remittance")) %&gt;%  
+    as_tibble() %&gt;%  
+    group_by(country) %&gt;%  
+    summarize(total_remit_NAL=sum(remittance, na.rm=T)) %&gt;%  
+*   arrange(-total_remit_NAL)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_NAL
+   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Saudi Arabia             95296.
+ 2 U.S.A.                   43297.
+ 3 U.A.E.                   38514.
+ 4 Kuwait                   31056.
+ 5 U.K.                     28698.
+ 6 Qatar                    11065.
+ 7 Oman                     10180.
+ 8 Other Countries           7207.
+ 9 Bahrain                   4893.
+10 Italy                     4874.
+11 Malaysia                  3960.
+12 Singapore                 3768.
+13 Japan                     1425.
+14 Germany                    971.
+15 South Korea                663.
+16 Australia                  371.
+17 Hong Kong                  297.
+18 Libya                      174.
+19 Iran                       136.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_AL %&gt;% print(n=10)  
+bd_remit_ts %&gt;%  
+     anti_join(remit_AL_yrs, by=c("year","country", "remittance")) %&gt;%  
+    as_tibble() %&gt;%  
+    group_by(country) %&gt;%  
+    summarize(total_remit_NAL=sum(remittance, na.rm=T)) %&gt;%  
+    arrange(-total_remit_NAL) %&gt;%  
+*   print(n=10)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+   country         total_remit_AL
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Saudi Arabia           244348.
+ 2 U.A.E.                 173898.
+ 3 U.S.A.                 142372.
+ 4 Kuwait                  83955.
+ 5 Malaysia                72765.
+ 6 U.K.                    65438.
+ 7 Oman                    50286.
+ 8 Other Countries         48322.
+ 9 Qatar                   31011.
+10 Bahrain                 28603.
+# … with 9 more rows
+```
+
+```
+# A tibble: 19 x 2
+   country         total_remit_NAL
+   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Saudi Arabia             95296.
+ 2 U.S.A.                   43297.
+ 3 U.A.E.                   38514.
+ 4 Kuwait                   31056.
+ 5 U.K.                     28698.
+ 6 Qatar                    11065.
+ 7 Oman                     10180.
+ 8 Other Countries           7207.
+ 9 Bahrain                   4893.
+10 Italy                     4874.
+# … with 9 more rows
+```
+]]
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*print(remit_country, n=5)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+  country      total_remit
+  &lt;fct&gt;              &lt;dbl&gt;
+1 Saudi Arabia     339644.
+2 U.A.E.           212412.
+3 U.S.A.           185669.
+4 Kuwait           115011.
+5 U.K.              94137.
+# … with 14 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+print(remit_country, n=5)  
+*print(remit_AL,n=5)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+  country      total_remit
+  &lt;fct&gt;              &lt;dbl&gt;
+1 Saudi Arabia     339644.
+2 U.A.E.           212412.
+3 U.S.A.           185669.
+4 Kuwait           115011.
+5 U.K.              94137.
+# … with 14 more rows
+```
+
+```
+# A tibble: 19 x 2
+  country      total_remit_AL
+  &lt;chr&gt;                 &lt;dbl&gt;
+1 Saudi Arabia        244348.
+2 U.A.E.              173898.
+3 U.S.A.              142372.
+4 Kuwait               83955.
+5 Malaysia             72765.
+# … with 14 more rows
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+print(remit_country, n=5)  
+print(remit_AL,n=5)  
+*print(remit_NAL,n=5)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 2
+  country      total_remit
+  &lt;fct&gt;              &lt;dbl&gt;
+1 Saudi Arabia     339644.
+2 U.A.E.           212412.
+3 U.S.A.           185669.
+4 Kuwait           115011.
+5 U.K.              94137.
+# … with 14 more rows
+```
+
+```
+# A tibble: 19 x 2
+  country      total_remit_AL
+  &lt;chr&gt;                 &lt;dbl&gt;
+1 Saudi Arabia        244348.
+2 U.A.E.              173898.
+3 U.S.A.              142372.
+4 Kuwait               83955.
+5 Malaysia             72765.
+# … with 14 more rows
+```
+
+```
+# A tibble: 19 x 2
+  country      total_remit_NAL
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 Saudi Arabia          95296.
+2 U.S.A.                43297.
+3 U.A.E.                38514.
+4 Kuwait                31056.
+5 U.K.                  28698.
+# … with 14 more rows
+```
+]]
+
+---
+
+### Find percentage of AL and Non-AL regime out of total remittance.  
+
+.left_code[
+
+
+```r
+remit_combine &lt;-  remit_country %&gt;% 
+			  left_join(remit_AL) %&gt;% 
+			    left_join(., remit_NAL)
+
+remit_whole &lt;- remit_combine %&gt;% 
+    mutate(perc_AL=round(total_remit_AL/total_remit * 100,1),
+	   perc_NAL=round(total_remit_NAL/total_remit * 100,1)
+	   ) %&gt;% 
+    select(country,perc_AL, perc_NAL)
+```
+]
+
+.right-output[
+
+
+
+
+]
+---
+
+
+
+
+---
+
+### Show a bar diagram of AL regime percentage.
+
+
+
+
+```r
+remit_whole %&gt;% 
+     ggplot(aes(x=fct_reorder(country,perc_AL), 
+                y=perc_AL)) +
+      geom_col()  +
+      geom_text(aes(y=perc_AL/2,
+                    label= perc_AL ), 
+                color="white") +
+      coord_flip()  +
+      theme(axis.title=element_blank(),
+            axis.text.x=element_blank())
+```
+
+
+.pull-right[
+
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-out-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+---
+
+
+
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_whole
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 3
+   country         perc_AL perc_NAL
+   &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Saudi Arabia       71.9     28.1
+ 2 U.A.E.             81.9     18.1
+ 3 U.S.A.             76.7     23.3
+ 4 Kuwait             73       27  
+ 5 U.K.               69.5     30.5
+ 6 Malaysia           94.8      5.2
+ 7 Oman               83.2     16.8
+ 8 Other Countries    87       13  
+ 9 Qatar              73.7     26.3
+10 Bahrain            85.4     14.6
+11 Singapore          86.7     13.3
+12 Italy              82.5     17.5
+13 South Korea        85.5     14.5
+14 Australia          90.1      9.9
+15 Japan              60       40  
+16 Germany            68.1     31.9
+17 Libya              90.6      9.4
+18 Hong Kong          81.7     18.3
+19 Iran               40       60  
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+*    ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_2_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+*    aes(x=country)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_3_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+*    aes(y=perc_AL)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_4_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+     aes(y=perc_AL) +  
+*    geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_5_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+     aes(y=perc_AL) +  
+     geom_col()  +  
+*    aes(x=fct_reorder(country,perc_AL))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_6_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+     aes(y=perc_AL) +  
+     geom_col()  +  
+     aes(x=fct_reorder(country,perc_AL))+  
+*    geom_text(aes(y=perc_AL/2,
+*                  label= perc_AL),
+*                  color="white")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_7_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+     aes(y=perc_AL) +  
+     geom_col()  +  
+     aes(x=fct_reorder(country,perc_AL))+  
+     geom_text(aes(y=perc_AL/2,  
+                   label= perc_AL),  
+                   color="white") +  
+*     coord_flip()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_8_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+     aes(y=perc_AL) +  
+     geom_col()  +  
+     aes(x=fct_reorder(country,perc_AL))+  
+     geom_text(aes(y=perc_AL/2,  
+                   label= perc_AL),  
+                   color="white") +  
+      coord_flip()  +  
+*     theme(axis.title=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_9_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+     ggplot()+  
+     aes(x=country) +  
+     aes(y=perc_AL) +  
+     geom_col()  +  
+     aes(x=fct_reorder(country,perc_AL))+  
+     geom_text(aes(y=perc_AL/2,  
+                   label= perc_AL),  
+                   color="white") +  
+      coord_flip()  +  
+      theme(axis.title=element_blank()) +  
+*     theme(axis.text.x=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-whole-bar-flip_auto_10_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+---
+
+### Show a stacked  bar diagram of AL and Non-AL regime percentage.
+
+
+
+```r
+remit_whole %&gt;% 
+    pivot_longer(-country, 
+                 names_to="regime_type", 
+                 values_to="percentage") %&gt;% 
+    mutate_at(vars(country,regime_type),as.factor) %&gt;% 
+    arrange(regime_type, desc(percentage)) %&gt;% 
+     ggplot() +
+      geom_col(aes(x=country, 
+                   y=percentage,
+                   fill=regime_type),
+               position="stack")  +
+      coord_flip()  +
+      theme(axis.title=element_blank(),
+            axis.text.x=element_blank()) 
+```
+
+
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-callout-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*remit_whole
+```
+]]
+.column[.content[
+
+```
+# A tibble: 19 x 3
+   country         perc_AL perc_NAL
+   &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Saudi Arabia       71.9     28.1
+ 2 U.A.E.             81.9     18.1
+ 3 U.S.A.             76.7     23.3
+ 4 Kuwait             73       27  
+ 5 U.K.               69.5     30.5
+ 6 Malaysia           94.8      5.2
+ 7 Oman               83.2     16.8
+ 8 Other Countries    87       13  
+ 9 Qatar              73.7     26.3
+10 Bahrain            85.4     14.6
+11 Singapore          86.7     13.3
+12 Italy              82.5     17.5
+13 South Korea        85.5     14.5
+14 Australia          90.1      9.9
+15 Japan              60       40  
+16 Germany            68.1     31.9
+17 Libya              90.6      9.4
+18 Hong Kong          81.7     18.3
+19 Iran               40       60  
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+*   pivot_longer(-country,
+*                names_to="regime_type",
+*                values_to="percentage")
+```
+]]
+.column[.content[
+
+```
+# A tibble: 38 x 3
+   country      regime_type percentage
+   &lt;chr&gt;        &lt;chr&gt;            &lt;dbl&gt;
+ 1 Saudi Arabia perc_AL           71.9
+ 2 Saudi Arabia perc_NAL          28.1
+ 3 U.A.E.       perc_AL           81.9
+ 4 U.A.E.       perc_NAL          18.1
+ 5 U.S.A.       perc_AL           76.7
+ 6 U.S.A.       perc_NAL          23.3
+ 7 Kuwait       perc_AL           73  
+ 8 Kuwait       perc_NAL          27  
+ 9 U.K.         perc_AL           69.5
+10 U.K.         perc_NAL          30.5
+# … with 28 more rows
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+*   mutate_at(vars(country,regime_type),as.factor)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 38 x 3
+   country      regime_type percentage
+   &lt;fct&gt;        &lt;fct&gt;            &lt;dbl&gt;
+ 1 Saudi Arabia perc_AL           71.9
+ 2 Saudi Arabia perc_NAL          28.1
+ 3 U.A.E.       perc_AL           81.9
+ 4 U.A.E.       perc_NAL          18.1
+ 5 U.S.A.       perc_AL           76.7
+ 6 U.S.A.       perc_NAL          23.3
+ 7 Kuwait       perc_AL           73  
+ 8 Kuwait       perc_NAL          27  
+ 9 U.K.         perc_AL           69.5
+10 U.K.         perc_NAL          30.5
+# … with 28 more rows
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+*   arrange(regime_type, -percentage)
+```
+]]
+.column[.content[
+
+```
+# A tibble: 38 x 3
+   country         regime_type percentage
+   &lt;fct&gt;           &lt;fct&gt;            &lt;dbl&gt;
+ 1 Malaysia        perc_AL           94.8
+ 2 Libya           perc_AL           90.6
+ 3 Australia       perc_AL           90.1
+ 4 Other Countries perc_AL           87  
+ 5 Singapore       perc_AL           86.7
+ 6 South Korea     perc_AL           85.5
+ 7 Bahrain         perc_AL           85.4
+ 8 Oman            perc_AL           83.2
+ 9 Italy           perc_AL           82.5
+10 U.A.E.          perc_AL           81.9
+# … with 28 more rows
+```
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+*    ggplot()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_5_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+*     aes(x=country)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_6_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+*     aes(y=percentage)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_7_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+*      geom_col()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_8_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+       geom_col() +  
+*      aes(fill=regime_type)
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_9_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+       geom_col() +  
+       aes(fill=regime_type) +  
+*      aes(x=fct_reorder2(country, regime_type,percentage))
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_10_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+       geom_col() +  
+       aes(fill=regime_type) +  
+       aes(x=fct_reorder2(country, regime_type,percentage))+  
+*       geom_col(position="stack")
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_11_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+       geom_col() +  
+       aes(fill=regime_type) +  
+       aes(x=fct_reorder2(country, regime_type,percentage))+  
+        geom_col(position="stack") +  
+*     coord_flip()
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_12_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+       geom_col() +  
+       aes(fill=regime_type) +  
+       aes(x=fct_reorder2(country, regime_type,percentage))+  
+        geom_col(position="stack") +  
+      coord_flip()  +  
+*     theme(axis.title=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_13_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+---
+class: split-50
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+remit_whole %&gt;%  
+    pivot_longer(-country,  
+                 names_to="regime_type",  
+                 values_to="percentage") %&gt;%  
+    mutate_at(vars(country,regime_type),as.factor) %&gt;%  
+    arrange(regime_type, -percentage) %&gt;%  
+     ggplot() +  
+      aes(x=country) +  
+      aes(y=percentage) +  
+       geom_col() +  
+       aes(fill=regime_type) +  
+       aes(x=fct_reorder2(country, regime_type,percentage))+  
+        geom_col(position="stack") +  
+      coord_flip()  +  
+      theme(axis.title=element_blank()) +  
+*     theme(axis.text.x=element_blank())
+```
+]]
+.column[.content[
+&lt;img src="online_2020_may_STC_prez_files/figure-html/remit-stack-flip_auto_14_output-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:10"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
