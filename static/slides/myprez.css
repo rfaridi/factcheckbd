@@ -1,5 +1,5 @@
 pre>.remark-code>.remark-code-line{
-  font-family:"Source Code Variable";
+  font-family:'Source Code Pro', 'Lucida Console', Monaco, monospace;
   font-size:12pt;
 }
 
@@ -9,7 +9,7 @@ code.r.hljs.remark-code {
 }
 
 .r.hljs.remark-code>.remark-code-line {
-    font-family:"Source Code Variable";
+    font-family:'Source Code Pro','Lucida Console', Monaco, monospace;
     font-size:12pt;
 }
 
