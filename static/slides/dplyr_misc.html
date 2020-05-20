@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Dplyr Misc</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.1/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="myprez.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Dplyr Misc
+
+---
+
+
+Let's load the library
+
+
+
+```r
+library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
+library(flipbookr)
+library(slider)
+```
+
+
+
+Let's have an example data set 
+
+
+
+```r
+df &lt;- tibble(
+  grp = rep(1:2, each = 5), 
+  x = c(rnorm(5, -0.25, 1), rnorm(5, 0, 1.5)),
+  y = c(rnorm(5, 0.25, 1), rnorm(5, 0, 0.5)),
+)
+```
+
+---
+
+
+
+---
+
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*starwars
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 87 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
+##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+##  4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+##  5 Leia…    150    49 brown      light      brown           19   fema… femin…
+##  6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+##  7 Beru…    165    75 brown      light      blue            47   fema… femin…
+##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   none  mascu…
+##  9 Bigg…    183    84 black      light      brown           24   male  mascu…
+## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+## # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+starwars%&gt;%  
+*   print(n=3)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 87 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Luke…    172    77 blond      fair       blue              19 male  mascu…
+## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…
+## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…
+## # … with 84 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+starwars%&gt;%  
+    print(n=3)  
+*starwars
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 87 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Luke…    172    77 blond      fair       blue              19 male  mascu…
+## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…
+## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…
+## # … with 84 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+```
+## # A tibble: 87 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Luke…    172    77 blond      fair       blue            19   male  mascu…
+##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…
+##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…
+##  4 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+##  5 Leia…    150    49 brown      light      brown           19   fema… femin…
+##  6 Owen…    178   120 brown, gr… light      blue            52   male  mascu…
+##  7 Beru…    165    75 brown      light      blue            47   fema… femin…
+##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   none  mascu…
+##  9 Bigg…    183    84 black      light      brown           24   male  mascu…
+## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  mascu…
+## # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+starwars%&gt;%  
+    print(n=3)  
+starwars %&gt;%  
+*   relocate(starships)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 87 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Luke…    172    77 blond      fair       blue              19 male  mascu…
+## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…
+## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…
+## # … with 84 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+```
+## # A tibble: 87 x 14
+##    starships name  height  mass hair_color skin_color eye_color birth_year sex  
+##    &lt;list&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;
+##  1 &lt;chr [2]&gt; Luke…    172    77 blond      fair       blue            19   male 
+##  2 &lt;chr [0]&gt; C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none 
+##  3 &lt;chr [0]&gt; R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none 
+##  4 &lt;chr [1]&gt; Dart…    202   136 none       white      yellow          41.9 male 
+##  5 &lt;chr [0]&gt; Leia…    150    49 brown      light      brown           19   fema…
+##  6 &lt;chr [0]&gt; Owen…    178   120 brown, gr… light      blue            52   male 
+##  7 &lt;chr [0]&gt; Beru…    165    75 brown      light      blue            47   fema…
+##  8 &lt;chr [0]&gt; R5-D4     97    32 &lt;NA&gt;       white, red red             NA   none 
+##  9 &lt;chr [1]&gt; Bigg…    183    84 black      light      brown           24   male 
+## 10 &lt;chr [5]&gt; Obi-…    182    77 auburn, w… fair       blue-gray       57   male 
+## # … with 77 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+starwars%&gt;%  
+    print(n=3)  
+starwars %&gt;%  
+    relocate(starships)  %&gt;%  
+*   print(n=3)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 87 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Luke…    172    77 blond      fair       blue              19 male  mascu…
+## 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…
+## 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…
+## # … with 84 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+```
+## # A tibble: 87 x 14
+##   starships name  height  mass hair_color skin_color eye_color birth_year sex  
+##   &lt;list&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;
+## 1 &lt;chr [2]&gt; Luke…    172    77 blond      fair       blue              19 male 
+## 2 &lt;chr [0]&gt; C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none 
+## 3 &lt;chr [0]&gt; R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none 
+## # … with 84 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;
+```
+]]
+
+---
+
+## Row-wise
+
+Let's have a look at "rowwise" vignette
+
+
+
+---
+
+
+
+
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*example
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 4 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+example  
+*slide(example$x, ~.x)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 4 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## [1] 4
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+example  
+slide(example$x, ~.x)  
+*slide(example$x, ~.x,.before=1)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 4 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## [1] 4
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1 2
+## 
+## [[3]]
+## [1] 2 3
+## 
+## [[4]]
+## [1] 3 4
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+example  
+slide(example$x, ~.x)  
+slide(example$x, ~.x,.before=1)  
+*slide(example$x, ~.x, .before=1,.after=1)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 4 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## [1] 4
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1 2
+## 
+## [[3]]
+## [1] 2 3
+## 
+## [[4]]
+## [1] 3 4
+```
+
+```
+## [[1]]
+## [1] 1 2
+## 
+## [[2]]
+## [1] 1 2 3
+## 
+## [[3]]
+## [1] 2 3 4
+## 
+## [[4]]
+## [1] 3 4
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+example  
+slide(example$x, ~.x)  
+slide(example$x, ~.x,.before=1)  
+slide(example$x, ~.x, .before=1,.after=1)  
+*slide(example, ~.x, .before=1,.after=1,.complete=TRUE)
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 4 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## [1] 4
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1 2
+## 
+## [[3]]
+## [1] 2 3
+## 
+## [[4]]
+## [1] 3 4
+```
+
+```
+## [[1]]
+## [1] 1 2
+## 
+## [[2]]
+## [1] 1 2 3
+## 
+## [[3]]
+## [1] 2 3 4
+## 
+## [[4]]
+## [1] 3 4
+```
+
+```
+## [[1]]
+## NULL
+## 
+## [[2]]
+## # A tibble: 3 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 
+## [[3]]
+## # A tibble: 3 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     2 b    
+## 2     3 c    
+## 3     4 d    
+## 
+## [[4]]
+## NULL
+```
+]]
+---
+class: split-40
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+example  
+slide(example$x, ~.x)  
+slide(example$x, ~.x,.before=1)  
+slide(example$x, ~.x, .before=1,.after=1)  
+slide(example, ~.x, .before=1,.after=1,.complete=TRUE)  
+```
+]]
+.column[.content[
+
+```
+## # A tibble: 4 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 4     4 d
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## [1] 4
+```
+
+```
+## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1 2
+## 
+## [[3]]
+## [1] 2 3
+## 
+## [[4]]
+## [1] 3 4
+```
+
+```
+## [[1]]
+## [1] 1 2
+## 
+## [[2]]
+## [1] 1 2 3
+## 
+## [[3]]
+## [1] 2 3 4
+## 
+## [[4]]
+## [1] 3 4
+```
+
+```
+## [[1]]
+## NULL
+## 
+## [[2]]
+## # A tibble: 3 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     1 a    
+## 2     2 b    
+## 3     3 c    
+## 
+## [[3]]
+## # A tibble: 3 x 2
+##       x y    
+##   &lt;int&gt; &lt;chr&gt;
+## 1     2 b    
+## 2     3 c    
+## 3     4 d    
+## 
+## [[4]]
+## NULL
+```
+]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

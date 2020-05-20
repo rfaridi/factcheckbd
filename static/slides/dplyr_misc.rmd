@@ -1,0 +1,94 @@
+---
+title: "Dplyr Misc"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, hygge, ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+Let's load the library
+
+
+```{r}
+library(dplyr)
+library(flipbookr)
+library(slider)
+```
+
+
+
+Let's have an example data set 
+
+
+```{r}
+
+df <- tibble(
+  grp = rep(1:2, each = 5), 
+  x = c(rnorm(5, -0.25, 1), rnorm(5, 0, 1.5)),
+  y = c(rnorm(5, 0.25, 1), rnorm(5, 0, 0.5)),
+)
+
+
+```
+
+---
+
+```{r relocate, include = FALSE}
+starwars%>% 
+    print(n=3) 
+starwars %>% 
+    relocate(starships)  %>% 
+    print(n=3)
+```
+
+---
+
+`r chunk_reveal("relocate")`
+
+---
+
+## Row-wise
+
+Let's have a look at "rowwise" vignette
+
+```{r df, include=F}
+example <- tibble(
+  x = 1:4,
+  y = letters[1:4]
+)
+```
+
+---
+
+
+```{r rowwise, include=F}
+example
+slide(example$x, ~.x)
+slide(example$x, ~.x,.before=1)
+slide(example$x, ~.x, .before=1,.after=1)
+slide(example, ~.x, .before=1,.after=1,.complete=TRUE)
+
+```
+
+`r chunk_reveal("rowwise")`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
