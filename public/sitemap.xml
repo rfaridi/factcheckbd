@@ -3,156 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/posts/</loc>
-    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/about/</loc>
     <lastmod>2014-04-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-<<<<<<< HEAD
-    <loc>/post/after-a-while/</loc>
-    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
+    <loc>/post/cuba-castro-legacy/</loc>
+    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/comparing-gdp/</loc>
-    <lastmod>2018-12-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/cse-quora-stock/</loc>
-    <lastmod>2018-05-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/treemap-24mar2018/</loc>
-    <lastmod>2018-03-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/2018-03-23-lfs-pa-report/</loc>
-    <lastmod>2018-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/intro-r-ilostat/</loc>
-    <lastmod>2018-03-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/budge-analysis-expense/</loc>
-    <lastmod>2018-03-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/jerusalem_data_import/</loc>
-    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/jerusalem_data_wrangle/</loc>
-    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/jerusalem_data_explore/</loc>
-    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/world_justice_project_part3_data_wrangling/</loc>
-    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/child_marriage_bangladesh/</loc>
-    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/child_marriage_bangladesh_part2/</loc>
-    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/intro-text-mining/</loc>
-    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/text_mining_wordcloud_mujib_speech/</loc>
-    <lastmod>2018-03-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/world-justice-score-import-data/</loc>
-    <lastmod>2018-03-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/world-justice-project/</loc>
-    <lastmod>2018-03-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/ggrepel-demo/</loc>
-    <lastmod>2018-02-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-=======
->>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
-    <loc>/post/bangla-testing/</loc>
-    <lastmod>2018-02-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/ari-data-analysis/</loc>
     <lastmod>2018-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/cuba-castro-legacy/</loc>
-    <lastmod>2018-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
-    <loc>/post/bangabandhu_speech_world_cloud/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/presentation_stock_cse/</loc>
-=======
     <loc>/categories/</loc>
->>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
-    <priority>0</priority>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
-    <loc>/categories/</loc>
-=======
-    <loc>/post/</loc>
-    <lastmod>2018-02-14T00:00:00+00:00</lastmod>
->>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
     <priority>0</priority>
   </url>
   

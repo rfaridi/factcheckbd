@@ -6,29 +6,10 @@
     <description>Recent content in Posts on rushad&#39;s dataVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2017 - Author Name</copyright>
-    <lastBuildDate>Wed, 14 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>বাংলা পরীক্ষা করা হচ্ছে</title>
-      <link>/post/bangla-testing/</link>
-      <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/bangla-testing/</guid>
-      <description>বাংলা পরীক্ষা করা হচ্ছে</description>
-    </item>
-    
-<<<<<<< HEAD
-    <item>
-      <title>ARI Data Analysis</title>
-      <link>/post/ari-data-analysis/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/ari-data-analysis/</guid>
-      <description>Bangladesh government banned all types three wheelers in 22 national highways effective from last August 1, 2015. It was surely a drastic measure to curb the fatalities in road accidents that has taken epidemic proportion recently in Bangladesh.</description>
-    </item>
     
     <item>
       <title>Cuba and Castro&#39;s legacy</title>
@@ -39,25 +20,5 @@
       <description>There have been lots of dicussion and debate on social media on the legacy of Fidel Castro since his death on November 25, 2016. Major focus was on Cuba’s exemplary achievement in health indicators during Castro’s regime.</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>/post/bangabandhu_speech_world_cloud/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/post/bangabandhu_speech_world_cloud/</guid>
-      <description>  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/post/presentation_stock_cse/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/post/presentation_stock_cse/</guid>
-      <description>Analysis of CSE index   class: center, middle, inverse, title-slide # Analysis of CSE index ## An exploratory approach ### Rushad Faridi PhD ### 2018/03/27 --- background-image: url(https://upload.</description>
-    </item>
-    
-=======
->>>>>>> 596bfb9e5ace373bfb52f6095f550b0835e300fc
   </channel>
 </rss>

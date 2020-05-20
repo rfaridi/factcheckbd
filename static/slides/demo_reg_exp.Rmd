@@ -1,0 +1,212 @@
+---
+title: "Regular expression dem"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, hygge, ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class: inverse,middle,center
+
+## Regular expression demo
+
+---
+
+```{r setup, include = F}
+
+knitr::opts_chunk$set(fig.width = 6, 
+		      message = FALSE, 
+		      warning = FALSE, 
+		      comment = "", 
+		      cache = FALSE, 
+		      fig.retina = 3)
+
+library(tidyverse)
+library(flipbookr)
+library(rmarkdown)
+```
+
+```{r regexp1, include=F}
+# detecting pattern and return true or false
+(bananas <- c("banana", "Banana", "BANANA"))
+str_detect(bananas, "banana")
+str_detect(bananas, regex("banana",ignore_case=T))
+# str_detect is the same as grepl
+grepl( "banana",bananas)
+grepl( "banana",bananas,ignore.case=T)
+# extract particular string
+(x <- c("apple", "banana", "pear"))
+str_extract(x, "an")
+str_extract_all(x, "an")
+```
+
+`r chunk_reveal("regexp1",split=60)`
+
+---
+
+```{r regexp2, include=F}
+# deal with .
+str_extract(x,".a.")
+# allow . to match all 
+str_detect("\nX\n", ".X.")
+str_detect("\nX\n", regex(".X.", dotall = TRUE))
+# Now to match .
+# To create the regular expression, we need 
+dot <- "\\."
+# But the expression itself only contains one:
+writeLines(dot)
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")
+# Now just to practice other function
+str_detect(c("abc", "a.c", "bef"), "a\\.c")
+str_replace(c("abc", "a.c", "bef"), "a\\.c","chop")
+# start with 
+x <- c("a.b.c.d", "aeb")
+str_detect(x,"^a.b")
+starts_with <- "a.b"
+str_detect(x, paste0("^", starts_with))
+```
+
+`r chunk_reveal("regexp2",split=60)`
+
+---
+
+```{r regexp3, include=F}
+# Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")
+str_extract_all("1 + 2 = 3", "\\d+")
+str_extract_all("1 + 2 = 3", "\\D+")
+# "\\s" matches any whitespace
+(text <- "Some  \t badly\n\t\tspaced \f text")
+str_replace(text, "\\s+", " ")
+str_replace_all(text, "\\s+", " ")
+# "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")
+# the above return a list 
+str_extract_all("Don't eat that!", "\\w+")[[1]]
+# Now a chracter is returned 
+# Contrast this with "\\w" 
+str_extract_all("Don't eat that!", "\\w")[[1]]
+# "\\b" matches with word boundaries 
+str_replace_all("The quick brown fox", "\\b", "_")
+# Now contrast this with "\\s"
+str_replace_all("The quick brown fox", "\\s", "_")
+# "\\B" matches the opposite
+str_replace_all("The quick brown fox", "\\B", "_")
+```
+
+`r chunk_reveal("regexp3",split=60)`
+
+---
+
+```{r regexp4, include=F }
+# own character classes 
+# [abc] matches a, b, or c 
+str_detect(c("Hey", "absolute","cat"),"[abc]")
+# [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")
+# [a-z]: matches every character 
+str_detect(c("Hey", "123","cab"),"[a-z]")
+str_detect(c("Hey", "123","cab"),"^[a-z]")
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")
+# lower
+str_detect(c("Hey", "123","cab"),"[:lower:]")
+# upper 
+str_detect(c("Hey", "123","cab"),"[:upper:]")
+# digit
+str_detect(c("Hey", "123","cab"),"[:digit:]")
+#  alpha numeric
+str_detect(c("Hey", "123","cab"),"[:alnum:]")
+str_detect(c("Hey", "123","cab"),"[:blank:]")
+# alternation 
+str_detect(c("abc", "def", "ghi"), "abc|def")
+```
+
+`r chunk_reveal("regexp4",split=60)`
+---
+
+```{r regexp5, include = FALSE}
+
+# Grouping 
+str_extract(c("grey", "gray"), "gre|ay")
+str_detect(c("grey", "gray"), "gre|ay")
+str_replace(c("grey", "gray"), "gre|ay","chop")
+str_extract(c("grey", "gray"), "gr(e|a)y")
+str_match(c("grey", "gray"), "gr(e|a)y")
+str_locate(c("grey", "gray"), "gr(e|a)y")
+# using backreference
+pattern <- "(..)\\1"
+fruit %>%
+  str_subset(pattern)
+fruit %>%
+  str_subset(pattern) %>% 
+  str_match(pattern)
+# following grouping is important how numbered group works
+# Just keep two groups 
+str_replace("antona","(an).+(na)","\\2\\1")
+# keep the whole group
+str_replace("antona","(an)(.+)(na)","\\3\\2\\1")
+# Finding repeated twice
+str_replace("cucucumber","(..)\\1","NA")
+```
+
+`r chunk_reveal("regexp5",split=60)`
+
+---
+
+```{r regexp6, include = FALSE}
+# control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")
+str_match(c("grey", "gray"), "gr(?:e|a)y")
+# Anchors 
+x <- c("apple", "banana", "pear")
+str_extract(x, "^a")
+str_extract(x, "a$")
+
+# Look arounds 
+# a followed by c 
+str_detect(c("account","abnormal"), "a(?=c)")
+# a followed by b 
+str_detect(c("account","abnormal"), "a(?=b)")
+# a followed by u in between 1 or more chracters 
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")
+# a followed by u in between 0 or more chracters 
+str_detect(c("account","abnormal","auora"), "a(?=.*u)")
+# a not followed by b 
+str_detect(c("account","abnormal"), "a(?!b)")
+# o preceded   c 
+str_detect(c("account","abnormal"), "(?<=c)o")
+# o preceded by a in between characters   
+str_detect(c("account","abnormal"), "(?<=a).+o")
+# o not preceded by c 
+str_detect(c("account","abnormal"), "(?<!c)o")
+
+```
+
+`r chunk_reveal("regexp6",split=60)`
+
+---
+
+```{r regexp7, include = FALSE}
+#Quantifiers 
+# 0 or 1 a
+str_detect(c("abc","aabb","bdc"),"a?")
+# 0 or more a
+str_detect(c("abc","aabb","bdc"),"a*")
+# 1 or more a
+str_detect(c("abc","aabb","bdc"),"a+")
+# exactly 2
+str_detect(c("abc","aabb","bdc"),"a{2}")
+# 2 or more
+str_detect(c("abc","aabb","bdc","aaabb"),"a{2,}")
+
+```
+
+`r chunk_reveal("regexp7",split=60)`
+
+

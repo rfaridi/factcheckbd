@@ -1,0 +1,4507 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Regular expression dem</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.1/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="myprez.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Regular expression dem
+
+---
+
+class: inverse,middle,center
+
+## Regular expression demo
+
+---
+
+
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+*(bananas &lt;- c("banana", "Banana", "BANANA"))
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+*str_detect(bananas, "banana")
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+str_detect(bananas, "banana")  
+*str_detect(bananas, regex("banana",ignore_case=T))
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+str_detect(bananas, "banana")  
+str_detect(bananas, regex("banana",ignore_case=T))  
+# str_detect is the same as grepl
+*grepl( "banana",bananas)
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+str_detect(bananas, "banana")  
+str_detect(bananas, regex("banana",ignore_case=T))  
+# str_detect is the same as grepl
+grepl( "banana",bananas)  
+*grepl( "banana",bananas,ignore.case=T)
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+str_detect(bananas, "banana")  
+str_detect(bananas, regex("banana",ignore_case=T))  
+# str_detect is the same as grepl
+grepl( "banana",bananas)  
+grepl( "banana",bananas,ignore.case=T)  
+# extract particular string
+*(x &lt;- c("apple", "banana", "pear"))
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] "apple"  "banana" "pear"  
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+str_detect(bananas, "banana")  
+str_detect(bananas, regex("banana",ignore_case=T))  
+# str_detect is the same as grepl
+grepl( "banana",bananas)  
+grepl( "banana",bananas,ignore.case=T)  
+# extract particular string
+(x &lt;- c("apple", "banana", "pear"))  
+*str_extract(x, "an")
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] "apple"  "banana" "pear"  
+```
+
+```
+[1] NA   "an" NA  
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# detecting pattern and return true or false
+(bananas &lt;- c("banana", "Banana", "BANANA"))  
+str_detect(bananas, "banana")  
+str_detect(bananas, regex("banana",ignore_case=T))  
+# str_detect is the same as grepl
+grepl( "banana",bananas)  
+grepl( "banana",bananas,ignore.case=T)  
+# extract particular string
+(x &lt;- c("apple", "banana", "pear"))  
+str_extract(x, "an")  
+*str_extract_all(x, "an")
+```
+]]
+.column[.content[
+
+```
+[1] "banana" "Banana" "BANANA"
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] "apple"  "banana" "pear"  
+```
+
+```
+[1] NA   "an" NA  
+```
+
+```
+[[1]]
+character(0)
+
+[[2]]
+[1] "an" "an"
+
+[[3]]
+character(0)
+```
+]]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+*str_extract(x,".a.")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+*str_detect("\nX\n", ".X.")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+*str_detect("\nX\n", regex(".X.", dotall = TRUE))
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+*dot &lt;- "\\."
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+*writeLines(dot)
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+*str_extract(c("abc", "a.c", "bef"), "a\\.c")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")  
+# Now just to practice other function
+*str_detect(c("abc", "a.c", "bef"), "a\\.c")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")  
+# Now just to practice other function
+str_detect(c("abc", "a.c", "bef"), "a\\.c")  
+*str_replace(c("abc", "a.c", "bef"), "a\\.c","chop")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] "abc"  "chop" "bef" 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")  
+# Now just to practice other function
+str_detect(c("abc", "a.c", "bef"), "a\\.c")  
+str_replace(c("abc", "a.c", "bef"), "a\\.c","chop")  
+# start with
+*x &lt;- c("a.b.c.d", "aeb")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] "abc"  "chop" "bef" 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")  
+# Now just to practice other function
+str_detect(c("abc", "a.c", "bef"), "a\\.c")  
+str_replace(c("abc", "a.c", "bef"), "a\\.c","chop")  
+# start with
+x &lt;- c("a.b.c.d", "aeb")  
+*str_detect(x,"^a.b")
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] "abc"  "chop" "bef" 
+```
+
+```
+[1] TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")  
+# Now just to practice other function
+str_detect(c("abc", "a.c", "bef"), "a\\.c")  
+str_replace(c("abc", "a.c", "bef"), "a\\.c","chop")  
+# start with
+x &lt;- c("a.b.c.d", "aeb")  
+str_detect(x,"^a.b")  
+*starts_with &lt;- "a.b"
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] "abc"  "chop" "bef" 
+```
+
+```
+[1] TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# deal with .
+str_extract(x,".a.")  
+# allow . to match all
+str_detect("\nX\n", ".X.")  
+str_detect("\nX\n", regex(".X.", dotall = TRUE))  
+# Now to match .
+# To create the regular expression, we need
+dot &lt;- "\\."  
+# But the expression itself only contains one:
+writeLines(dot)  
+# And this tells R to look for an explicit .
+str_extract(c("abc", "a.c", "bef"), "a\\.c")  
+# Now just to practice other function
+str_detect(c("abc", "a.c", "bef"), "a\\.c")  
+str_replace(c("abc", "a.c", "bef"), "a\\.c","chop")  
+# start with
+x &lt;- c("a.b.c.d", "aeb")  
+str_detect(x,"^a.b")  
+starts_with &lt;- "a.b"  
+*str_detect(x, paste0("^", starts_with))
+```
+]]
+.column[.content[
+
+```
+[1] NA NA
+```
+
+```
+[1] FALSE
+```
+
+```
+[1] TRUE
+```
+
+```
+\.
+```
+
+```
+[1] NA    "a.c" NA   
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] "abc"  "chop" "bef" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] TRUE TRUE
+```
+]]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+```
+]]
+.column[.content[
+
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+*str_extract("1 + 2 = 3", "\\d+")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+*str_extract_all("1 + 2 = 3", "\\d+")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+*str_extract_all("1 + 2 = 3", "\\D+")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+*# "\\s" matches any whitespace  # "\\s" matches any whitespace
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+*(text &lt;- "Some  \t badly\n\t\tspaced \f text")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+*str_replace(text, "\\s+", " ")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+*str_replace_all(text, "\\s+", " ")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+*# "\\w" matches any "word" character  # "\\w" matches any "word" character
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+*str_extract_all("Don't eat that!", "\\w+")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+*str_extract_all("Don't eat that!", "\\w+")[[1]]
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+*# Contrast this with "\\w"  # Contrast this with "\\w"
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+*str_extract_all("Don't eat that!", "\\w")[[1]]
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+str_extract_all("Don't eat that!", "\\w")[[1]]  
+*# "\\b" matches with word boundaries  # "\\b" matches with word boundaries
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+str_extract_all("Don't eat that!", "\\w")[[1]]  
+# "\\b" matches with word boundaries  # "\\b" matches with word boundaries
+*str_replace_all("The quick brown fox", "\\b", "_")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+
+```
+[1] "_The_ _quick_ _brown_ _fox_"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+str_extract_all("Don't eat that!", "\\w")[[1]]  
+# "\\b" matches with word boundaries  # "\\b" matches with word boundaries
+str_replace_all("The quick brown fox", "\\b", "_")  
+*# Now contrast this with "\\s"  # Now contrast this with "\\s"
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+
+```
+[1] "_The_ _quick_ _brown_ _fox_"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+str_extract_all("Don't eat that!", "\\w")[[1]]  
+# "\\b" matches with word boundaries  # "\\b" matches with word boundaries
+str_replace_all("The quick brown fox", "\\b", "_")  
+# Now contrast this with "\\s"  # Now contrast this with "\\s"
+*str_replace_all("The quick brown fox", "\\s", "_")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+
+```
+[1] "_The_ _quick_ _brown_ _fox_"
+```
+
+```
+[1] "The_quick_brown_fox"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+str_extract_all("Don't eat that!", "\\w")[[1]]  
+# "\\b" matches with word boundaries  # "\\b" matches with word boundaries
+str_replace_all("The quick brown fox", "\\b", "_")  
+# Now contrast this with "\\s"  # Now contrast this with "\\s"
+str_replace_all("The quick brown fox", "\\s", "_")  
+*# "\\B" matches the opposite  # "\\B" matches the opposite
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+
+```
+[1] "_The_ _quick_ _brown_ _fox_"
+```
+
+```
+[1] "The_quick_brown_fox"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Matching anything that is digit "\\d", not digit "\\D"  # Matching anything that is digit "\\d", not digit "\\D"
+str_extract("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\d+")  
+str_extract_all("1 + 2 = 3", "\\D+")  
+# "\\s" matches any whitespace  # "\\s" matches any whitespace
+(text &lt;- "Some  \t badly\n\t\tspaced \f text")  
+str_replace(text, "\\s+", " ")  
+str_replace_all(text, "\\s+", " ")  
+# "\\w" matches any "word" character  # "\\w" matches any "word" character
+str_extract_all("Don't eat that!", "\\w+")  
+# the above return a list
+str_extract_all("Don't eat that!", "\\w+")[[1]]  
+# Now a chracter is returned
+# Contrast this with "\\w"  # Contrast this with "\\w"
+str_extract_all("Don't eat that!", "\\w")[[1]]  
+# "\\b" matches with word boundaries  # "\\b" matches with word boundaries
+str_replace_all("The quick brown fox", "\\b", "_")  
+# Now contrast this with "\\s"  # Now contrast this with "\\s"
+str_replace_all("The quick brown fox", "\\s", "_")  
+# "\\B" matches the opposite  # "\\B" matches the opposite
+*str_replace_all("The quick brown fox", "\\B", "_")
+```
+]]
+.column[.content[
+
+```
+[1] "1"
+```
+
+```
+[[1]]
+[1] "1" "2" "3"
+```
+
+```
+[[1]]
+[1] " + " " = "
+```
+
+```
+[1] "Some  \t badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly\n\t\tspaced \f text"
+```
+
+```
+[1] "Some badly spaced text"
+```
+
+```
+[[1]]
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+[1] "Don"  "t"    "eat"  "that"
+```
+
+```
+ [1] "D" "o" "n" "t" "e" "a" "t" "t" "h" "a" "t"
+```
+
+```
+[1] "_The_ _quick_ _brown_ _fox_"
+```
+
+```
+[1] "The_quick_brown_fox"
+```
+
+```
+[1] "T_h_e q_u_i_c_k b_r_o_w_n f_o_x"
+```
+]]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+*# [abc] matches a, b, or c  # [abc] matches a, b, or c
+```
+]]
+.column[.content[
+
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+*str_detect(c("Hey", "absolute","cat"),"[abc]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+*# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+*str_detect(c("Hey", "abb","cab"),"[^abc]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+*# [a-z]: matches every character  # [a-z]: matches every character
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+*str_detect(c("Hey", "123","cab"),"[a-z]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+*str_detect(c("Hey", "123","cab"),"^[a-z]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+*str_detect(c("Hey", "123","cab"),"[:alpha:]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")  
+# lower
+*str_detect(c("Hey", "123","cab"),"[:lower:]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")  
+# lower
+str_detect(c("Hey", "123","cab"),"[:lower:]")  
+# upper
+*str_detect(c("Hey", "123","cab"),"[:upper:]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")  
+# lower
+str_detect(c("Hey", "123","cab"),"[:lower:]")  
+# upper
+str_detect(c("Hey", "123","cab"),"[:upper:]")  
+# digit
+*str_detect(c("Hey", "123","cab"),"[:digit:]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")  
+# lower
+str_detect(c("Hey", "123","cab"),"[:lower:]")  
+# upper
+str_detect(c("Hey", "123","cab"),"[:upper:]")  
+# digit
+str_detect(c("Hey", "123","cab"),"[:digit:]")  
+#  alpha numeric
+*str_detect(c("Hey", "123","cab"),"[:alnum:]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")  
+# lower
+str_detect(c("Hey", "123","cab"),"[:lower:]")  
+# upper
+str_detect(c("Hey", "123","cab"),"[:upper:]")  
+# digit
+str_detect(c("Hey", "123","cab"),"[:digit:]")  
+#  alpha numeric
+str_detect(c("Hey", "123","cab"),"[:alnum:]")  
+*str_detect(c("Hey", "123","cab"),"[:blank:]")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] FALSE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# own character classes
+# [abc] matches a, b, or c  # [abc] matches a, b, or c
+str_detect(c("Hey", "absolute","cat"),"[abc]")  
+# [^abc] matches anything except a,b or c  # [^abc] matches anything except a,b or c
+str_detect(c("Hey", "abb","cab"),"[^abc]")  
+# [a-z]: matches every character  # [a-z]: matches every character
+str_detect(c("Hey", "123","cab"),"[a-z]")  
+str_detect(c("Hey", "123","cab"),"^[a-z]")  
+# following same  as "a-z"
+str_detect(c("Hey", "123","cab"),"[:alpha:]")  
+# lower
+str_detect(c("Hey", "123","cab"),"[:lower:]")  
+# upper
+str_detect(c("Hey", "123","cab"),"[:upper:]")  
+# digit
+str_detect(c("Hey", "123","cab"),"[:digit:]")  
+#  alpha numeric
+str_detect(c("Hey", "123","cab"),"[:alnum:]")  
+str_detect(c("Hey", "123","cab"),"[:blank:]")  
+# alternation
+*str_detect(c("abc", "def", "ghi"), "abc|def")
+```
+]]
+.column[.content[
+
+```
+[1] FALSE  TRUE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] FALSE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] FALSE FALSE FALSE
+```
+
+```
+[1]  TRUE  TRUE FALSE
+```
+]]
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+*str_extract(c("grey", "gray"), "gre|ay")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+*str_detect(c("grey", "gray"), "gre|ay")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+*str_replace(c("grey", "gray"), "gre|ay","chop")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+*str_extract(c("grey", "gray"), "gr(e|a)y")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+*str_match(c("grey", "gray"), "gr(e|a)y")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+*str_locate(c("grey", "gray"), "gr(e|a)y")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+*pattern &lt;- "(..)\\1"
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+*fruit
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+ [1] "apple"             "apricot"           "avocado"          
+ [4] "banana"            "bell pepper"       "bilberry"         
+ [7] "blackberry"        "blackcurrant"      "blood orange"     
+[10] "blueberry"         "boysenberry"       "breadfruit"       
+[13] "canary melon"      "cantaloupe"        "cherimoya"        
+[16] "cherry"            "chili pepper"      "clementine"       
+[19] "cloudberry"        "coconut"           "cranberry"        
+[22] "cucumber"          "currant"           "damson"           
+[25] "date"              "dragonfruit"       "durian"           
+[28] "eggplant"          "elderberry"        "feijoa"           
+[31] "fig"               "goji berry"        "gooseberry"       
+[34] "grape"             "grapefruit"        "guava"            
+[37] "honeydew"          "huckleberry"       "jackfruit"        
+[40] "jambul"            "jujube"            "kiwi fruit"       
+[43] "kumquat"           "lemon"             "lime"             
+[46] "loquat"            "lychee"            "mandarine"        
+[49] "mango"             "mulberry"          "nectarine"        
+[52] "nut"               "olive"             "orange"           
+[55] "pamelo"            "papaya"            "passionfruit"     
+[58] "peach"             "pear"              "persimmon"        
+[61] "physalis"          "pineapple"         "plum"             
+[64] "pomegranate"       "pomelo"            "purple mangosteen"
+[67] "quince"            "raisin"            "rambutan"         
+[70] "raspberry"         "redcurrant"        "rock melon"       
+[73] "salal berry"       "satsuma"           "star fruit"       
+[76] "strawberry"        "tamarillo"         "tangerine"        
+[79] "ugli fruit"        "watermelon"       
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+* str_subset(pattern)
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+  str_subset(pattern)  
+*fruit
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+
+```
+ [1] "apple"             "apricot"           "avocado"          
+ [4] "banana"            "bell pepper"       "bilberry"         
+ [7] "blackberry"        "blackcurrant"      "blood orange"     
+[10] "blueberry"         "boysenberry"       "breadfruit"       
+[13] "canary melon"      "cantaloupe"        "cherimoya"        
+[16] "cherry"            "chili pepper"      "clementine"       
+[19] "cloudberry"        "coconut"           "cranberry"        
+[22] "cucumber"          "currant"           "damson"           
+[25] "date"              "dragonfruit"       "durian"           
+[28] "eggplant"          "elderberry"        "feijoa"           
+[31] "fig"               "goji berry"        "gooseberry"       
+[34] "grape"             "grapefruit"        "guava"            
+[37] "honeydew"          "huckleberry"       "jackfruit"        
+[40] "jambul"            "jujube"            "kiwi fruit"       
+[43] "kumquat"           "lemon"             "lime"             
+[46] "loquat"            "lychee"            "mandarine"        
+[49] "mango"             "mulberry"          "nectarine"        
+[52] "nut"               "olive"             "orange"           
+[55] "pamelo"            "papaya"            "passionfruit"     
+[58] "peach"             "pear"              "persimmon"        
+[61] "physalis"          "pineapple"         "plum"             
+[64] "pomegranate"       "pomelo"            "purple mangosteen"
+[67] "quince"            "raisin"            "rambutan"         
+[70] "raspberry"         "redcurrant"        "rock melon"       
+[73] "salal berry"       "satsuma"           "star fruit"       
+[76] "strawberry"        "tamarillo"         "tangerine"        
+[79] "ugli fruit"        "watermelon"       
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+  str_subset(pattern)  
+fruit %&gt;%  
+* str_subset(pattern)
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+  str_subset(pattern)  
+fruit %&gt;%  
+  str_subset(pattern) %&gt;%  
+* str_match(pattern)
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+
+```
+     [,1]   [,2]
+[1,] "anan" "an"
+[2,] "coco" "co"
+[3,] "cucu" "cu"
+[4,] "juju" "ju"
+[5,] "papa" "pa"
+[6,] "alal" "al"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+  str_subset(pattern)  
+fruit %&gt;%  
+  str_subset(pattern) %&gt;%  
+  str_match(pattern)  
+# following grouping is important how numbered group works
+# Just keep two groups
+*str_replace("antona","(an).+(na)","\\2\\1")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+
+```
+     [,1]   [,2]
+[1,] "anan" "an"
+[2,] "coco" "co"
+[3,] "cucu" "cu"
+[4,] "juju" "ju"
+[5,] "papa" "pa"
+[6,] "alal" "al"
+```
+
+```
+[1] "naan"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+  str_subset(pattern)  
+fruit %&gt;%  
+  str_subset(pattern) %&gt;%  
+  str_match(pattern)  
+# following grouping is important how numbered group works
+# Just keep two groups
+str_replace("antona","(an).+(na)","\\2\\1")  
+# keep the whole group
+*str_replace("antona","(an)(.+)(na)","\\3\\2\\1")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+
+```
+     [,1]   [,2]
+[1,] "anan" "an"
+[2,] "coco" "co"
+[3,] "cucu" "cu"
+[4,] "juju" "ju"
+[5,] "papa" "pa"
+[6,] "alal" "al"
+```
+
+```
+[1] "naan"
+```
+
+```
+[1] "natoan"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# Grouping
+str_extract(c("grey", "gray"), "gre|ay")  
+str_detect(c("grey", "gray"), "gre|ay")  
+str_replace(c("grey", "gray"), "gre|ay","chop")  
+str_extract(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_locate(c("grey", "gray"), "gr(e|a)y")  
+# using backreference
+pattern &lt;- "(..)\\1"  
+fruit %&gt;%  
+  str_subset(pattern)  
+fruit %&gt;%  
+  str_subset(pattern) %&gt;%  
+  str_match(pattern)  
+# following grouping is important how numbered group works
+# Just keep two groups
+str_replace("antona","(an).+(na)","\\2\\1")  
+# keep the whole group
+str_replace("antona","(an)(.+)(na)","\\3\\2\\1")  
+# Finding repeated twice
+*str_replace("cucucumber","(..)\\1","NA")
+```
+]]
+.column[.content[
+
+```
+[1] "gre" "ay" 
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] "chopy"  "grchop"
+```
+
+```
+[1] "grey" "gray"
+```
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     start end
+[1,]     1   4
+[2,]     1   4
+```
+
+```
+[1] "banana"      "coconut"     "cucumber"    "jujube"      "papaya"     
+[6] "salal berry"
+```
+
+```
+     [,1]   [,2]
+[1,] "anan" "an"
+[2,] "coco" "co"
+[3,] "cucu" "cu"
+[4,] "juju" "ju"
+[5,] "papa" "pa"
+[6,] "alal" "al"
+```
+
+```
+[1] "naan"
+```
+
+```
+[1] "natoan"
+```
+
+```
+[1] "NAcumber"
+```
+]]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+*# control precedence with "(?:...)"  # control precedence with "(?:...)"
+```
+]]
+.column[.content[
+
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+*str_match(c("grey", "gray"), "gr(e|a)y")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+*str_match(c("grey", "gray"), "gr(?:e|a)y")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+*x &lt;- c("apple", "banana", "pear")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+*str_extract(x, "^a")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+*str_extract(x, "a$")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+*str_detect(c("account","abnormal"), "a(?=c)")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+*str_detect(c("account","abnormal"), "a(?=b)")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+*str_detect(c("account","abnormal","auora"), "a(?=.+u)")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")  
+# a followed by u in between 0 or more chracters
+*str_detect(c("account","abnormal","auora"), "a(?=.*u)")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")  
+# a followed by u in between 0 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.*u)")  
+# a not followed by b
+*str_detect(c("account","abnormal"), "a(?!b)")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")  
+# a followed by u in between 0 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.*u)")  
+# a not followed by b
+str_detect(c("account","abnormal"), "a(?!b)")  
+# o preceded   c
+*str_detect(c("account","abnormal"), "(?&lt;=c)o")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")  
+# a followed by u in between 0 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.*u)")  
+# a not followed by b
+str_detect(c("account","abnormal"), "a(?!b)")  
+# o preceded   c
+str_detect(c("account","abnormal"), "(?&lt;=c)o")  
+# o preceded by a in between characters
+*str_detect(c("account","abnormal"), "(?&lt;=a).+o")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")  
+# a followed by u in between 0 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.*u)")  
+# a not followed by b
+str_detect(c("account","abnormal"), "a(?!b)")  
+# o preceded   c
+str_detect(c("account","abnormal"), "(?&lt;=c)o")  
+# o preceded by a in between characters
+str_detect(c("account","abnormal"), "(?&lt;=a).+o")  
+# o not preceded by c
+*str_detect(c("account","abnormal"), "(?&lt;!c)o")
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+# control precedence with "(?:...)"  # control precedence with "(?:...)"
+str_match(c("grey", "gray"), "gr(e|a)y")  
+str_match(c("grey", "gray"), "gr(?:e|a)y")  
+# Anchors
+x &lt;- c("apple", "banana", "pear")  
+str_extract(x, "^a")  
+str_extract(x, "a$")  
+
+# Look arounds
+# a followed by c
+str_detect(c("account","abnormal"), "a(?=c)")  
+# a followed by b
+str_detect(c("account","abnormal"), "a(?=b)")  
+# a followed by u in between 1 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.+u)")  
+# a followed by u in between 0 or more chracters
+str_detect(c("account","abnormal","auora"), "a(?=.*u)")  
+# a not followed by b
+str_detect(c("account","abnormal"), "a(?!b)")  
+# o preceded   c
+str_detect(c("account","abnormal"), "(?&lt;=c)o")  
+# o preceded by a in between characters
+str_detect(c("account","abnormal"), "(?&lt;=a).+o")  
+# o not preceded by c
+str_detect(c("account","abnormal"), "(?&lt;!c)o")  
+```
+]]
+.column[.content[
+
+```
+     [,1]   [,2]
+[1,] "grey" "e" 
+[2,] "gray" "a" 
+```
+
+```
+     [,1]  
+[1,] "grey"
+[2,] "gray"
+```
+
+```
+[1] "a" NA  NA 
+```
+
+```
+[1] NA  "a" NA 
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE
+```
+
+```
+[1]  TRUE FALSE FALSE
+```
+
+```
+[1]  TRUE FALSE  TRUE
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1]  TRUE FALSE
+```
+
+```
+[1] TRUE TRUE
+```
+
+```
+[1] FALSE  TRUE
+```
+]]
+
+---
+
+
+
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+#Quantifiers
+# 0 or 1 a
+*str_detect(c("abc","aabb","bdc"),"a?")
+```
+]]
+.column[.content[
+
+```
+[1] TRUE TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+#Quantifiers
+# 0 or 1 a
+str_detect(c("abc","aabb","bdc"),"a?")  
+# 0 or more a
+*str_detect(c("abc","aabb","bdc"),"a*")
+```
+]]
+.column[.content[
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+#Quantifiers
+# 0 or 1 a
+str_detect(c("abc","aabb","bdc"),"a?")  
+# 0 or more a
+str_detect(c("abc","aabb","bdc"),"a*")  
+# 1 or more a
+*str_detect(c("abc","aabb","bdc"),"a+")
+```
+]]
+.column[.content[
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE  TRUE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+#Quantifiers
+# 0 or 1 a
+str_detect(c("abc","aabb","bdc"),"a?")  
+# 0 or more a
+str_detect(c("abc","aabb","bdc"),"a*")  
+# 1 or more a
+str_detect(c("abc","aabb","bdc"),"a+")  
+# exactly 2
+*str_detect(c("abc","aabb","bdc"),"a{2}")
+```
+]]
+.column[.content[
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+#Quantifiers
+# 0 or 1 a
+str_detect(c("abc","aabb","bdc"),"a?")  
+# 0 or more a
+str_detect(c("abc","aabb","bdc"),"a*")  
+# 1 or more a
+str_detect(c("abc","aabb","bdc"),"a+")  
+# exactly 2
+str_detect(c("abc","aabb","bdc"),"a{2}")  
+# 2 or more
+*str_detect(c("abc","aabb","bdc","aaabb"),"a{2,}")
+```
+]]
+.column[.content[
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE  TRUE
+```
+]]
+---
+class: split-60
+count: false
+ 
+
+ 
+.column[.content[
+
+```r
+#Quantifiers
+# 0 or 1 a
+str_detect(c("abc","aabb","bdc"),"a?")  
+# 0 or more a
+str_detect(c("abc","aabb","bdc"),"a*")  
+# 1 or more a
+str_detect(c("abc","aabb","bdc"),"a+")  
+# exactly 2
+str_detect(c("abc","aabb","bdc"),"a{2}")  
+# 2 or more
+str_detect(c("abc","aabb","bdc","aaabb"),"a{2,}")  
+```
+]]
+.column[.content[
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1] TRUE TRUE TRUE
+```
+
+```
+[1]  TRUE  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
+
+```
+[1] FALSE  TRUE FALSE  TRUE
+```
+]]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
