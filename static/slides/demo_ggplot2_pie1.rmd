@@ -1,0 +1,113 @@
+---
+
+class: inverse,middle,center 
+ 
+# Pie Chart Oneway
+
+---
+
+```{r pie1, include=F}
+mtcars %>% 
+    mutate(gear=as.factor(gear)) %>% 
+    count(gear) %>% 
+    mutate(total=sum(n),
+    end_angle = 2*pi*cumsum(n)/total,      
+    start_angle = lag(end_angle, default = 0),   
+    mid_angle = 0.5*(start_angle + end_angle),
+    hjust = ifelse(mid_angle>pi, 1, 0),
+    vjust = ifelse(mid_angle<pi/2 | 
+		   mid_angle>3*pi/2, 0, 1)) -> mtpie
+
+mtpie
+```
+
+`r chunk_reveal("pie1",split=45)`
+
+---
+
+```{r pie2, include = FALSE}
+rpie = 1 
+rlabel = 0.6 * rpie
+
+mtpie %>% 
+ggplot() + 
+  geom_arc_bar(  
+	aes(x0 = 0,
+	    y0=0,
+	    r0= 0,
+	    r = rpie,
+            start = start_angle, 
+	    end = end_angle)) +
+         aes(fill=gear)+
+   geom_text(aes(x = rlabel*sin(mid_angle), 
+		 y = rlabel*cos(mid_angle), 
+		 label =percent(n/sum(n),accuracy=1)), 
+	     hjust = 0.5, 
+	     vjust = 0.5,
+	     size=6,
+	     color="#f7be16" ) +
+   coord_fixed() +
+   scale_fill_manual(values=c("#293462", "#00818a", "#918969")) +
+       theme_void() + 
+     theme(legend.position="bottom")+
+     theme(legend.title=element_blank()) + 
+     theme(legend.text=element_text(size=16)) + 
+     theme(plot.background=element_rect(fill="#FAFAFA",
+                                  linetype="blank"))
+
+```
+
+`r chunk_reveal("pie2",split=50)`
+
+---
+
+The whole thing was packaged in the following function 
+
+```{r pie3 }
+theme_void_custom  <- theme_void() + 
+                    theme(strip.background=element_rect(fill="grey"),
+			  legend.position="right", 
+			  legend.title=element_blank(), 
+			  legend.text=element_text(size=16),
+			  plot.background=element_rect(fill="#FAFAFA", 
+						 linetype="blank"))
+pie3_manual_fill <- c("#293462", "#00818a", "#918969")
+pie_chart_oneway <- function(df, group_var,manual_fill=pie3_manual_fill){
+dat_pies <-  df %>%  
+	           count({{group_var}}) %>% 
+		   mutate(total=sum(n),
+		          end_angle = 2*pi*cumsum(n)/total,      
+			    start_angle = lag(end_angle, default = 0),   
+			    mid_angle = 0.5*(start_angle + end_angle),
+                            hjust = ifelse(mid_angle>pi, 1, 0),
+                            vjust = ifelse(mid_angle<pi/2 | mid_angle>3*pi/2, 0, 1))
+rpie = 1 
+rlabel = 0.6 * rpie 
+ggplot(dat_pies) + 
+  geom_arc_bar(aes(x0 = 0, y0 = 0, r0 = 0, r = rpie,
+                   start = start_angle, end = end_angle, fill = {{group_var}})) +
+   geom_text(aes(x = rlabel*sin(mid_angle), 
+		 y = rlabel*cos(mid_angle), 
+		 label =percent(n/sum(n),accuracy=1)), 
+	     hjust = 0.5, 
+	     vjust = 0.5,
+	     size=6,
+	     color="#f7be16" ) +
+   coord_fixed()+
+   scale_fill_manual(values=manual_fill)+
+   theme_void_custom 
+ 
+}
+
+```
+---
+
+The function put to use
+
+```{r}
+mtcars %>% 
+    mutate(gear=as.factor(gear)) %>% 
+pie_chart_oneway(gear)
+```
+
+

@@ -1,0 +1,193 @@
+---
+
+class: inverse,middle,center 
+
+## Pie chart twoway 
+
+---
+
+Let's first introduce the data 
+
+```{r}
+gss_cat
+```
+
+---
+
+```{r}
+theme_pie_twoway  <- theme_void() + 
+                    theme(strip.text.x=element_text(size=16,color="#f7be16"),
+			  strip.background=element_rect(fill="#293462"),
+			  legend.title=element_blank(), 
+			  legend.key.width=unit(2,"cm"),
+			  legend.text=element_text(size=14),
+			  plot.background=element_rect(fill="#FAFAFA", 
+						 linetype="blank"))
+
+pie_chart_twoway <- function(df, group_var1,group_var2) {
+df %>% 
+    count({{group_var2}})  %>% 
+    nrow() -> ncolor
+fill_values <- RColorBrewer::brewer.pal(ncolor, "Set3") #%>% rev()
+dat_pies <-  df %>%  
+	           count({{group_var1}},{{group_var2}}) %>% 
+		   group_by({{group_var1}}) %>% 
+		   mutate(total=sum(n),
+			  prop=round(n/sum(n),2),
+		           end_angle = 2*pi*cumsum(n)/total,      
+			    start_angle = lag(end_angle, default = 0),   
+			    mid_angle = 0.5*(start_angle + end_angle),
+                            hjust = ifelse(mid_angle>pi, 1, 0),
+                            vjust = ifelse(mid_angle<pi/2 | mid_angle>3*pi/2, 0, 1))
+rpie = 1 
+rlabel = 0.6 * rpie 
+                    
+ggplot(dat_pies) + 
+  geom_arc_bar(aes(x0 = 0, y0 = 0, r0 = 0, r = rpie,
+                   start = start_angle, end = end_angle, fill = {{group_var2}})) +
+   geom_text(aes(x = rlabel*sin(mid_angle), 
+		 y = rlabel*cos(mid_angle), 
+		 label =percent(prop,accuracy=1)), 
+	     hjust = 0.5, 
+	     vjust = 0.5,
+	     size=3,
+	     color="Black" ) +
+   coord_fixed()+
+   scale_fill_manual(values=fill_values)+
+		   facet_wrap(ensym(group_var1),ncol=1) + 
+		   theme_pie_twoway 
+}
+
+```
+
+---
+
+The function is now put to use 
+
+.pull-left[
+```{r pie-chart-twoway, eval=F}
+gss_cat %>% 
+    mutate(race=fct_relevel(race,c("White","Black","Other")),
+	   marital=fct_relevel(marital,c("Married","Widowed",
+					 "Divorced","Separated",
+					 "Never married","No answer"))
+	     ) %>% 
+pie_chart_twoway(race, marital)
+
+```
+]
+
+.pull-right[
+
+```{r pie-chart-twoway-output, ref.label="pie-chart-twoway",echo=F}
+```
+
+
+]
+
+
+---
+
+```{r gss-pies, include = FALSE}
+gss <- gss_cat %>% 
+    mutate(race=fct_relevel(race,c("White","Black","Other")),
+	   marital=fct_relevel(marital,c("Married","Widowed",
+					 "Divorced","Separated",
+					 "Never married","No answer")))
+gss
+levels(gss$race)
+levels(gss$marital)
+
+gss %>%  
+    count(race,marital) %>% 
+    group_by(race) %>% 
+    mutate(total=sum(n),
+    prop=round(n/sum(n),2),
+    end_angle = 2*pi*cumsum(n)/total,      
+    start_angle = lag(end_angle, default = 0),   
+    mid_angle = 0.5*(start_angle + end_angle),
+    hjust = ifelse(mid_angle>pi, 1, 0),
+    vjust = ifelse(mid_angle<pi/2 | mid_angle>3*pi/2, 0, 1)) -> gss_pies
+gss_pies
+
+```
+
+`r chunk_reveal("gss-pies",split=40)`
+
+---
+
+```{r pie-twoway-flip, include = FALSE}
+gss_cat %>% 
+	count(marital)  %>% 
+        nrow() %>%  
+	RColorBrewer::brewer.pal( "Set3") -> my_palette
+
+rpie = 1 
+rlabel = 0.6 * rpie 
+gss_pies %>% 
+ ggplot() + 
+  geom_arc_bar(aes(x0 = 0, y0 = 0, r0 = 0, r = rpie,
+                   start = start_angle, end = end_angle, fill = marital )) +
+   geom_text(aes(x = rlabel*sin(mid_angle), 
+		 y = rlabel*cos(mid_angle), 
+		 label =percent(prop,accuracy=1)), 
+	     hjust = 0.5, 
+	     vjust = 0.5,
+	     size=3,
+	     color="Black" ) +
+   coord_fixed()+
+   scale_fill_manual(values=my_palette)+
+		   facet_wrap(~race,ncol=1) + 
+    theme_void() + 
+    theme(strip.text.x=element_text(size=16,color="#f7be16"))+
+    theme(strip.background=element_rect(fill="#293462"))+
+    theme(legend.title=element_blank()) +  
+    theme(legend.key.width=unit(2,"cm"))+
+    theme(legend.text=element_text(size=14))+
+    theme(plot.background=element_rect(fill="#FAFAFA", 
+				      linetype="blank"))
+ 
+
+```
+
+`r chunk_reveal("pie-twoway-flip",split=50)`
+
+---
+
+```{r}
+
+theme_basic <- theme_minimal() + 
+                theme(
+		      plot.title=element_text(color="#00818a", 
+					      family="Oswald",
+					      size=20),
+		      panel.grid=element_blank(), 
+		      axis.text=element_blank(),
+		      axis.title=element_blank(),
+		      plot.background=element_rect(fill="#FAFAFA", 
+						   linetype="blank")) 
+
+
+theme_bar_vert_stacked  <- theme_basic + 
+                          theme(legend.position="bottom", 
+				axis.text.x=element_text(margin=margin(t=-20)), 
+				legend.title=element_blank(), 
+				legend.key.width=unit(2,"cm"))
+
+vert_oneway <- function(data,cat,title=NULL) {
+	 data %>% 
+	     count({{cat}}) %>% 
+         ggplot(aes(x={{cat}}, y=n) ) +
+	   geom_col(fill="#ec9b3b") +
+	   labs(y="",title=title) +
+	   geom_text(aes(y=n/2,
+			 label=comma(n)), 
+			 hjust=0,vjust=0, size=3, family='Oswald', color="#293462"
+	                 ) + theme_bar_vert_stacked
+}
+
+gss_cat %>% 
+    vert_oneway(marital)
+
+```
+

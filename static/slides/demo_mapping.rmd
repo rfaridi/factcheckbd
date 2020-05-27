@@ -1,0 +1,121 @@
+---
+title: "Mapping demo"
+output:
+  xaringan::moon_reader:
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css: [default, hygge, ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_chunk$set(message=F, 
+		   warning=F, 
+		   comment=NA)
+```
+
+
+Let's load the library
+
+
+```{r}
+library(tidyverse)
+library(flipbookr)
+library(scales)
+```
+
+
+```{r child='./demo_mapping1.rmd', eval=F}
+```
+
+---
+
+```{r}
+load("~/training/2019_July_IDVR/poverty_bd.rda")
+poverty.bd
+poverty_bd <- poverty.bd
+
+```
+
+
+---
+
+```{r dat1, include=F }
+dirw <- "~/Dropbox/miscStuff/spatialStuff/BGD_adm/BGD2015/ADM2/"
+bd2_shp <- rgdal::readOGR(dirw,"bgd_bnd_adm2")
+class(bd2_shp)
+names(bd2_shp)
+draw_bd2 <- fortify(bd2_shp,region="DistCode")
+head(draw_bd2)
+draw_bd2_mg <- merge(draw_bd2,
+                     bd2_shp,
+                     by.x='id',
+                     by.y='DistCode')
+
+draw_bd2_mg %>% 
+    mutate(District=toupper(District)) %>% 
+    left_join(poverty_bd, by=c("District")) -> draw_bd2_mg2
+head(draw_bd2_mg2)
+```
+
+`r chunk_reveal("dat1",split=50)`
+
+
+---
+
+```{r dat2, include=F}
+crd_bd2 <-  as.data.frame(sp::coordinates(bd2_shp))
+head(crd_bd2)
+names(crd_bd2) <- c("longitude","latitude")
+head(crd_bd2)
+crd_bd2_df <- data.frame(crd_bd2,
+                         id=toupper(bd2_shp@data$District))
+crd_bd2_df_mg <- inner_join(crd_bd2_df,
+			    poverty_bd,
+                            by=c('id'='District'))
+crd_bd2_df_mg %>% 
+    mutate(id= sub('(.)(.+)',
+                        '\\U\\1\\L\\2',
+                        crd_bd2_df_mg$id,
+                        perl=TRUE)) -> crd_bd2_df_mg 
+
+crd_bd2_df_mg
+
+```
+
+`r chunk_reveal("dat2",split=50)`
+
+
+---
+
+```{r map1, include=F}
+label_dat <- crd_bd2_df_mg %>% 
+    arrange(poverty) %>% 
+    slice(c(1:5,57:62))
+
+    ggplot() +
+	geom_map(data=draw_bd2_mg2,
+                   aes(map_id=id),
+		 map=draw_bd2_mg2) +
+                  aes(x=long)+
+                   aes(y=lat) +
+		   aes(fill=poverty) +
+    geom_text(data=label_dat,aes(x=longitude,
+				 y=latitude,
+				 label="same")) +
+  scale_fill_gradient("Poverty", high = "darkred", low = "darkolivegreen1")+
+  coord_equal() +
+  theme_void()
+
+
+```
+
+`r chunk_reveal("map1",split=40)`
+
+
+

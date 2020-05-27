@@ -1,0 +1,88 @@
+---
+
+class: inverse,middle,center 
+
+## Bar diagrams
+
+---
+
+
+.pull-left[
+
+```{r vert, eval=T}
+
+theme_basic <- theme_minimal() + 
+                theme(
+		      plot.title=element_text(color="#00818a", 
+					      family="Oswald",
+					      size=20),
+		      panel.grid=element_blank(), 
+		      axis.text=element_blank(),
+		      axis.title=element_blank(),
+		      plot.background=element_rect(fill="#FAFAFA", 
+						   linetype="blank")) 
+
+
+theme_bar_vert_stacked  <- theme_basic + 
+                          theme(legend.position="bottom", 
+				axis.text.x=element_text(margin=margin(t=-20)), 
+				legend.title=element_blank(), 
+				legend.key.width=unit(2,"cm"))
+
+vert_oneway <- function(data,cat,title=NULL) {
+	 data %>% 
+	     count({{cat}}) %>% 
+         ggplot(aes(x={{cat}}, y=n) ) +
+	   geom_col(fill="#ec9b3b") +
+	   labs(y="",title=title) +
+	   geom_text(aes(y=n/2,
+			 label=comma(n)), 
+			 hjust=0,vjust=0, size=3, family='Oswald', color="#293462"
+	                 ) + theme_bar_vert_stacked
+}
+
+
+```
+
+]
+
+.pull-right[
+
+```{r vert-out, echo=F}
+gss_cat %>% 
+    vert_oneway(marital)
+
+```
+
+]
+
+---
+
+```{r gss-vert, include=F}
+gss_cat %>% 
+	     count(marital) %>% 
+         ggplot() +
+	    aes(x=marital) +
+	    aes(y=n)  +
+	   geom_col() +
+	   geom_col(fill="#ec9b3b") +
+	   labs(title="Marital distribution") +
+	   geom_text(aes(y=n/2,
+			 label=comma(n)), 
+			 hjust=0,vjust=0, size=3, family='Oswald', color="#293462"
+	                 ) + 
+             theme_minimal() + 
+                theme(plot.title=element_text(color="#00818a", 
+					      family="Oswald",
+					      size=20)) +
+		theme(panel.grid=element_blank()) +
+		theme(axis.text=element_blank()) +
+		theme(plot.background=element_rect(fill="#FAFAFA", 
+						   linetype="blank")) +
+                          theme(legend.position="bottom")+ 
+			  theme(axis.text.x=element_text(margin=margin(t=-20)))+
+			  theme(legend.title=element_blank()) 
+
+```
+`r chunk_reveal("gss-vert" ,split=50)`
+

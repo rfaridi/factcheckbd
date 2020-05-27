@@ -1,6 +1,6 @@
 pre>.remark-code>.remark-code-line{
   font-family:'Source Code Pro', 'Lucida Console', Monaco, monospace;
-  font-size:12pt;
+  font-size:10pt;
 }
 
 code.r.hljs.remark-code {
@@ -10,9 +10,8 @@ code.r.hljs.remark-code {
 
 .r.hljs.remark-code>.remark-code-line {
     font-family:'Source Code Pro','Lucida Console', Monaco, monospace;
-    font-size:12pt;
+    font-size:10pt;
 }
-
 
 
 .inverse {

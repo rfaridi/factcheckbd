@@ -1,0 +1,44 @@
+---
+title: "ggplot2 demo"
+output:
+  xaringan::moon_reader:
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css: [default, hygge, ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_chunk$set(message=F, 
+		   warning=F, 
+		   comment=NA)
+```
+
+
+Let's load the library
+
+
+```{r}
+library(tidyverse)
+library(flipbookr)
+library(ggforce)
+library(scales)
+```
+
+
+```{r child='./demo_ggplot2_pie1.rmd', eval=T}
+```
+
+```{r child='./demo_ggplot2_pie2.rmd', eval=T}
+```
+
+```{r child='./demo_ggplot2_horiz1.rmd', eval=T}
+```
+
+
+
