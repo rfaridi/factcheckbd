@@ -56,7 +56,6 @@ draw_bd2_mg <- merge(draw_bd2,
                      bd2_shp,
                      by.x='id',
                      by.y='DistCode')
-
 draw_bd2_mg %>% 
     mutate(District=toupper(District)) %>% 
     left_join(poverty_bd, by=c("District")) -> draw_bd2_mg2
@@ -85,7 +84,6 @@ crd_bd2_df_mg %>%
                         perl=TRUE)) -> crd_bd2_df_mg 
 
 crd_bd2_df_mg
-
 ```
 
 `r chunk_reveal("dat2",split=50)`
@@ -117,5 +115,43 @@ label_dat <- crd_bd2_df_mg %>%
 
 `r chunk_reveal("map1",split=40)`
 
+first load the data 
+
+```{r}
+dist <- readRDS("../../content/RDATA/district_covid_df.rds")
+dist_apr22 <- dist %>% 
+                filter(Date=="2020-04-22") %>% 
+		select(district=District,cases=Cases) %>% 
+		mutate(district=toupper(district))
+load(file="../../content/RDATA/draw_bd2_mg.rda")
+draw_bd2_mg %>% 
+    left_join(dist_apr22, by=c("district")) -> draw_mg_corona
+
+```
+
+Now the map
+
+```{r map1, include=F}
+load( file="../../content/RDATA/crd_bd2_df_mg.rda")
+label_dat <- crd_bd2_df_mg %>% 
+    arrange(poverty) %>% 
+    slice(c(1:5,57:62))
+```
+
+```{r}
+    ggplot() +
+	geom_map(data=draw_mg_corona,
+                   aes(x=long,
+		       y=lat,
+		       map_id=id,
+		       fill=cases),
+		 map=draw_mg_corona) +
+    geom_text(data=label_dat,aes(x=longitude,
+				 y=latitude,
+				 label=id)) +
+  scale_fill_gradient("Cases", high = "darkred", low = "darkolivegreen1")+
+  coord_equal() +
+  theme_void()
+```
 
 

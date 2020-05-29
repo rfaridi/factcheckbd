@@ -1,0 +1,129 @@
+---
+title: Corona mapping
+author: Rushad Faridi
+date: 2018-05-13
+slug: corona-mapping-bd
+categories: []
+tags: []
+---
+
+
+```{r}
+library(tidyverse)
+library(scales)
+library(patchwork)
+library(tsibble)
+```
+
+
+
+
+First load the daily data 
+
+
+# April 23
+
+```{r}
+dist <- readRDS("../../content/RDATA/district_covid_df.rds")
+dist_apr23 <- dist %>% 
+                filter(Date=="2020-04-23") %>% 
+		select(district=District,cases=Cases) %>% 
+		mutate(district=toupper(district))
+load(file="../../content/RDATA/draw_bd2_mg.rda")
+draw_bd2_mg %>% 
+    left_join(dist_apr23, by=c("district")) -> draw_apr23_corona
+
+```
+
+Now the map
+
+```{r map1, include=F}
+load( file="../../content/RDATA/crd_bd2_df_mg.rda")
+label_dat <- crd_bd2_df_mg %>% 
+    arrange(poverty) %>% 
+    slice(c(1:5,57:62))
+```
+
+```{r}
+    ggplot() +
+	geom_map(data=draw_apr23_corona,
+                   aes(x=long,
+		       y=lat,
+		       map_id=id,
+		       fill=cases),
+		 map=draw_apr23_corona) +
+    geom_text(data=label_dat,aes(x=longitude,
+				 y=latitude,
+				 label=id)) +
+  scale_fill_gradient("Cases", high = "darkorange", low = "darkolivegreen1")+
+  coord_equal() +
+  theme_void() -> corona_map_apr23
+  corona_map_apr23
+```
+
+
+# May 23
+
+```{r}
+dist_may23 <- dist %>% 
+                filter(Date=="2020-05-23") %>% 
+		select(district=District,cases=Cases) %>% 
+		mutate(district=toupper(district))
+draw_bd2_mg %>% 
+    left_join(dist_may23, by=c("district")) -> draw_may23_corona
+
+```
+
+```{r}
+    ggplot() +
+	geom_map(data=draw_may23_corona,
+                   aes(x=long,
+		       y=lat,
+		       map_id=id,
+		       fill=cases),
+		 map=draw_may23_corona) +
+    geom_text(data=label_dat,aes(x=longitude,
+				 y=latitude,
+				 label=id)) +
+  scale_fill_gradient("Cases", high ="darkred" , low = "darkorange")+
+  coord_equal() +
+  theme_void() -> corona_map_may23
+  corona_map_may23
+```
+
+```{r}
+corona_map_apr23/
+    corona_map_may23
+```
+
+We find that some of the districts are missing
+
+
+```{r}
+setdiff(draw_bd2_mg$district, dist_apr23$district)
+setdiff(dist_apr23$district, draw_bd2_mg$district )
+```
+
+Let's fix the spelling 
+
+```{r}
+draw_bd2_mg %>% 
+    mutate(district= fct_recode(district,
+				BOGURA="BOGRA",
+				BARISHAL="BARISAL",
+				BRAHMANBARIA="BRAHAMANBARIA",
+				CHATTOGRAM="CHITTAGONG",
+				CUMILLA="COMILLA",
+				KISHOREGONJ="KISHOREGANJ",
+				JASHORE="JESSORE"
+				))  ->  draw_bd2_mg
+save(draw_bd2_mg, file="../../content/RDATA/draw_bd2_mg.rda")
+```
+
+## Let's check tsibble 
+
+```{r}
+dist %>% 
+    as_tsibble(key=District, index=Date) -> dist_ts
+```
+
