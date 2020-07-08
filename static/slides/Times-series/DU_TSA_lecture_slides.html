@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>TIME SERIES LECTURES</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="myprez.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# TIME SERIES LECTURES
+
+---
+
+
+
+
+
+
+
+
+
+
+
+class: inverse,center,middle
+
+# Autogregressive models
+
+---
+
+## Specification
+
+We will start with the simplest form of time-series model which is called first-order autoregressive models or AR(1).
+
+--
+
+`$$\begin{equation}
+    Y_t=\alpha+\theta Y_{t-1}+\varepsilon_t
+\end{equation}$$`
+
+--
+
+A simple way to model dependence between observations in different time periods would be that `\(Y_t\)` depends linearly on the observation from the previous time period `\(Y_{t-1}\)`.
+
+--
+
+* Here `\(\varepsilon_t\)` means serially uncorrelated innovation with mean of zero and a constant variance. 
+--
+
+* The process in the above equation is called a first order `\(\textbf{autoregressive process}\)` or `\(AR(1)\)` process. 
+
+--
+
+* This process tells us that the value of Y at time `\(t\)` depends on a constant term plus `\(\theta\)` times plus an unpredictable component `\(\varepsilon\)`. 
+
+--
+
+* Here we shall assume `\(|\theta|&lt;1\)`.  
+
+--
+
+* The process underlying `\(\varepsilon_t\)`  called `\(\textbf{white noise process}\)`. 
+
+--
+
+* Here `\(\varepsilon\)` will be always homoskedastic and will not show any autocorrelation. 
+
+---
+
+## Expected Value of AR(1)
+
+The expected value of `\(Y_t\)` can be solved from 
+
+`$$\begin{equation*} E(Y_t)=\delta+\theta E(Y_{t-1}) \end{equation*}$$`
+
+which, assuming that `\(E(Y_t)\)` does not depend upon `\(t\)`, allows us to write 
+
+`$$E(Y_t)=E(Y_{t-1})=\mu \label{}$$`
+Remember, this is only true if `\(Y_t\)` is stationary, that means it's statistical property does not depend on a particular time period, in other words, the mean is constant. We will also write `\(y_t=Y_t-\mu\)`. Now it follows that 
+
+`$$\begin{gather*}
+    y_t+\mu=\delta+\theta (y_{t-1}+\mu)+\varepsilon \\ 
+    \text{In the above we have seen that} \\ 
+    \mu\equiv E(Y_t)=\frac{\delta}{(1-\theta)} \\ 
+    \text{which means} \\ 
+    \delta=\mu (1-\theta) \\ 
+    \text{Now putting this value in the above equation} \\ 
+    y_t+\mu=\mu (1-\theta)+\theta y_{t-1}+\theta \mu+\varepsilon \\ y_t+\cancel{\mu}=\cancel{\mu}-\mu \theta+\theta y_{t-1}+\theta \mu+\varepsilon \\ 
+    y_t=\cancel{\mu \theta}+\theta y_{t-1}+\cancel{\theta \mu}+\varepsilon \\ 
+    y_t=\theta y_{t-1}+\varepsilon 
+\end{gather*}$$`
+
+???
+
+Defining time series models in terms of `\(y_t\)` rather than `\(Y_t\)` is often notationally convenient. So `\(y_t\)` has been introduced so that depiction of time models remain concise
+
+---
+
+Taking expectation, we get :
+`$$E(y_t)=\theta E(y_{t-1})+ E(\varepsilon)$$` 
+
+--
+
+Since `\(E(\varepsilon)=0\)` we can write 
+`$$E(y_t)=\theta E(y_{t-1})$$` 
+
+--
+
+Remember, previously we said that `\(Y_t\)` is stationary and as a result `\(E(Y_t)=E(Y_{t-1})\)`
+
+--
+
+Then we can write,
+
+--
+
+`$$\begin{gather*}
+    E(y_t+\mu) =E(y_{t-1}+\mu) \\
+    E(y_t)+E(\mu)=E(y_{t-1})+E(\mu) \\
+ \text{since}\,\mu\, \text{is a constant}\,E(\mu)=\mu  \\
+    E(y_t)+\cancel{\mu}=E(y_{t-1})+\cancel{\mu} \\
+    E(y_t)=E(y_{t-1}) \\
+    \text{Now from the above, we can write} \\
+    E(y_t)-\theta E(y_t)=0 \quad \text{since} \quad E(y_t)=E(y_{t-1}) \\
+    E(y_t)=0
+\end{gather*}$$`
+
+---
+
+* Above results show that `\(y_t\)` has a zero mean. But to have a non-zero mean we can add an intercept. 
+
+--
+
+* We also here note that `\(V(Y_t)=V(y_t)\)`. 
+
+--
+
+* The process described in above equation imposes certain restrictions on the stochastic process that generates `\(Y_t\)`. 
+
+--
+
+* Usually when we have a group of variables, we usually describe their joint distribution by  covariances. 
+
+--
+
+* Since, here are lagged version of other variables, we call it `\(\texttt{autocovariances}\)` .  
+
+--
+
+* This is the so called `\(\texttt{stationarity}\)` condition. 
+
+--
+
+* Basically we require stationarity to derive dynamic properties of `\(Y_t\)`.
+
+--
+
+* Without deriving dynamic properties of `\(Y_t\)`, we can not forecast its values. 
+
+---
+
+## Variance of AR(1)
+
+Previously we derived the constant mean of the distribution by imposing that mean does not depend on `\(t\)`. Now we will do the same thing with variances. 
+
+--
+
+First let's derive the variance:
+
+
+--
+
+`$$\begin{equation*}
+	\begin{split}
+		Var(Y_t)&amp;=Var(\delta+\theta Y_{t-1}+\varepsilon_t)\\
+		 &amp;=Var(\delta)+Var(\theta Y_{t-1}+\varepsilon_t) \\
+		&amp;=Var(\theta Y_{t-1}+\varepsilon_t) \quad \because \quad Var(\delta)=0\\
+		&amp;=\theta^2 Var(Y_{t-1})+Var(\varepsilon_t) 
+	\end{split}
+\end{equation*}$$`
+
+--
+
+Therefore, we can write
+
+--
+
+`$$\begin{equation}\label{eqst1}
+		Var(Y_t)=Var(Y_{t-1})
+	\end{equation}$$`
+
+`$$\begin{equation}
+		Var(Y_t)=\theta^2 Var(Y_{t-1}) + Var(\varepsilon_t) 
+	\end{equation}$$`
+
+`$$\begin{equation}
+		Var(Y_t)=\theta^2 Var(Y_{t-1}) + Var(\varepsilon_t) 
+	\end{equation}$$`
+
+`$$\begin{equation} 
+    Var(Y_{t}) = \theta^2 Var(Y_{t-1}) + Var(\varepsilon_t)
+\end{equation}$$`
+	    
+Here we assume that `\(Cov(Y_{t-1} \varepsilon_t)=0\)`. Now, this is not too unrealistic in the sense that error at current period might not be correlated with the endogenous variable in the past.Now it's time to impose one of the stationarity condition, namely, variance of the time series process does not depend on time:
+
+`$$\begin{equation}\label{eqst}
+		Var(Y_t)=Var(Y_{t-1})
+	\end{equation}$$`
+
+---
+
+Now using above equations,
+
+`$$\begin{gather}
+    Var(Y_t) =\theta^2 Var(Y_t)+ \sigma^2 \quad \text{by} \quad Var(Y_t)=\sigma^2\\
+		\text{or,} \quad Var(Y_t)(1-\theta^2) =\sigma^2\\
+		\text{or,} \quad Var(Y_t) =\frac{\sigma}{1-\theta^2} \label{eqvar2}
+\end{gather}$$`
+
+
+We see from the above equation  that `\(Var(Y_t)\)` is indeed constant. We also see from \eqref{eqvar2} that we can only impose `\(Var(Y_t)=Var(Y_{t+1}\)` if `\(|\theta|&lt;1\)` . This is the assumption we madel previously.This is actually the essence of \texttt{Dickey-Fuller} test which tests whether this coefficient is less than one or not. 
+
+---
+
+## Covariances of AR(1)	
+
+Now let's find the `\(Covariance\)` between `\(Y_t\)` and `\(Y_{t-1}\)`
+
+`$$\begin{equation} 
+    \begin{split} 
+	Cov(Y_t,Y_{t-1}) &amp; =E(Y_t-E(Y_t))E(Y_{t-1}-E(Y_{t-1})) \\ 
+		     &amp; =E((Y_t-\mu)(Y_{t-1}-\mu))  \quad \because \quad E(Y_t)=E(Y_{t-1})=\mu \\
+                     &amp; =\theta (E(y_{t-1})^2+E(\varepsilon_t y_{t-1}) \quad \text{by the definition of Yt}\\
+		     &amp; =\theta \, E(Y_{t-1}-\mu)^2+E(\varepsilon_t y_{t-1})\\
+		     &amp; =\theta \, Var(Y_t)+E((\varepsilon_t-E(\varepsilon_t)) (Y_{t-1}-\mu))\\
+		     &amp; =\theta \, Var(Y_t)+Cov(\varepsilon_t,Y_t)\\
+		     &amp; =\theta \, Var(Y_t)\quad \because \quad Cov(\varepsilon_t,Y_{t-1})=0
+		\label{eqcov}
+    \end{split} 
+\end{equation}$$`
+
+So, we have established that 
+
+`$$\begin{equation}
+	Cov(Y_t,Y_{t-1})=\theta \frac{\sigma^2}{1-\theta^2}
+	\label{eqcov2}
+\end{equation}$$`
+
+---
+
+Now let's take some higher order lags. Let's see what would be the covariance between `\(Y_t\)` and `\(Y_{t-2}\)`, that is autocovariance of lag order 2.
+
+
+`$$\begin{equation}
+		\begin{split}
+		Cov(Y_t,Y_{t-2}) &amp; =E(Y_t-E(Y_t))E(Y_{t-2}-E(Y_{t-2}))\\
+		&amp; =E((Y_t-\mu)(Y_{t-2}-\mu))\quad \because \quad E(Y_t)=E(Y_{t-2})=\mu\\
+		&amp; =E(y_t\, y_{t-2})\quad \text{by the definition of} Y_t\\
+\text{Before continuing we have to figure out} y_t\\
+		y_t &amp; =\theta y_{t-1}+\varepsilon_t\\
+		&amp; =\theta (\theta y_{t-2}+\varepsilon_{t-1})+\varepsilon_t\\
+		&amp; =\theta^2 y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+\text{Now,putting this value back in equation}
+		&amp; =E((\theta^2 y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t)y_{t-2})\\
+		&amp; =\theta^2 (E(y_{t-2})^2+E(\varepsilon_{t-1} y_{t-2})+E(\varepsilon_t y_{t-2}))\\
+		&amp; =\theta^2 \, E(Y_{t-2}-\mu)^2+Cov(\varepsilon_{t-1},y_{t-2})+Cov(\varepsilon_t,y_{t-2})\\
+		&amp; =\theta^2 \, Var(Y_t)\quad \because \quad Cov(\varepsilon_t,Y_{t-k})=0\\
+		&amp; =\theta^2 \, \frac{\sigma^2}{1-\theta^2}\\
+\text{Therefore we see that,}
+&amp; Cov(Y_t,Y_{t-1}) =\theta \frac{\sigma^2}{1-\theta^2}\\
+&amp; Cov(Y_t,Y_{t-2}) =\theta^2 \frac{\sigma^2}{1-\theta^2}\\
+\vdots\\
+&amp; Cov(Y_t,Y_{t-k}) =\theta^k \frac{\sigma^2}{1-\theta^2}
+		\end{split}
+		\label{eqcovk}
+\end{equation}$$`
+	
+---
+
+We have the following observation from the above Covariance formula
+
+
+* As long as `\(\theta\)` is non-zero, any two observation on `\(Y\)` has non-zero correlation. This might imply that as long as `\(Y\)` in period `\(t\)` is correlated with it's immediate past value, that correlation carries through higher degree of past value.
+* Since the value of `\(|\theta|&lt;1\)`, this correlation diminishes in higher degree of lag-order. This is quite intuitive as itis natural to have weakerza correlation among values whic are far apart. 
+* Covariance between any two time periods does not depend on any of the time periods.Rather it depends on how far they are apart, which is determined by `\(k\)`. This is one of the primary features of stationary time series. 	
+
+---
+
+
+
+class: inverse,middle,center
+
+# Moving Average Models
+
+---
+
+## Introduction
+
+Another very simple time series model is moving average of order 1 or MA(1). This process is given by:
+
+`$$\begin{equation}
+    Y_t=\mu+\varepsilon_t+\alpha \varepsilon_{t-1}
+\end{equation}$$`
+
+In above equation, `\(Y_t\)` is sum of constant mean plus weighted average of current and past error. Why this is called weighted average? I am not sure at this point. Usually weighted average is in the form of `\(\alpha \varepsilon+(1-\alpha) \varepsilon\)` form. But in the above equation, it's not like that. I have to look further into it. Basically the values of `\(Y_t\)` are defined in terms of drawings from White Noise processes `\(\varepsilon_t\)`. 
+
+---
+
+## Mean of MA(1)
+
+Mean of `\(MA(1)\)` process is pretty simple: 
+
+`$$\begin{equation}
+    E(Y_t)=\mu \quad \because E(\varepsilon_t)=E(\varepsilon_{t-1})=0
+\end{equation}$$`
+
+## Variance of MA(1)
+
+`$$\begin{equation}
+    \begin{split}
+	Var(Y_t) &amp; =E[Y_t-E(Y_t)]^2\\
+	&amp; =E(\cancel{\mu}+\varepsilon_t+\alpha \varepsilon_{t-1}-\cancel{\mu})^2\\
+	&amp; =E(\varepsilon_t+\alpha \varepsilon_{t-1})^2\\
+	&amp; =E(\varepsilon_t)^2+\alpha^2 E(\varepsilon_{t-1}^2)\\
+	&amp; =\sigma^2+\alpha^2 \sigma^2\\ 
+	&amp; =\sigma^2(1+\alpha^2)
+  \end{split}
+\end{equation}$$`
+
+---
+
+## Covariance of MA process
+
+`$$\begin{equation}
+    \begin{split}
+	Cov(Y_t,Y_{t-1}) &amp; = E[Y_t-E(Y_t)][Y_{t-1}-E(Y_{t-1})]\\
+		     &amp; = E(\varepsilon_t+\alpha \varepsilon_{t-1})(\varepsilon_{t-1}+\alpha \varepsilon_{t-2})\\
+		     &amp; =\alpha E(\varepsilon_{t-1}^2) \quad \because \quad Cov(\varepsilon_t,\varepsilon_{t-k})=0 \quad \forall \,t \quad \text{when} \quad k\neq 0\\ 
+		     &amp; = \alpha \sigma^2 \\
+	    Cov(Y_t, Y_{t-2}) &amp; = E[Y_t-E(Y_t)][Y_{t-2}-E(Y_{t-2})]\\
+		     &amp; = E(\varepsilon_t+\alpha \varepsilon_{t-1})(\varepsilon_{t-2}+\alpha \varepsilon_{t-3})\\
+		     &amp; = 0 \quad \because \text{all cross covariance of error terms are zero}\\ 
+	Similarly Cov(Y_t,Y_{t-k}) &amp; = 0 \quad \forall \quad k\ge 2
+			\end{split}
+			\label{eqmacov}
+\end{equation}$$`
+
+The equation above implies that `\(AR(1)\)` and `\(MA(1)\)` has very different autocovariance structure. 
+
+---
+
+## Comparing AR(1) and MA(1)
+
+We can generalize `\(AR(1)\)` and `\(MA(1)\)` by adding additional lag terms. In general, there is little difference between these two models. We express$\mathbf{AR(1)}$  as$\mathbf{MA(1)}$ by repeated substitution.We can rewrite \texttt{AR(1)} as an infinite order of moving average. We can see this in the following:
+
+`$$\begin{align}
+	Y_t &amp;=\delta+\theta Y_{t-1}+\varepsilon \\
+	&amp;=\delta+\theta [\delta+\theta Y_{t-2}+\varepsilon_{t-1}]+\varepsilon_t\\
+	&amp;=\delta+\theta \delta+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_ti \label{del}\\
+\text{We also have previously found that}\\
+\mu &amp;=\frac{\delta}{1-\theta}\\
+\text{or,}\quad \delta &amp;=\mu (1-\theta)\\
+\text{Now putting this back into equation}\\ 
+	&amp;=\mu (1-\theta)+\theta \mu (1-\theta)+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+	&amp;=\mu - \mu \theta+ \theta \mu -\mu \theta^2+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+	&amp;=\mu - \cancel{\mu \theta}+ \cancel{\theta \mu} -\mu \theta^2+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+	&amp;=\mu+\theta^2(Y_{t-2}-\mu)+\theta \varepsilon_{t-1}+\varepsilon_t
+\end{align}$$`
+
+---
+
+`$$\begin{align}
+	\text{Similarly, by substituting for}\, Y_{t-2}, \text{we get}\\
+	&amp;=\mu+\theta^3(Y_{t-3}-\mu)+\varepsilon_t+\varepsilon_t+\theta \varepsilon_{t-1}+\theta^2 \varepsilon_{t-2}\\
+	&amp;\vdots\\
+    &amp;=\mu+\theta^n(Y_{t-n}-\mu)+\sum_{j=0}^{n-1}\theta^j \varepsilon_{t-j}\\
+\end{align}$$`
+
+When `\(n\longrightarrow \infty\)` and `\(\theta &lt;1\)` (remember the stationarity condition) , above equation boils down to 
+
+`$$\begin{equation}
+		Y_t=\mu+\sum_{j=0}^{n-1}\theta^j \varepsilon_{t-j}\\
+		\label{eqtrar}
+\end{equation}$$`
+
+In the same manner, we can try to see whether an `\(\texttt{MA(1)}\)` process can be transformed into some kind of `\(\texttt{AR}\)` process. 
+
+`$$\begin{align}
+		MA(1) &amp; =\mu+\varepsilon_t+\varepsilon_{t-1}\\
+		&amp; = \mu+Y_t-\delta - \theta Y_{t-1}+Y_{t-1}-\delta-\theta Y_{t-2} \\
+		&amp;=\frac{\delta}{1-\theta}-2 \delta+(1-\theta)Y_{t-1}-\theta Y_{t-2} \\
+		&amp;=\sigma_0+\sigma_1 Y_{t-1}+\sigma_2 Y_{t-2}
+		\label{}
+\end{align}$$`
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

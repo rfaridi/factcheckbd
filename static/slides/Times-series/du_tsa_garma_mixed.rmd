@@ -1,0 +1,260 @@
+class: inverse,middle,center
+
+# Mixed models: The ARMA process 
+
+---
+
+## Definition
+
+An AR(p) process can be described in the following manner: 
+
+$$x_t=\alpha_1x_{t-1}+\alpha_2x_{t-2}+\ldots+\alpha_px_{t-p}+w_t$$ 
+
+Here ${w_t}$ is white noise and the $\alpha_i$ are the model parameters. 
+
+A useful class of models are obtained when AR and MA terms are added together in a single expression 
+
+A time series ${x_t}$ follows an autoregressive moving average (ARMA) process of order $(p,q)$, denoted $ARMA(p,q)$ when
+
+$$\begin{equation}
+x_t=\alpha_1 x_{t-1} + \alpha_2 x_{t-2}+\ldots +\alpha_p x_{t-p}+w_t +\beta_1 w_{t-1} + \beta_2 w_{t-2}+\ldots+\beta_q w_{t-q}
+\end{equation}$$
+
+
+Here ${w_t}$ is white noise 
+
+---
+
+The above equation can be represented in terms of the backward shift operator `B` and rearranged in the more concise polynomial form 
+
+$$\theta_p(B)x_t=\phi_q(B)w_t$$ 
+
+The following points should be noted about an ARMA(p,q) process: 
+
+The process is stationary when the roots of $\theta$ all exceed unity in absolute value 
+
+The process is invertible when the roots of $\phi$ all exceed unity in absolute value 
+
+The AR(p) model is the special case $ARMA(p,0)$ 
+
+The MA(q) model is the special case ARMA(0,q) 
+
+Parameter parsimony :  When fitting to data, an ARMA model will often be more parameter efficient - require fewer parameters - than a single MA or AR model 
+
+Parameter redundancy: when $\theta$ and $\phi$ share a common factor, a stationary model can be simplified. For example, the model $(1-\frac{1}{2}B)(1-\frac{1}{3})x_t=(1-\frac{1}{2})w_t$ can be written as $(1-\frac{1}{3})x_t=wt$ 
+
+
+---
+
+## ARMA models: Empirical analysis
+
+**Simulation and fitting**
+
+The ARMA process can be simulated using the R function `arima.sim`
+
+This function takes a list of coefficients representing the AR and MA parameters. 
+
+An ARMA(p,q) model can be fitted using the `arima` function with the `order` function parameter set to `c(p,0,q)` 
+
+The fitting algorithm proceeds similarly to that for a MA process. 
+
+The fitting algorithm proceeds similarly to that for an MA process 
+
+Below data from an ARMA(1,1) process are simulated for $\alpha$=-0.6  and $\beta$=0.5
+
+As expected, the sample estimates of $\alpha$ and $\beta$ are close to the underlying model parameters 
+
+```{r }
+set.seed(1)
+x <- arima.sim(n = 10000, list(ar = -0.6, ma = 0.5))
+coef(arima(x, order = c(1, 0, 1)))
+```
+---
+
+## Exchange rate series
+
+Previously, we have found that a simple MA(1) model failed to provide an adequate fit to the exchange rate series. 
+
+In the code below, fitted MA(1), AR(1) and ARMA(1,1) models are compared using the AIC 
+
+ARMA(1,1) model provides the best fit to the data, followed by AR(1) model, along with MA(1) model providing the poorest fit. 
+
+The figure indicates that the residuals of the fitted ARMA(1,1) model have small autocorrelations
+
+This is consistent with a realisation of white noise and supports the use of the model 
+
+---
+
+```{r, eval=FALSE }
+x.ma <- arima(x.ts, order = c(0, 0, 1))
+x.ar <- arima(x.ts, order = c(1, 0, 0))
+x.arma <- arima(x.ts, order = c(1, 0, 1))
+```
+
+Now let's find the AIC's 
+
+```{r, eval=FALSE }
+AIC(x.ma)
+AIC(x.ar)
+AIC(x.arma) 
+acf(resid(x.arma))
+```
+
+---
+
+## Electricity production series
+
+Let's consider the Australian electricity production series 
+
+The data exhibit a clear positive trend and a regular seasonal cycle 
+
+The variance increases with time
+
+This suggests a log-transformation may be appropriate 
+
+---
+
+A regression model is fitted to the logarithms of the original series in the code below 
+
+```{r, eval=FALSE }
+www <- "http://www.massey.ac.nz/~pscowper/ts/cbe.dat"
+CBE <- read.table(www, header = T)
+Elec.ts <- ts(CBE[, 3], start = 1958, freq = 12)
+Time <- 1:length(Elec.ts)
+Imth <- cycle(Elec.ts)
+Elec.lm <- lm(log(Elec.ts) ~ Time + I(Time^2) + factor(Imth))
+acf(resid(Elec.lm))
+```
+
+---
+
+The correlogram of the residuals appears to cycle with a period of 12 months suggesting that the monthly indicator variables are not sufficient to account for the seasonality in the series 
+
+When we study ARIMA, we will find that this can be accounted for using a non-stationary model with a stochastic seasonal component. 
+
+In the meantime, the best fitting $ARMA(p,q)$ model can be chosen using the smallest AIC either by trying a range of combinations of $p$ and $q$ in the `arima` function
+
+Or using a `for` loop with upper bounds on $p$ and $q$ 
+
+In each step of the `for` loop, the AIC of the fitted model is commpared with the currently stored smallest value 
+
+---
+
+If the model is found to be an improvement, that is it has smaller AIC value, then the new value and model are stored 
+
+To start with, best.aic is initialised to infinity $Inf$ 
+
+After the loop is complete, the best model can be found in best.order 
+
+In this case, the best model turns out to be an AR(2) model 
+
+```{r, eval=FALSE }
+best.order <- c(0, 0, 0)
+ best.aic <- Inf
+ for (i in 0:2) for (j in 0:2) {
+fit.aic <- AIC(arima(resid(Elec.lm), order = c(i, 0,
+j)))
+if (fit.aic < best.aic) {
+best.order <- c(i, 0, j)
+best.arma <- arima(resid(Elec.lm), order = best.order)
+best.aic <- fit.aic
+}}
+```
+
+---
+
+Now let's see the best order 
+
+```{r, eval=FALSE }
+best.order 
+```
+
+Now time for the ACF
+
+```{r, eval=FALSE }
+acf(resid(best.arma))
+```
+
+---
+
+The `predict` function can be used to both to forecast future values from the fitted regression model
+
+Forecast the future errors associated with the regression model suing the ARMA model fitted to the residuals from the regression 
+
+These two forecasts can then be summed to give a forecasted value of the logarithm for electricity production
+
+This would need to be anti-logged and perhaps adjusted using a bias correction factor 
+
+`predict` is a generic `R` function, it works in different ways for different input objects and classes 
+
+For a fitted regression model of class `lm`, the `predict` function requires the new set of data to be in the form of a data frame 
+
+For a fitted ARMA model of class `arima`, the `predict` function requires just the number of time steps ahead for the desired forecast 
+
+In the latter case, `predict` produces an object that has both the predicted values and their standard errors
+
+These two values can be extracted using `pred` and `se`
+
+---
+
+In the code below, the electricity production for each month of the next three years is predicted 
+
+```{r, eval=FALSE }
+ new.time <- seq(length(Elec.ts), length = 36)
+ new.data <- data.frame(Time = new.time, Imth = rep(1:12,
+3))
+ predict.lm <- predict(Elec.lm, new.data)
+ predict.arma <- predict(best.arma, n.ahead = 36)
+ elec.pred <- ts(exp(predict.lm + predict.arma$pred), start = 1991,
+freq = 12)
+ ts.plot(cbind(Elec.ts, elec.pred), lty = 1:2)
+```
+
+The plot of the forecasted values suggests that the predicted values for winter may be underestimated by the fitted model 
+
+This may be due to the remaining seasonal autocorrelation in the residuals 
+
+This problem will be tackled in ARIMA topic 
+
+---
+
+## Wave tank data
+
+The data in the file `wave.dat` are the surface height of water (mm), relative to the still water level 
+
+This is measured using a capcitance probe positioned at the centre of a wave tank 
+
+The continuous voltage signal from this capacitance probe was sampled every 0.1 second over a 39.6 second period. 
+
+The objective is to fit a suitable ARMA(p,q) model that can be used to generate a realsistic wave input to a mathematical model for an ocean-going tugboat in a computer simulation 
+
+The results of the computer simulation will be compared with tests using a physical model of the tugboat in the wave tank 
+
+The pacf suggest that $p$ should be at least 2 
+
+---
+
+The best fitting ARMA(p,q) model based on a minimum variance of residuals was obtained with both $p$ and $q$ equal to 4. The acf and pacf of the residuals from this model are consistent with the residuals being a realisation of white noise. 
+
+```{r, eval=FALSE }
+www <- "http://www.massey.ac.nz/~pscowper/ts/wave.dat"
+wave.dat <- read.table(www, header = T)
+attach (wave.dat)
+layout(1:3)
+plot (as.ts(waveht), ylab = 'Wave height')
+acf (waveht)
+pacf (waveht)
+wave.arma <- arima(waveht, order = c(4,0,4))
+acf (wave.arma$res[-(1:4)])
+pacf (wave.arma$res[-(1:4)])
+hist(wave.arma$res[-(1:4)], xlab='height / mm', main='')
+```
+
+
+
+
+
+
+
+
+

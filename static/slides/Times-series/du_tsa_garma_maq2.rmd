@@ -1,0 +1,158 @@
+## Stationarity 
+A stochastic process is said to be stationary if it's properties are unaffected by a change of time origin.Time origin might mean the particular time period which represents the time range. It might be the starting time period or the center value of time. In other words, joint probability distribution of any set of times does not change shape or affected by any means if there is a shift in the time axis. Why we talk about joint probability distribution here. This is because every value in every time period is a particular value of a random variable. For example, $Y_t$ is random variable, same as $Y_{t-1}$ is a random variable. When a time-series consists of these two variables, the distribution of this time series is a joint distribution.
+
+---
+
+## Strict stationarity
+
+A time series model ${x_t}$ is strictly stationary if the joint distribution of $x_1,\ldots,x_{t_n}$ is the same as the joint distribution of ${x_{1+m},\ldots,x_{t+m}}$ for all $t_1,\ldots,t_n$ and m, so that the distribution is unchanged after an arbitrary time shift.
+
+Strict stationarity implies that the mean and variance are constant in time
+
+Autocovariance $Cov(x_t, x_s)$ only depends on lag $k=|t-s|$ and can be written $\gamma(k)$ 
+
+---
+
+## Weak stationarity
+
+If a series is not not strictly stationary but the mean and variance are constant in time and autocovariance only depends on the lag, then the series is called second-order stationary.
+
+Usually stationarity is a very strict condition which requires that the whole distribution must be unchanged at any time period. It means that all the moments in any order should be equal. But this is usually impractical to find. As a result, we impose a softer version of this \textbf{strict stationarity} which we call \textbf{weak stationarity}. Weak stationarity is a situation when we have just mean, variance are equal. 
+
+---
+
+## Covariance stationary
+
+We also have covariance which does not change we time difference between variables are the same. This means:
+
+$$\begin{equation}
+    Cov(Y_1,Y_5)=Cov(Y_{17},Y_{21})
+	    \label{eqeqcov}
+\end{equation}$$
+
+ This is also called covariance stationary. We can formally express the covariance stationary in the following way:
+
+$$\begin{align}
+	E(Y_t)&=\mu < \infty \label{eqm}\\ 
+	Var(Y_t)&=\sigma^2 \label{eqv}\\
+	Cov(Y_t,Y_{t-k})&=E[(Y_t-E(Y_{t-1}))(Y_{t-k}-E(Y_{t-k}))] \\ 
+	&=E[(Y_t-\mu)(Y_{t-k}-\mu)]\\
+	&=\gamma_k \label{sco} \quad k=1,2,3,\dotsc
+\end{align}$$
+
+---
+
+Here, equation \eqref{eqm} and \eqref{eqv} implies that weakly stationary process is characterized by constant finite mean and variance. On the other hand, \eqref{sco} implies that covariance between any two time periods does not depend on the time period they are in, rather it depends on the time lag between these two variables. 
+
+
+If the white noise is Gaussian, the stochastic process is commpletely defined by the mean and covariance structure, in the same way as any normal distribution is defined by its mean and variance-covariance matrix.
+
+First step in any should be to check whether there is any evidence of a trend or seasonal effects
+
+If there is we will have to remove them
+
+It is often reasonable to treat the time series of residuals as a realisation of a stationary error series.
+
+Therefore, these models in this topic are often fitted to residual series arising from regression analyses
+
+---
+
+## Autocorreation function (ACF)
+
+**Autocovariance**
+
+Since here we are trying to find covariance between two variables where one is the lag version of the same variable, we call these \textbf{autocovariances}. Here we define the \textbf{k-th order autocovariance} as:
+
+$$\begin{equation}
+    \gamma_k=Cov(Y_t,Y_{t-k})=Cov(Y_{t-k},Y_t)
+			\label{sco2}
+\end{equation}$$
+
+
+When $k=0$, $\gamma_k$ reduces to:
+
+$$\begin{equation}
+    \gamma_0=Cov(Y_t,Y_t)=Var(Y_t)
+    \label{gam0}
+\end{equation}$$
+
+---
+
+## Autocorreation		
+
+One problem with covariance its value is not independent of the units in which the variables are measured. For example, $Cov(Y_1,Y_5)$  and $Cov(Y_12, Y_16)$ might not equal just because units are different. For example, let's say $Y_t$ is measuring the CPI. In early time periods, CPI usually had lower values but suddenly it got a shift in later time periods. It's better to use correlation measure which is unit free, obviously we will use \textbf{autocorrelation} which standardizes to compare across different series. Here we will derive $\rho_k$ which is the k-th order autocorreation:
+
+$$\begin{align}
+    \rho_k & =\frac{Cov(Y_t,Y_{t-k})}{\sqrt{Var(Y_t)}\sqrt{Var(Y_{t-1})}} \\
+    & =\frac{\gamma_k}{\gamma_0} \quad (\text{by}\quad \eqref{gam0})
+	\label{eqrho}
+\end{align}$$
+
+Obviously, here $\rho_0=\frac{Cov(Y_t,Y_t)}{\gamma_0}=\frac{Var(Y_t)}{\gamma_0}=\frac{\gamma_0}{\gamma_0}=1$. And also as usual, $-1\le \rho_k \le 1 $ which is standard for autocorrelation measures.
+
+---
+
+## Autocorrelation Function(ACF)
+
+Autocorrelations as a function of lag order $(k)$ is called autocorrelation function or ACF. ACF plays a major role in understanding a time series. It tells us how deep is the memory of the underlying stochastic process. If it has long memory, as in the case of $AR(1)$, we would see that value of $\rho_k$ does not diminish to zero with increasing value of $k$ as quickly as the $MA(1)$ does.We already have seen that in section \ref{sscovma} that covariance between two periods, in a $MA(1)$ process, reduces to zero if  lag is just more than one period. Therefore by looking into the ACF we can have a fair idea about the underlying time series stochastic process. 
+
+---
+
+## ACF of $AR(1)$ and $MA(1)$
+
+We have just previously seen that we can express autocorrelation of order $k$ as :
+
+$$\begin{equation}
+	\rho_k=\frac{\gamma_k}{\gamma_0}
+\end{equation}$$
+
+In the case of $AR(1)$, we have seen that in one of the previous equations that:
+
+$$\begin{align}
+	Cov(Y_t,Y_{t-k}) & =\rho_k \\
+			& =\theta^k \frac{\sigma^2}{1-\theta^2} \\
+			&=\theta^k \gamma_0 \\
+	\text{And, we also have seen that} \\
+	Var(Y_t) & =\gamma_0=\frac{\sigma^2}{1-\theta^2}\\
+	\text{So, we can say that, in the case of}\, AR(1) \\
+		\rho_k & =\frac{\gamma_k}{\gamma_0} \\
+			&=\theta^k \frac{\cancel{\gamma_0}}{\cancel{\gamma_0}}
+			&=\theta^k
+	\label{}
+\end{align}$$
+
+---
+
+In the case of $MA(1)$, we also have seen previously that :
+
+$$\begin{align}
+	\gamma_1 & =Cov(Y_t,Y_{t-1})=\alpha \sigma^2,\quad 
+	\text{and}\\
+	\gamma_0 & =Var(Y_t)= \sigma^2 (1+\alpha^2) \\
+	\text{Therefore, from the above two we can write}
+	\rho_1 & =\frac{\gamma_1}{\gamma_0} \\
+	&=\frac{\alpha \cancel{\sigma^2}}{\cancel{\sigma^2}(1+\alpha^2)} 
+	&=\frac{\alpha}{1+\alpha^2}
+	\label{}
+\end{align}$$
+
+And in the case of $k \ge 2 $, we have also seen that $\gamma_k=0 \quad \forall k$. Therefore,
+
+$$\begin{equation}
+	\rho_k=0 \quad \forall \quad k
+	\label{}
+\end{equation}$$
+
+---
+
+Implication of the above derivation is that, a shock in $MA(1)$ will only last two period, $Y_t$ and $Y_{t-1}$ while  a shock in $AR(1)$ will affect all future observations with a decreasing effect, since $|\theta|<1$.
+
+
+**Graphical Representation**
+
+Graphs of simulatated $AR(1)$ and $MA(1)$ goes in here. 
+
+
+
+
+

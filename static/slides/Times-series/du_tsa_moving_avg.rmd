@@ -1,0 +1,105 @@
+class: inverse,middle,center
+
+# Moving Average Models
+
+---
+
+## Introduction
+
+Another very simple time series model is moving average of order 1 or MA(1). This process is given by:
+
+$$\begin{equation}
+    Y_t=\mu+\varepsilon_t+\alpha \varepsilon_{t-1}
+\end{equation}$$
+
+In above equation, $Y_t$ is sum of constant mean plus weighted average of current and past error. Why this is called weighted average? I am not sure at this point. Usually weighted average is in the form of $\alpha \varepsilon+(1-\alpha) \varepsilon$ form. But in the above equation, it's not like that. I have to look further into it. Basically the values of $Y_t$ are defined in terms of drawings from White Noise processes $\varepsilon_t$. 
+
+---
+
+## Mean of MA(1)
+
+Mean of $MA(1)$ process is pretty simple: 
+
+$$\begin{equation}
+    E(Y_t)=\mu \quad \because E(\varepsilon_t)=E(\varepsilon_{t-1})=0
+\end{equation}$$
+
+## Variance of MA(1)
+
+$$\begin{equation}
+    \begin{split}
+	Var(Y_t) & =E[Y_t-E(Y_t)]^2\\
+	& =E(\cancel{\mu}+\varepsilon_t+\alpha \varepsilon_{t-1}-\cancel{\mu})^2\\
+	& =E(\varepsilon_t+\alpha \varepsilon_{t-1})^2\\
+	& =E(\varepsilon_t)^2+\alpha^2 E(\varepsilon_{t-1}^2)\\
+	& =\sigma^2+\alpha^2 \sigma^2\\ 
+	& =\sigma^2(1+\alpha^2)
+  \end{split}
+\end{equation}$$
+
+---
+
+## Covariance of MA process
+
+$$\begin{equation}
+    \begin{split}
+	Cov(Y_t,Y_{t-1}) & = E[Y_t-E(Y_t)][Y_{t-1}-E(Y_{t-1})]\\
+		     & = E(\varepsilon_t+\alpha \varepsilon_{t-1})(\varepsilon_{t-1}+\alpha \varepsilon_{t-2})\\
+		     & =\alpha E(\varepsilon_{t-1}^2) \quad \because \quad Cov(\varepsilon_t,\varepsilon_{t-k})=0 \quad \forall \,t \quad \text{when} \quad k\neq 0\\ 
+		     & = \alpha \sigma^2 \\
+	    Cov(Y_t, Y_{t-2}) & = E[Y_t-E(Y_t)][Y_{t-2}-E(Y_{t-2})]\\
+		     & = E(\varepsilon_t+\alpha \varepsilon_{t-1})(\varepsilon_{t-2}+\alpha \varepsilon_{t-3})\\
+		     & = 0 \quad \because \text{all cross covariance of error terms are zero}\\ 
+	Similarly Cov(Y_t,Y_{t-k}) & = 0 \quad \forall \quad k\ge 2
+			\end{split}
+			\label{eqmacov}
+\end{equation}$$
+
+The equation above implies that $AR(1)$ and $MA(1)$ has very different autocovariance structure. 
+
+---
+
+## Comparing AR(1) and MA(1)
+
+We can generalize $AR(1)$ and $MA(1)$ by adding additional lag terms. In general, there is little difference between these two models. We express$\mathbf{AR(1)}$  as$\mathbf{MA(1)}$ by repeated substitution.We can rewrite \texttt{AR(1)} as an infinite order of moving average. We can see this in the following:
+
+$$\begin{align}
+	Y_t &=\delta+\theta Y_{t-1}+\varepsilon \\
+	&=\delta+\theta [\delta+\theta Y_{t-2}+\varepsilon_{t-1}]+\varepsilon_t\\
+	&=\delta+\theta \delta+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_ti \label{del}\\
+\text{We also have previously found that}\\
+\mu &=\frac{\delta}{1-\theta}\\
+\text{or,}\quad \delta &=\mu (1-\theta)\\
+\text{Now putting this back into equation}\\ 
+	&=\mu (1-\theta)+\theta \mu (1-\theta)+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+	&=\mu - \mu \theta+ \theta \mu -\mu \theta^2+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+	&=\mu - \cancel{\mu \theta}+ \cancel{\theta \mu} -\mu \theta^2+\theta^2 Y_{t-2}+\theta \varepsilon_{t-1}+\varepsilon_t\\
+	&=\mu+\theta^2(Y_{t-2}-\mu)+\theta \varepsilon_{t-1}+\varepsilon_t
+\end{align}$$
+
+---
+
+$$\begin{align}
+	\text{Similarly, by substituting for}\, Y_{t-2}, \text{we get}\\
+	&=\mu+\theta^3(Y_{t-3}-\mu)+\varepsilon_t+\varepsilon_t+\theta \varepsilon_{t-1}+\theta^2 \varepsilon_{t-2}\\
+	&\vdots\\
+    &=\mu+\theta^n(Y_{t-n}-\mu)+\sum_{j=0}^{n-1}\theta^j \varepsilon_{t-j}\\
+\end{align}$$
+
+When $n\longrightarrow \infty$ and $\theta <1$ (remember the stationarity condition) , above equation boils down to 
+
+$$\begin{equation}
+		Y_t=\mu+\sum_{j=0}^{n-1}\theta^j \varepsilon_{t-j}\\
+		\label{eqtrar}
+\end{equation}$$
+
+In the same manner, we can try to see whether an $\texttt{MA(1)}$ process can be transformed into some kind of $\texttt{AR}$ process. 
+
+$$\begin{align}
+		MA(1) & =\mu+\varepsilon_t+\varepsilon_{t-1}\\
+		& = \mu+Y_t-\delta - \theta Y_{t-1}+Y_{t-1}-\delta-\theta Y_{t-2} \\
+		&=\frac{\delta}{1-\theta}-2 \delta+(1-\theta)Y_{t-1}-\theta Y_{t-2} \\
+		&=\sigma_0+\sigma_1 Y_{t-1}+\sigma_2 Y_{t-2}
+		\label{}
+\end{align}$$
+

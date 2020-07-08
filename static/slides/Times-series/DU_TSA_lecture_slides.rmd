@@ -1,0 +1,56 @@
+---
+title: "TIME SERIES LECTURES"
+output:
+  xaringan::moon_reader:
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css: [default,hygge,ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_chunk$set(echo=TRUE, 
+               eval=TRUE, 
+               message=FALSE, 
+               comment=NA, 
+               warning=FALSE,
+	       cache=F,
+               fig.width=6, fig.asp=.618, 
+               fig.align="center", 
+               out.width="100%")
+
+```
+
+
+
+
+```{r, include=F}
+library(tidyverse)
+library(flipbookr)
+```
+
+
+```{r child='./du_tsa_autoregression.rmd', eval=T}
+```
+
+```{r child='./du_tsa_moving_avg.rmd', eval=T}
+```
+
+```{r child='./du_tsa_garma_maq.rmd', eval=F}
+```
+
+```{r child='./du_tsa_garma_maq2.rmd', eval=F}
+```
+
+```{r child='./du_tsa_garma_formulate.rmd', eval=F}
+```
+
+```{r child='./du_tsa_garma_invertibility.rmd', eval=F}
+```
+
+```{r child='./du_tsa_garma_mixed.rmd', eval=F}

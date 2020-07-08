@@ -1,0 +1,199 @@
+class: inverse,middle,center
+
+# Invertibility of Lag Polynomial
+
+---
+
+
+## Generalization
+
+We have seen that for the first order lag polynomical $1-\theta L$ is invertible if $|\theta|<1$. But it is not clear at this point what we mean by invertibility. Is this means whether we can find the value of $\frac{1}{1-\theta L}$? We can find the value of this expression even though $|\theta|>1$, it's just negative\footnote{Need to have a clear understanding of invertibility}. Now, whatever invertibility is, let's move onand try to generalize this condition. First start with a second order polynomial. Then we will move onto higher degree of polynomial. 
+
+---
+
+## Second Order Polynomial
+Let's consider this second order polynomial:
+
+$$\begin{equation}
+        1-\theta_1 L-\theta_2 L^2
+        \label{eq:eq2pn}
+\end{equation}$$
+
+How to solve this type of question? Well this is typically a equation of the following form:
+
+$$\begin{equation} \label{eq2gn}
+        ax^2+bx+c
+\end{equation}$$
+
+Here $a=-\theta_2, b=-\theta_1, c=1$. Now the typical solution for this type of equation is:
+
+$$\begin{align}
+        x & =\frac{-b\pm \sqrt{b^2-4ac}}{2a}
+        \label{eq:eqax2}
+\end{align}$$
+
+---
+
+Now let's think about a numerical example with the following example:  
+
+$$\begin{multline}\label{eqnumex}
+        x^2-8x+15=x^2-3x-5x+15=x(x-3)-5(x-3) \\
+             =(x-3)(x-5)=(3-x)(5-x)=15(1-x/3)(1-x/5)
+\end{multline}$$
+
+Now let's put the above numerical example into a general mathematical form:
+
+$$\begin{equation}\label{eqphi}
+       1-\theta_1 L-\theta_2 L^2=(1-\varphi_1 L)(1-\varphi_2 L)
+\end{equation}$$
+
+---
+
+Now if we look into \eqref{eqphi} and compare it with \eqref{eqnumex}, we find that $\varphi_1=1/3$ and $\varphi_2=1/5$. But the presence of $15$ complicates the matter. Anyway, let's whether we can resolve the issue or not. Author says that we can write $\varphi_1+\varphi_2=\theta_1$.It sounds like for the usual quadratic equation formula in \eqref{eq2gn} there is some relation. 
+
+Now look into \eqref{eqnumex} to relate itto the numerical example we have. If we think $\varphi_1=1/3$ and $\varphi_2=1/5$, then $\varphi_1+\varphi_2=1/3+1/5=\frac{5+3}{15}=8/15$. Now we see what complicates the situation, its the $15$. If we compare \eqref{eqnumex} and \eqref{eqphi}, then we can say that $\theta_1=8$. Then $\varphi_1+\varphi_2=8/15$ does not quite equal to $15$. But if we multiply it by $15$ then $\frac{\cancel{15}}{8/\cancel{15}}=8$. 
+
+The relationship is also such that $-\varphi_1 \varphi_2= \theta_2$. Now let's check whether this holds. We have $1/3 \cdot 1/5=1/15$. But again we have to multiply by $15$ to get the desired result. Hence we get $1$ which is equivalent to $\theta_2=1$ which is the coefficient of $x^2$ in \eqref{eqnumex}.Ok that is fine. 
+
+
+---
+
+## Condition for invertibility
+
+But the part that I don't understand is the condition for invertibility in the polynomial. It says that the polynomial of second order in \eqref{eqphi} will be invertible if both of the first order polynomials are also invertible. The first order polynomials are: $(1-\varphi_1 L)$ and $(1-\varphi_2 L)$ . These two have to be also invertible for the whole quadratic polynomial to be invertible \footnote{Have to look for details here.}. This implies that both $\varphi_1$ and $\varphi_2$ has to be less than one, that is :
+
+$$\begin{equation}
+       |\varphi_1| < 1 \qquad \text{and} |\varphi_2| < 1
+       \label{eqphi2}
+\end{equation}$$
+
+Why this is so is not clear. Have to look into greater details. Anyways, author moves on to say that these requirements can also be formulated in terms of the so-called \textbf{characteristics equation}. Does it mean that charateristic equation is another way to mention this requirements of invertibility? Anyway, let's first specify the characteristic equation:
+
+$$\begin{equation}
+       (1-\varphi_1 z)(1-\varphi_2 z)=0
+       \label{eqphi3}
+\end{equation}$$
+
+When we look into this equation, the first thing that comes to mind is that why we are suddenly using $z$ instead of $L$ as we have done in \eqref{eqphi}.Well, my guess is that, it has been probably done to give a more generic look of the chracteristic equation. That's the only explanation I can find here.
+
+Solution of the equation in \eqref{eqphi3} can be expressed by two values of $z$: $z_1$ and $z_2$. These are called \textbf{characteristic roots}.Why this is called characteristic equation or characteristic roots? Now the invertibility condition requires that $|\varphi_i|<1$ which translates into $|z_i>1|$. If any solution that satisfies $|z_i|\ge 1$ will result into a non-invertible polynomial. If $|z_i|$ is exactly equal to $1$, then that solution is referred to as \textbf{unit root}. 
+
+---
+
+**Invertibility with lag polynomial coefficients**
+
+Here the author discusses an easier to detect the presence of unit root in a lag polynonmial. Remember, here we are talking about lag polynomial not the equation itself. It may create some confusion in the beginning. It certainly did in my case. Now the statement that confused me is the following:
+
+We can detect the presence of unit root by noting that the polynomial $\theta(z)$ evaluated at $z=1$ is zero if $\sum_{j=1}^{p} \theta_j=1$. Thus the presence of a first unit root can be verified by checking whether the sum of polynomial coefficients equals one. If the sum exceeds one, the polynomial is not invertible. 
+
+Now have a look at the above statement and try to evaluate it with the following example. We are considering the following $AR(2)$ model:
+
+$$\begin{equation}\label{eqexm}
+    y_t=1.2 y_{t-1} - 0.32 y_{t-2}+\varepsilon_t 
+\end{equation}$$
+
+---
+
+Now having a look at this equation \eqref{eqexm}, we might think that $\sum_{j=1}^{2}=1.2+(-0.32)=0.70$ which is less than one. This might work just fine. We can express this equation a little bit more elaborately in the lag polynomial form: 
+
+$$\begin{gather}\label{eqexm2}
+    y_t =1.2 L y_t-0.32 L^2 y_t+\varepsilon_t \\
+    y_t(1-1.2L+0.32 L^2)=\varepsilon_t \\
+    \text{We can also write this as} \\
+    y_t(1-0.8L-0.4L+0.32L^2)=\varepsilon_t \\
+    y_t[(1-0.8L)-0.4L(1-0.8L)]=\varepsilon_t \\
+    y_t(1-0.8L)(1-0.4L)=\varepsilon_t 
+    \text{This corresponds to the characteristics equation of the following form:} \\
+    1-1.2z+0.32z^2=(1-0.4z)(1-0.8z)=0
+\end{gather}$$
+
+---
+
+Now let's revisit the following statement and try to relate it with the above statement:
+
+We can detect the presence of unit root by noting that the polynomial $\theta(z)$ evaluated at $z=1$ is zero if $\sum_{j=1}^{p} \theta_j=1$. Thus the presence of a first unit root can be verified by checking whether the sum of polynomial coefficients equals one. If the sum exceeds one, the polynomial is not invertible. 
+
+Now let's check what would be the value of characteristics equation when evaluated at $z=1$. 
+
+$$\begin{gather}
+    1-1.2z+0.32z^2=1-1.2(1)+0.32(1)^2=1-1.2+0.32=1-0.70=0.30
+\end{gather}$$
+
+---
+
+We find the value of characteristics equation becomes $0.30$ when z=1. When this value will become $0$? Now to see that let's consider the equation when this value might become zero. How about this equation:
+
+$$\begin{equation}\label{eqexmv2}
+    y_t=1.2y_{t-1}-0.2y_{t-2}+\varepsilon_t
+\end{equation}$$
+
+Here some of the coefficeints in the lag polynomial will be $1.2-0.2=1$. Now what is wrong with that? Now the left hand side of the chracteristics equation with $z=1$ will be:
+\[1-1.2z+0.2z=1-1.2+0.2=0\]
+Here we see that when sum of the coefficients of the polynomial is $1$, then value of the polynomial is zero when $z=1$. 
+
+---
+
+## Consequences of Invertibility 
+
+Now what's the consequence of this? It's still not clear to me. In this case of a simple example it is obvious. For example:
+
+$$\begin{equation}\label{eqrw}
+    y_t=1.2y_{t-1} +\varepsilon_t
+\end{equation}$$
+
+Here, lag polynomial is much simpler: $1-1.2L$. Sum of the lag polynomial here is $1.2$ where there is only first degree lag, so we have just one term here. It is greater than $1$, so it must be invertible. The real signficance of invertibility is that the series becomes non-stationary. At least that what I understood. The border line case is \textbf{random walk} the value of lag coefficient is 1.
+
+$$y_t=y_{t-1}+\varepsilon_t$$
+
+The issue of whether lag polynomials are invertible or not is important for serveral reasons.For moving average models, it is important for estimation and predictions. For the autoregressive models, we already mentioned, it's ensures stationarity.
+
+---
+
+## Common Roots
+
+Now here we will talk about common roots. Let's have a look into the $ARMA(2,1)$ process of the following form: 
+ 
+$$\begin{gather} \label{}
+	y_t=\theta_1 y_{t-1}+\theta_2 y_{t-2}+ \varepsilon_t + \alpha_1 \varepsilon_{t-1} \\
+	y_t=\theta_1 L.y_t+\theta_2 L^2 y_t+\varepsilon_t+\alpha_1 L.\varepsilon_t \\
+	y_t[1-\theta_1 L -\theta_2 L^2]=\varepsilon_t[1+\alpha_1 L]\\
+	y_t(1-\varphi_1L)(1-\varphi_2 L)=\varepsilon_t(1+\alpha_1 L)\\
+	\text{Now, if}\, \alpha_1=-\varphi_1 \\
+	y_t(1+\alpha_1 L)(1-\varphi_2 L)=\varepsilon_t(1+\alpha_1 L)\\
+	y_t \cancel{(1+\alpha_1 L)}(1-\varphi_2 L)=\varepsilon_t\cancel{(1+\alpha_1 L)}
+	y_t(1-\varphi_2 L)=\varepsilon_t
+\end{gather}$$
+
+In the above we see that we start with a process $ARMA(2,1)$ and end up with a $ARMA(2-1,1-1)$ or $AR(1)$ process. Because fo the cancelling root, it seem they are equivalent which is wrong. In general. becasue of one canceling root $ARMA(p,q)$ can be written as $ARMA(p-1, q-1)$. 
+
+An example can better illustrate the situation but above explantion might suffice here. The issue is that with a common cancelling root it is difficult to identify which one is the real underlying stochastic process. 
+
+---
+
+A time series will often have well-defined components: trend and seasonal patterns 
+
+A well chosen linear regression may account for these non-stationary components
+
+In this case the residuals from the fitted model should not contain noticeable trend or seasonal patterns 
+
+But unfortunately that does not happen always 
+
+
+Residuals will usually be correlated in time, this is not accounted for in the fitted regression model 
+
+This happens because similar values may cluster together in time 
+
+Adjacent observations may be negatively correlated, for example high monthly sales figure may be followed by an unusually low value because customers have supplies left over from the previous month 
+
+
+In this topic, we consider stationary models that may be suitable for residual series that contain no obvious trends of seasonal cycles
+
+The fitted stationary models may then be combined with the fitted regression model to improve forecasts
+
+The autoregressive models that were introduced often provide satisfactory models for the residual time series. 
+
+
+
+
+
+
