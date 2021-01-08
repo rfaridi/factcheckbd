@@ -13,3 +13,5 @@ title: "List of available presentations"
 ## [Misc on dplyr](https://rushad.netlify.app/slides/dplyr_misc)
 
 ## [Mapping demo](https://rushad.netlify.app/slides/demo_mapping)
+
+## [Demo on Mosaic Package](https://rushad.netlify.app/slides/demo-mosaic-master)
