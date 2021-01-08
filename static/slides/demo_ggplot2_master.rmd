@@ -37,7 +37,7 @@ library(scales)
 ```{r child='./demo_ggplot2_pie2.rmd', eval=T}
 ```
 
-```{r child='./demo_ggplot2_horiz1.rmd', eval=T}
+```{r child='./demo_ggplot2_horiz1.rmd', eval=F}
 ```
 
 
