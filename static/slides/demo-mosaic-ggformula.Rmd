@@ -1,0 +1,630 @@
+class: inverse,middle,center 
+
+# ggformula vignette
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+
+```{r, include=F}
+diamonds2 <- diamonds %>% 
+  filter(color == "D" | color == "J") %>%
+  mutate(col = as.character(color))
+```
+
+```{r,fig.asp=.57}
+gf_boxplot(price ~ col, data= diamonds2) %>%  
+       gf_theme(theme_bw())
+```
+]
+
+.row[
+
+```{r,fig.asp=.57}
+gf_violin(price ~ col, data= diamonds2) %>%  
+       gf_theme(theme_bw())
+```
+]
+
+]]
+
+
+<!--column 2-->
+
+.column[
+.split-two[
+.row[
+
+```{r,fig.asp=.57}
+gf_boxplot(price ~ col, data= diamonds2) %>%  
+gf_violin(price ~ col, data= diamonds2) %>%  
+       gf_theme(theme_bw())
+```
+]
+
+.row[
+
+```{r,fig.asp=.57}
+gf_boxplot(price ~ col, data= diamonds2, alpha=0.05) %>%  
+gf_violin(price ~ col, data= diamonds2, col=NA, fill="navy", alpha=0.3) %>%  
+       gf_theme(theme_bw())
+```
+]
+
+]]
+
+<!--column 3-->
+
+.column[
+.split-two[
+.row[
+
+```{r,fig.asp=.57}
+gf_boxplot(price ~ col, data= diamonds2, alpha=0.05) %>%  
+gf_violin(price ~ col, data= diamonds2, col=NA, fill=~col, alpha=0.3) %>%  
+       gf_theme(theme_bw())
+```
+]
+
+.row[
+
+a bit of help
+
+```{r, message = T}
+gf_violin()
+```
+]
+
+]]
+
+
+---
+
+class: split-40 
+
+<!--column 1-->
+
+.column [
+.split-two[
+.row[
+```{r,fig.asp=.57}
+gf_violin(price ~ col, data=diamonds2,
+	  color=~col, fill=~col, alpha=0.2,
+	  scale="count",
+	  draw_quantiles=c(0.25,0.5,0.75),size=0.8,
+	  adjust=1/2
+	  ) %>% 
+       gf_theme(theme_bw())
+```
+]
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-two[
+.row[
+```{r, fig.asp=.61}
+gf_point(price ~ carat | col, data = diamonds2, alpha = 0.2) %>%
+  gf_lm() %>% 
+       gf_theme(theme_bw())
+```
+]
+
+.row[
+```{r, fig.asp=.51}
+gf_point(price ~ carat | col ~ clarity, data = diamonds2, alpha = 0.2) %>%
+  gf_lm()%>% 
+       gf_theme(theme_bw())
+```
+]
+
+
+]]
+
+
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+p1 <- gf_point(price ~ carat, data = diamonds2, 
+         color = ~ col, alpha = 0.2, size = 0.5)  %>% 
+         gf_theme(theme_minimal())
+p1
+```
+
+]
+
+.row[
+
+```{r,fig.asp=.57}
+p2 <- p1 %>% 
+         gf_lm(alpha=0.5)  
+p2
+```
+]
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-two[
+.row[
+```{r, fig.asp=.57}
+p3 <- p2  %>% 
+	 gf_facet_wrap(~color) 
+p3
+```
+
+]
+
+.row[
+
+```{r, fig.asp=.57}
+p4 <- p3  %>%  
+     gf_labs(title = "Price vs Size", subtitle = "(2 colors of diamonds)",
+          caption = "source: ggplot2::diamonds",
+          x = "size (carat)", y = "price (US dollars)") 
+p4
+```
+]
+
+]]
+
+<!--column 3-->
+
+.column[
+.split-two[
+
+.row[
+```{r, fig.asp=.57}
+p5 <- p4 %>% 
+       gf_refine(scale_color_manual(values = c("red", "navy"))) 
+p5
+```
+
+]
+
+.row[
+```{r, fig.asp=.57}
+p6 <- p5 %>% 
+       gf_refine(scale_color_manual(values = c("red", "navy"), guide = "none"))
+p6
+
+```
+]
+
+]]
+
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+mtcars2 <- df_stats(wt ~ cyl, data = mtcars, median_wt = median)
+     gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) %>%
+       gf_abline(slope = ~0, intercept = ~median_wt, color = ~cyl, data = mtcars2) %>% 
+       gf_theme(theme_bw())
+```
+]
+.row[
+```{r ,fig.asp=.57}
+# avoid warnings by using formulas:
+     gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) %>%
+       gf_abline(slope = ~0, intercept = ~3, color = "green") %>% 
+       gf_theme(theme_bw())
+```
+]
+
+]]
+ 
+
+<!--column 2-->
+
+.column[
+.split-two[
+.row[
+```{r , fig.asp=.57}
+gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars) %>%
+       gf_abline(color = "red", slope = ~ - 0.10, intercept = ~ 35) %>% 
+       gf_theme(theme_bw())
+```
+]
+
+.row[
+```{r, fig.asp=.57 }
+gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars) %>%
+       gf_abline(
+         color = "red", slope = ~slope, intercept = ~intercept,
+         data = data.frame(slope = -0.10, intercept = 33:35)
+       ) %>% 
+       gf_theme(theme_bw())
+
+```
+]
+
+]]
+ 
+
+<!--column 3-->
+
+.column[
+.split-two[
+.row[
+```{r , fig.asp=.57}
+gf_point(mpg ~ hp, color = ~cyl, size = ~ wt, data = mtcars) %>%
+       gf_hline(color = "navy", yintercept = ~ c(20, 25), data = NA) %>%
+       gf_vline(color = "brown", xintercept = ~ c(200, 300), data = NA) %>% 
+       gf_theme(theme_bw())
+
+```
+]
+.row[
+```{r , fig.asp=.57}
+gf_point(mpg ~ hp, size = ~wt, data = mtcars, alpha = 0.3) %>%
+       gf_hline(color = ~"horizontal", yintercept = ~ c(20, 25), data = NA) %>%
+       gf_vline(color = ~"vertical", xintercept = ~ c(100, 200, 300), data = NA) %>% 
+       gf_theme(theme_bw())
+```
+]
+
+]]
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+data(Runners, package = "mosaicModel")
+Runners <- Runners %>% filter( ! is.na(net))
+gf_density(~ net, data = Runners)
+```
+]
+.row[
+```{r,fig.asp=.57}
+gf_density( ~ net,  fill = ~ sex,  alpha = 0.5, data = Runners)
+```
+]
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+# gf_dens() is similar, but there is no line at bottom/sides, and it is not "fillable"
+gf_dens( ~ net, color = ~ sex, alpha = 0.7, data = Runners)    
+```
+]
+.row[
+```{r,fig.asp=.57}
+```
+]
+
+]]
+
+
+
+---
+
+class: inverse,middle,center 
+
+# `gf_fun()`
+
+---
+
+class: split-four
+
+<!--column 1-->
+
+.column[
+.split-three[
+.row[
+```{r,fig.asp=.57}
+gf_function(fun = sqrt, xlim = c(0, 10)) %>% 
+       gf_theme(theme_bw())
+```
+]
+.row[
+```{r,fig.asp=.57}
+gf_fun(x^2 ~ x, xlim = c(-4,4)) %>% 
+       gf_theme(theme_bw())
+```
+]
+.row[
+```{r,fig.asp=.57}
+sqr <- makeFun(x^2 ~ x)
+gf_function(fun=sqr, xlim = c(-4,4)) %>% 
+       gf_theme(theme_bw())
+```
+]
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-three[
+.row[
+```{r,fig.asp=.57}
+gf_function(fun = sqrt, xlim = c(0, 10)) %>% 
+       gf_theme(theme_bw())
+```
+]
+.row[
+```{r,fig.asp=.57}
+gf_fun(x^2 ~ x, xlim = c(-4,4)) %>% 
+       gf_theme(theme_bw())
+```
+]
+.row[
+```{r,fig.asp=.57}
+sqr <- makeFun(x^2 ~ x)
+gf_function(fun=sqr, xlim = c(-4,4)) %>% 
+       gf_theme(theme_bw())
+```
+]
+
+]]
+
+---
+
+class: inverse,middle,center 
+
+# `gf_dist()` 
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm") %>% 
+    gf_theme(theme_bw())
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", color="red") %>% 
+    gf_theme(theme_bw())
+```
+]
+
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-two[
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", mean=10, sd=2) %>% 
+    gf_theme(theme_bw())
+
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", mean=10, sd=2, type="cdf") %>% 
+    gf_theme(theme_minimal())
+
+```
+]
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", mean=10, sd=2, color="blue", type="cdf") %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+]]
+
+<!--column 3-->
+
+.column[
+.split-two[
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", mean=10, sd=2, fill="green", kind="histogram") %>% 
+    gf_theme(theme_minimal())
+
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", mean=10, sd=2, fill="grey", kind="histogram") %>% 
+gf_dist("norm", mean=10, sd=2) %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+]]
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", color="red", kind="qqstep", resolution=15) %>% 
+    gf_theme(theme_minimal())
+
+
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", color="red", kind="qqstep", resolution=50) %>% 
+    gf_theme(theme_minimal())
+
+
+```
+]
+
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-two[
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("t", df=9) %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm",color="red") %>% 
+gf_dist("t", df=9, color="blue") %>% 
+    gf_theme(theme_minimal())
+```
+
+]
+
+]]
+
+<!--column 3-->
+
+.column[
+.split-two[
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("binom", size=20,prob=0.25) %>% 
+    gf_theme(theme_minimal())
+```
+]
+.row[
+```{r,fig.asp=.57}
+gf_dist("binom", size=20,prob=0.25, plot_size=2) %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+]]
+
+---
+
+class: split-three
+
+<!--column 1-->
+
+.column[
+.split-two[
+.row[
+```{r,fig.asp=.57}
+gf_dist("exp") %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("f", df1=99, df2=45) %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+
+]]
+
+<!--column 2-->
+
+.column[
+.split-two[
+
+.row[
+
+```{r,fig.asp=.57}
+gf_dist("pois", lambda=1) %>% 
+    gf_theme(theme_minimal())
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("chisq", df=99) %>% 
+    gf_theme(theme_minimal())
+```
+
+]
+
+]]
+
+<!--column 3-->
+
+.column[
+.split-two[
+
+.row[
+```{r,fig.asp=.57}
+gf_dist("norm", type="pp" ) %>% 
+    gf_theme(theme_minimal())
+
+```
+]
+
+.row[
+```{r,fig.asp=.57}
+alpha <- c(.05,.95)
+rcrit <- round(qnorm(alpha),2)
+gf_dist("norm", fill = ~ (abs(x) <= rcrit[2]), geom = "area") %>% 
+    gf_refine(
+	      scale_fill_manual(values=c("red","blue")),
+	      scale_x_continuous(breaks = c(rcrit[1],0,1.64)),
+	      mytheme2
+    )
+```
+]
+
+]]
+
+
+

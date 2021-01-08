@@ -1,0 +1,48 @@
+---
+title: "Demo of Mosaic package"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, hygge, ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+opts_chunk$set(message=F, 
+		   warning=F, 
+		   comment=NA)
+```
+
+
+
+
+```{r, include=F}
+library(tidyverse)
+library(mosaic)
+mytheme <-  theme_minimal() + theme(legend.position="none",
+			       #axis.ticks.x = element_line(linetype="dotted")
+			       axis.title.y=element_blank(),
+			       axis.text.y=element_blank()
+			 )
+mytheme2 <-  theme_minimal() +
+	      theme(axis.title.y=element_blank(),
+	            axis.title.x=element_blank(),
+		    axis.text.y=element_blank(),
+		    legend.position="none") 
+			 
+```
+
+
+```{r, child = './demo-mosaic-ggformula.Rmd', eval=T}
+```
+
+
+```{r, child = './demo-mosaic-misc.Rmd', eval=T}
+```
+
+

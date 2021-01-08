@@ -1,0 +1,708 @@
+class: inverse,middle,center 
+
+# plotDist
+
+---
+
+class: split-four
+
+
+<!--column 1-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist("norm")
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("norm",type="h")
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("norm",kind="cdf")
+```
+]
+
+]]
+ 
+
+<!--column 2-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist("norm", mean=10, sd=2)
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("norm", mean=10, sd=2, col="green", type="h" )
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("binom",25,.25)
+```
+]
+
+]]
+ 
+
+<!--column 3-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist('binom',params=list(25,.25))
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("exp")
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("exp", kind='histogram')
+```
+]
+
+]]
+
+<!--column 4-->
+  
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist("chisq", df=4, groups= x > 6) 
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("f",df1=1, df2=99)
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("t", df=99)
+```
+]
+
+]]
+
+
+
+---
+
+class: inverse,middle,center 
+
+# plotFun
+
+---
+
+class: split-four
+
+
+<!--column 1-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotFun(x^2~x,xlim=range(-5,5))
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotFun(x^3~x,xlim=range(-5,5))
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotFun(x^4~x,xlim=range(-5,5))
+```
+]
+
+]]
+ 
+
+<!--column 2-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotFun(5/x~x,xlim=range(-5,5))
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotFun(sqrt(25-x^2)~x,xlim=range(-5,5))
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotFun(2*x+3~x,xlim=range(-5,5))
+plotFun(x^2~x,xlim=range(-5,5), add=T)
+```
+]
+
+]]
+ 
+
+<!--column 3-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE )
+ladd( panel.abline(h=0,v=0,col='gray50') )
+plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE )
+```
+]
+.row[
+```{r , fig.asp=.57}
+```
+]
+.row[
+```{r , fig.asp=.57}
+```
+]
+
+]]
+
+<!--column 4-->
+  
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+
+```
+]
+.row[
+```{r , fig.asp=.57}
+```
+]
+.row[
+```{r , fig.asp=.57}
+```
+]
+
+]]
+
+
+
+---
+
+class: split-four
+
+
+<!--column 1-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+pnorm(650,500,100)
+```
+]
+.row[
+```{r , fig.asp=.57}
+xpnorm(650,500,100, return="plot")
+```
+]
+.row[
+```{r , fig.asp=.57}
+xpnorm(-3:3, return="plot", system="gg")  
+```
+]
+
+]]
+ 
+
+<!--column 2-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+xpnorm(-3:3, return="plot", system="gg")  %>% 
+    gf_labs(title="My plot", x="") %>% 
+    gf_theme(theme_minimal())
+```
+]
+.row[
+```{r , fig.asp=.57}
+xqnorm(.75, 500, 100, return="plot")
+```
+]
+.row[
+```{r , fig.asp=.57}
+zscore(rnorm(100, mean=30,sd=6)) %>% 
+    head(20)
+```
+]
+
+]]
+ 
+
+<!--column 3-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+findZeros( sin(t) ~ t, xlim=c(-10,10) )
+```
+]
+.row[
+```{r , fig.asp=.57}
+solve(4*x+4==0 ~ x)
+```
+]
+.row[
+```{r , fig.asp=.57}
+CIsim(n=10, samples=200)
+```
+]
+
+]]
+
+<!--column 4-->
+  
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+confint(t.test(rnorm(100)))
+```
+]
+.row[
+```{r , fig.asp=.57}
+pval(t.test(rnorm(100)))
+```
+]
+.row[
+```{r , fig.asp=.57}
+stat(t.test(rnorm(100)))
+```
+]
+
+]]
+
+
+---
+
+.pull-left[
+```{r pdist1,fig.asp=.41, out.width="100%"}
+pdist(q=1.96,  return="plot")
+```
+```{r pdist2,fig.asp=.41, out.width="100%"}
+pdist(q=1.96,  return="values")
+```
+
+]
+
+
+.pull-right[
+
+```{r pdist3, fig.asp=.41}
+pdist(q=1.96, plot = FALSE  )
+```
+```{r pdist4, fig.asp=.41}
+pdist(q=1.96, verbose = TRUE)
+```
+
+]
+
+---
+
+.pull-left[
+```{r pdist5,fig.asp=.41}
+pdist(q=1.96,  invisible=TRUE)
+```
+```{r pdist6,fig.asp=.41}
+pdist(q=1.96,  lower.tail=F)
+```
+]
+
+
+.pull-right[
+
+```{r pdist7, fig.asp=.41}
+pdist(q=-2:2)
+```
+```{r pdist8, fig.asp=.41}
+pdist(q=seq(80,120,10), mean=100,sd=10)
+```
+
+]
+
+---
+
+.pull-left[
+```{r pdist9,fig.asp=.41}
+pdist(q=c(-1.96,1.96),refinements = list(mytheme))
+```
+```{r pdist10,fig.asp=.41}
+qdist(p=c(.025,.975),mean=30000,sd=2500)
+```
+]
+
+
+.pull-right[
+
+```{r pdist11, fig.cap="two-tailed with mean 30000" ,fig.asp=.41}
+pdist(q=c(25000,35000),mean=30000,sd=2500,refinements = list(mytheme))
+```
+```{r pdist12, fig.asp=.41}
+pdist(q=34899,mean=30000,sd=2500)
+```
+
+]
+
+---
+
+## Right tail
+
+.pull-left[
+
+```{r qdist2,fig.asp=.41, eval=F}
+qr05 <- qdist(p=.950,mean=30000,sd=2500, plot=F)
+ql05 <- qdist(p=.050,mean=30000,sd=2500, plot=F) + 4000
+yr1 <- .000008
+yr2 <- .000045
+xr1 <- qr05 + 1000
+xr2 <- qr05 + 3000
+yl1 <- .000084
+yl2 <- .000100
+xl1 <- ql05 - 1000
+xl2 <- ql05 - 5000
+themeL05  <-  list(annotate("curve",curvature=-0.3, 
+			    x=xr1,y=yr1,xend=xr2,yend=yr2, 
+			    alpha=0.3, 
+			    arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",
+				  x=xr2+400,
+				  y=yr2,
+				  label=".05") ,
+                         annotate("curve",alpha=0.3,
+				  curvature=0.3, 
+				  x=xl1,y=yl1,xend=xl2,yend=yl2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xl2-400,y=yl2,label=".95"))
+
+
+pdist(q=qr05,mean=30000,sd=2500, return="plot", 
+      refinements = list(mytheme,
+			 scale_x_continuous(breaks=c(25000,30000,34112),
+					    labels=c("25000", 
+						     expression(paste(mu,"=30000")),"34112")),
+			 geom_vline(color="red",xintercept=30000),
+			 themeL05)
+)
+```
+]
+
+
+.pull-right[
+
+```{r qdist2-out,  ref.label="qdist2", echo=F }
+```
+
+]
+
+
+---
+
+## Left tail
+
+.pull-left[
+
+```{r qdist3,fig.asp=.41, eval=F}
+mu <- 30000
+stdev <- 2500
+qr05 <- qdist(p=.950,mean=mu,sd=stdev, plot=F)
+ql05 <- qdist(p=.050,mean=mu,sd=stdev, plot=F) 
+yr1 <- .000008
+yr2 <- .000045
+xr1 <- qr05 + 1000
+xr2 <- qr05 + 3000
+yl1 <- .000084
+yl2 <- .000100
+xl1 <- ql05 + 3000
+xl2 <- ql05 - 1000
+
+themeR05  <-  list(annotate("curve",curvature=-0.3, 
+			    x=xr1,y=yr1,xend=xr2,yend=yr2, 
+			    alpha=0.3, 
+			    arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",
+				  x=xr2+400,
+				  y=yr2,
+				  label=".05") ,
+                         annotate("curve",alpha=0.3,
+				  curvature=0.3, 
+				  x=xl1,y=yl1,xend=xl2,yend=yl2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xl2-400,y=yl2,label=".95"))
+
+pdist(q=qr05,mean=mu,sd=stdev, return="plot", 
+      refinements = list(mytheme,
+			 scale_x_continuous(breaks=c(ql05,mu,qr05),
+					    labels=c(round(ql05), 
+						     expression(paste(mu,"=30000")),round(qr05))),
+			 geom_vline(color="red",xintercept=30000),
+			 themeR05)
+)
+```
+]
+
+
+.pull-right[
+
+```{r qdist3-out,  ref.label="qdist3", echo=F }
+```
+
+]
+
+
+---
+
+## Two tail
+
+.pull-left[
+
+```{r qdist4,fig.asp=.41, eval=F}
+mu <- 30000
+stdev <- 2500
+qr025 <- qdist(p=.975,mean=mu,sd=stdev, plot=F)
+ql025 <- qdist(p=.025,mean=mu,sd=stdev, plot=F) 
+yl1 <- .000008
+yl2 <- .000045
+xl1 <- ql025 - 1000
+xl2 <- ql025 - 3000
+yr1 <- .000008
+yr2 <- .000045
+xr1 <- qr05 + 1000
+xr2 <- qr05 + 3000
+ym1 <- .000100
+ym2 <- .000144
+xm1 <- mu + 1000
+xm2 <- mu + 3000
+
+
+theme2_05  <-  list(annotate("curve",curvature=-0.3, 
+			    x=xr1,y=yr1,xend=xr2,yend=yr2, 
+			    alpha=0.3, 
+			    arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",
+				  x=xr2+400,
+				  y=yr2,
+				  label=".025") ,
+                         annotate("curve",alpha=0.3,
+				  curvature=0.3, 
+				  x=xl1,y=yl1,xend=xl2,yend=yl2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xl2-400,y=yl2,label=".025"),
+                         annotate("curve",alpha=0.3,
+				  curvature=-0.3, 
+				  x=xm1,y=ym1,xend=xm2,yend=ym2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xm2+400,y=ym2,label=".95")
+
+
+                         )
+
+pdist(q=c(ql025,qr025),mean=mu,sd=stdev, return="plot", 
+      refinements = list(mytheme,
+			 scale_x_continuous(breaks=c(ql025,mu,qr025),
+					    labels=c(round(ql025), 
+						     expression(paste(mu,"=30000")),round(qr025))),
+			 geom_vline(color="#FDE725",xintercept=mu),
+			 theme2_05)
+)
+```
+]
+
+
+.pull-right[
+
+```{r qdist4-out,  ref.label="qdist4", echo=F }
+```
+
+]
+
+
+---
+
+
+
+
+
+## qdist()
+
+```{r qdist}
+qdist(p=0.975)
+```
+
+
+---
+
+## Breaks
+
+.pull-left[
+```{r ,fig.asp=.41}
+x <- rbinom(100, 100, 0.4)
+p <- gf_bar( ~ x)
+p %>% 
+ gf_refine(scale_x_continuous(breaks = discrete_breaks()))
+```
+```{r ,fig.asp=.41}
+p %>% 
+ gf_refine(scale_x_continuous(breaks = discrete_breaks(5)))
+```
+]
+
+
+.pull-right[
+
+```{r , fig.asp=.41}
+p %>% 
+ gf_refine(scale_x_continuous(breaks = discrete_breaks(2)))
+```
+]
+
+
+---
+
+## abline 
+
+
+.pull-left[
+
+```{r }
+mtcars2  <- df_stats(wt ~ cyl, data=mtcars, median_wt=median)
+mtcars2
+```
+```{r ,fig.asp=.41}
+gf_point(wt ~ hp, size = ~wt, color= ~cyl, data = mtcars) %>% 
+    gf_abline(slope = ~0, intercept=~median_wt, color=~cyl, data=mtcars2) 
+```
+]
+
+
+.pull-right[
+
+```{r , fig.asp=.41}
+```
+```{r , fig.asp=.41}
+```
+]
+
+
+class: split-four
+
+<!--column 1-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist("norm")
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("norm",type="h")
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("norm",kind="cdf")
+```
+]
+
+]]
+ 
+
+<!--column 2-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist("norm", mean=10, sd=2)
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("norm", mean=10, sd=2, col="green", type="h" )
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("binom",25,.25)
+```
+]
+
+]]
+ 
+
+<!--column 3-->
+
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist('binom',params=list(25,.25))
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("exp")
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("exp", kind='histogram')
+```
+]
+
+]]
+
+<!--column 4-->
+  
+.column[
+.split-three[
+.row[
+```{r, fig.asp=.57 }
+plotDist("chisq", df=4, groups= x > 6) 
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("f",df1=1, df2=99)
+```
+]
+.row[
+```{r , fig.asp=.57}
+plotDist("t", df=99)
+```
+]
+
+]]
+
+
+
+
+

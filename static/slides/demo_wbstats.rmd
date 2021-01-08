@@ -1,0 +1,275 @@
+---
+title: "Demo of wbstats packages"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, hygge, ninjutsu,"myprez.css"]
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+class: inverse,middle,center
+
+## Regular expression demo
+
+---
+
+```{r setup, include = F}
+
+knitr::opts_chunk$set(fig.width = 6, 
+		      message = FALSE, 
+		      warning = FALSE, 
+		      comment = "", 
+		      cache = FALSE, 
+		      fig.retina = 3)
+
+library(tidyverse)
+library(flipbookr)
+library(wbstats)
+library(rmarkdown)
+```
+
+```{r wb1}
+str(wb_cachelist, max.level=1)
+```
+
+**Accessing updated data**
+
+```{r}
+new_cache <- wbcache()
+```
+
+Find the unemployment rate data 
+
+```{r}
+gdp_growth_vars <- wbsearch(pattern="gdp growth")
+uemploy_vars=wbsearch(pattern="Unemployment rate in total population")
+poverty=wbsearch(pattern="poverty rate")
+unN_rate <- str_subset(uemploy_vars$indicatorID, "ccx_un")
+ur <- wb(country=c("IN"), indicator=unN_rate,mrv=10)
+ur <- wb(country=c("IN"), indicator='EG.ELC.ACCS.ZS',mrv=3)
+health <- wb(country="BD",indicator=c("SH.XPD.CHEX.GD.ZS"),mrv=3)
+health <- WDI(country=c("BD"),indicator=c("SH.XPD.CHEX.GD.ZS"))
+health.wdi.vars  <- wbsearch(pattern="health.*gdp")
+health.fac  <- wbsearch(pattern="health")
+health.wdi.vars.wb <- WDIsearch("health.*gdp")
+```
+
+
+---
+
+Finally some sort of breakthrough
+
+Found that with new_cache we can actuallly access the data 
+
+
+```{r}
+new_cache   <- wbcache() 
+health <- wb(country="countries_only",indicator=c("SH.XPD.CHEX.GD.ZS"),mrv=1, cache=new_cache)
+health_reg <- wb(country="aggregates",indicator=c("SH.XPD.CHEX.GD.ZS"),mrv=1, cache=new_cache)
+```
+
+South Asian countries 
+
+```{r}
+south.asia <- c("BD","IN","PK","LK","AF","NP","BT","MV","MM")
+health.sa<- health %>% 
+		 filter(iso2c %in% south.asia) %>% 
+                 select(country, value) %>% 
+		 arrange(-value)
+health.sa
+```
+
+Top 20 countries 
+
+```{r}
+health %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(-value) %>% 
+		 slice(1:20)
+
+```
+
+Bottom 20 countries 
+
+```{r}
+health %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(value) %>% 
+		 slice(1:20)
+
+```
+
+```{r}
+health %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(-value) %>% 
+		 tail(20)
+		 
+
+```
+
+Military expenditure 
+
+
+```{r}
+military_vars =wbsearch(pattern="military expenditure.*gdp")
+military_vars
+```
+
+
+
+```{r}
+new_cache   <- wbcache() 
+military <- wb(country="countries_only",indicator=c("MS.MIL.XPND.GD.ZS"),mrv=1)
+military_reg <- wb(country="aggregates",indicator=c("MS.MIL.XPND.GD.ZS"),mrv=1, cache=new_cache)
+```
+
+South Asian countries 
+
+```{r}
+south.asia <- c("BD","IN","PK","LK","AF","NP","BT","MV","MM")
+military.sa<- military %>% 
+		 filter(iso2c %in% south.asia) %>% 
+                 select(country, value) %>% 
+		 arrange(-value)
+military.sa
+```
+
+Top 20 countries 
+
+```{r}
+military %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(-value) %>% 
+		 slice(1:20)
+
+```
+
+Bottom 20 countries 
+
+```{r}
+military %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(value) %>% 
+		 slice(1:20)
+
+```
+
+```{r}
+military %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(-value) %>% 
+		 tail(20)
+		 
+
+```
+
+education expenditure 
+
+
+```{r}
+education_vars=wbsearch(pattern="government.*education.*total.*gdp")
+edu_budget_vars=wbsearch(pattern="government.*education.*total.*budget")
+education_vars
+```
+
+```{r}
+education <- wb(country="countries_only",indicator=c("SE.XPD.TOTL.GD.ZS"),mrv=1,gapfill=T)
+edu.ind <- wb(country="IN",indicator=c("SE.XPD.TOTL.GD.ZS"),mrv=1)
+edu.pk <- wb(country="PK",indicator=c("SE.XPD.TOTL.GD.ZS"),mrv=1)
+edu_budget <- wb(country="countries_only",indicator=c("SE.XPD.TOTL.GB.ZS"),mrv=1,gapfill=T)
+
+edu_reg <- wb(country="aggregates",indicator=c("SE.XPD.TOTL.GD.ZS"),mrv=1, cache=new_cache)
+```
+
+South Asian countries 
+
+```{r}
+south.asia <- c("BD","IN","PK","LK","AF","NP","BT","MV","MM")
+edu.sa <- education %>% 
+		 filter(iso2c %in% south.asia) %>% 
+                 select(date,country, value) %>% 
+		 arrange(-value)
+edu.sa
+```
+
+```{r}
+edu.budget.sa <- edu_budget %>% 
+		 filter(iso2c %in% south.asia) %>% 
+                 select(date,country, value) %>% 
+		 arrange(-value)
+edu.budget.sa
+```
+
+
+
+
+Top 20 countries 
+
+```{r}
+military %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(-value) %>% 
+		 slice(1:20)
+
+```
+
+Bottom 20 countries 
+
+```{r}
+military %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(value) %>% 
+		 slice(1:20)
+
+```
+
+```{r}
+military %>% 
+    select(date, iso2c,country, value) %>% 
+		 arrange(-value) %>% 
+		 tail(20)
+		 
+
+```
+
+## GDP growth 
+
+```{r}
+gdp.growth <- wb(country="countries_only",indicator=c("NY.GDP.MKTP.KD.ZG"),mrv=5,gapfill=T)
+
+```
+
+### South Asia 
+
+```{r}
+south.asia <- c("BD","IN","PK","LK","AF","NP","BT","MV","MM")
+gdp.growth.sa <- gdp.growth %>% 
+		 filter(iso2c %in% south.asia) %>% 
+                 select(date,country, value) %>% 
+		 arrange(date)
+
+```
+
+
+Let's plot the data 
+
+```{r}
+gdp.growth.sa %>% 
+    ggplot() +
+    geom_col(aes(date,value)) +
+    facet_wrap(~country) +
+    labs(x="Year", y="GDP growth") + 
+    theme_minimal() +  
+    theme(strip.text.x=element_text(size=16,color="black"))+  
+    theme(strip.background=element_rect(fill="grey"))
+```
+
+```{r}
+ggsave("~/Pictures/gdg_growth_sa.png")
+```
+

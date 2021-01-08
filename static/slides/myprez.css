@@ -1,16 +1,20 @@
 pre>.remark-code>.remark-code-line{
   font-family:'Source Code Pro', 'Lucida Console', Monaco, monospace;
-  font-size:10pt;
+  font-size:8pt;
 }
 
-code.r.hljs.remark-code {
+.row img {
+ margin-top: -20px;
+}
+
+/*code.r.hljs.remark-code {
     background:	#d0ccfe;
     color: black;
-}
+}*/
 
 .r.hljs.remark-code>.remark-code-line {
     font-family:'Source Code Pro','Lucida Console', Monaco, monospace;
-    font-size:10pt;
+    font-size:8pt;
 }
 
 

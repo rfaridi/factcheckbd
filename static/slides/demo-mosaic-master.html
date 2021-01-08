@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Demo of Mosaic package</title>
+    <meta charset="utf-8" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="myprez.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Demo of Mosaic package
+
+---
+
+
+
+
+
+
+
+
+
+
+
+class: inverse,middle,center 
+
+# ggformula vignette
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+
+
+
+```r
+gf_boxplot(price ~ col, data= diamonds2) %&gt;%  
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+
+```r
+gf_violin(price ~ col, data= diamonds2) %&gt;%  
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+.row[
+
+
+```r
+gf_boxplot(price ~ col, data= diamonds2) %&gt;%  
+gf_violin(price ~ col, data= diamonds2) %&gt;%  
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+
+```r
+gf_boxplot(price ~ col, data= diamonds2, alpha=0.05) %&gt;%  
+gf_violin(price ~ col, data= diamonds2, col=NA, fill="navy", alpha=0.3) %&gt;%  
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-two[
+.row[
+
+
+```r
+gf_boxplot(price ~ col, data= diamonds2, alpha=0.05) %&gt;%  
+gf_violin(price ~ col, data= diamonds2, col=NA, fill=~col, alpha=0.3) %&gt;%  
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+a bit of help
+
+
+```r
+gf_violin()
+```
+
+```
+gf_violin() uses 
+    * a formula with shape y ~ x. 
+    * geom:  violin 
+    * stat:  ydensity 
+    * position:  dodge 
+    * key attributes:  alpha, color, fill, group, linetype, size, weight, draw_quantiles = NULL, trim = TRUE, scale =
+                   "area", bw, adjust = 1, kernel = "gaussian"
+
+For more information, try ?gf_violin
+```
+]
+
+]]
+
+
+---
+
+class: split-40 
+
+&lt;!--column 1--&gt;
+
+.column [
+.split-two[
+.row[
+
+```r
+gf_violin(price ~ col, data=diamonds2,
+	  color=~col, fill=~col, alpha=0.2,
+	  scale="count",
+	  draw_quantiles=c(0.25,0.5,0.75),size=0.8,
+	  adjust=1/2
+	  ) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+gf_point(price ~ carat | col, data = diamonds2, alpha = 0.2) %&gt;%
+  gf_lm() %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_point(price ~ carat | col ~ clarity, data = diamonds2, alpha = 0.2) %&gt;%
+  gf_lm()%&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+]
+
+
+]]
+
+
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+p1 &lt;- gf_point(price ~ carat, data = diamonds2, 
+         color = ~ col, alpha = 0.2, size = 0.5)  %&gt;% 
+         gf_theme(theme_minimal())
+p1
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+]
+
+.row[
+
+
+```r
+p2 &lt;- p1 %&gt;% 
+         gf_lm(alpha=0.5)  
+p2
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+p3 &lt;- p2  %&gt;% 
+	 gf_facet_wrap(~color) 
+p3
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+]
+
+.row[
+
+
+```r
+p4 &lt;- p3  %&gt;%  
+     gf_labs(title = "Price vs Size", subtitle = "(2 colors of diamonds)",
+          caption = "source: ggplot2::diamonds",
+          x = "size (carat)", y = "price (US dollars)") 
+p4
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+```r
+p5 &lt;- p4 %&gt;% 
+       gf_refine(scale_color_manual(values = c("red", "navy"))) 
+p5
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+
+]
+
+.row[
+
+```r
+p6 &lt;- p5 %&gt;% 
+       gf_refine(scale_color_manual(values = c("red", "navy"), guide = "none"))
+p6
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+mtcars2 &lt;- df_stats(wt ~ cyl, data = mtcars, median_wt = median)
+     gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) %&gt;%
+       gf_abline(slope = ~0, intercept = ~median_wt, color = ~cyl, data = mtcars2) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+# avoid warnings by using formulas:
+     gf_point(wt ~ hp, size = ~wt, color = ~cyl, data = mtcars) %&gt;%
+       gf_abline(slope = ~0, intercept = ~3, color = "green") %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars) %&gt;%
+       gf_abline(color = "red", slope = ~ - 0.10, intercept = ~ 35) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_point(mpg ~ hp, color = ~cyl, size = ~wt, data = mtcars) %&gt;%
+       gf_abline(
+         color = "red", slope = ~slope, intercept = ~intercept,
+         data = data.frame(slope = -0.10, intercept = 33:35)
+       ) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+gf_point(mpg ~ hp, color = ~cyl, size = ~ wt, data = mtcars) %&gt;%
+       gf_hline(color = "navy", yintercept = ~ c(20, 25), data = NA) %&gt;%
+       gf_vline(color = "brown", xintercept = ~ c(200, 300), data = NA) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+gf_point(mpg ~ hp, size = ~wt, data = mtcars, alpha = 0.3) %&gt;%
+       gf_hline(color = ~"horizontal", yintercept = ~ c(20, 25), data = NA) %&gt;%
+       gf_vline(color = ~"vertical", xintercept = ~ c(100, 200, 300), data = NA) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+data(Runners, package = "mosaicModel")
+Runners &lt;- Runners %&gt;% filter( ! is.na(net))
+gf_density(~ net, data = Runners)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+gf_density( ~ net,  fill = ~ sex,  alpha = 0.5, data = Runners)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+# gf_dens() is similar, but there is no line at bottom/sides, and it is not "fillable"
+gf_dens( ~ net, color = ~ sex, alpha = 0.7, data = Runners)    
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+]
+.row[
+
+]
+
+]]
+
+
+
+---
+
+class: inverse,middle,center 
+
+# `gf_fun()`
+
+---
+
+class: split-four
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+gf_function(fun = sqrt, xlim = c(0, 10)) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+gf_fun(x^2 ~ x, xlim = c(-4,4)) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+sqr &lt;- makeFun(x^2 ~ x)
+gf_function(fun=sqr, xlim = c(-4,4)) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+gf_function(fun = sqrt, xlim = c(0, 10)) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-33-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+gf_fun(x^2 ~ x, xlim = c(-4,4)) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+sqr &lt;- makeFun(x^2 ~ x)
+gf_function(fun=sqr, xlim = c(-4,4)) %&gt;% 
+       gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+---
+
+class: inverse,middle,center 
+
+# `gf_dist()` 
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+gf_dist("norm") %&gt;% 
+    gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("norm", color="red") %&gt;% 
+    gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-37-1.png)&lt;!-- --&gt;
+]
+
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+```r
+gf_dist("norm", mean=10, sd=2) %&gt;% 
+    gf_theme(theme_bw())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("norm", mean=10, sd=2, type="cdf") %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+gf_dist("norm", mean=10, sd=2, color="blue", type="cdf") %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-40-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+```r
+gf_dist("norm", mean=10, sd=2, fill="green", kind="histogram") %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-41-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("norm", mean=10, sd=2, fill="grey", kind="histogram") %&gt;% 
+gf_dist("norm", mean=10, sd=2) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-42-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+gf_dist("norm", color="red", kind="qqstep", resolution=15) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-43-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("norm", color="red", kind="qqstep", resolution=50) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-44-1.png)&lt;!-- --&gt;
+]
+
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+```r
+gf_dist("t", df=9) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-45-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("norm",color="red") %&gt;% 
+gf_dist("t", df=9, color="blue") %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-46-1.png)&lt;!-- --&gt;
+
+]
+
+]]
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+```r
+gf_dist("binom", size=20,prob=0.25) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-47-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+gf_dist("binom", size=20,prob=0.25, plot_size=2) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-48-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+---
+
+class: split-three
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-two[
+.row[
+
+```r
+gf_dist("exp") %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-49-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("f", df1=99, df2=45) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-50-1.png)&lt;!-- --&gt;
+]
+
+
+]]
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+
+```r
+gf_dist("pois", lambda=1) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-51-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+gf_dist("chisq", df=99) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-52-1.png)&lt;!-- --&gt;
+
+]
+
+]]
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-two[
+
+.row[
+
+```r
+gf_dist("norm", type="pp" ) %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-53-1.png)&lt;!-- --&gt;
+]
+
+.row[
+
+```r
+alpha &lt;- c(.05,.95)
+rcrit &lt;- round(qnorm(alpha),2)
+gf_dist("norm", fill = ~ (abs(x) &lt;= rcrit[2]), geom = "area") %&gt;% 
+    gf_refine(
+	      scale_fill_manual(values=c("red","blue")),
+	      scale_x_continuous(breaks = c(rcrit[1],0,1.64)),
+	      mytheme2
+    )
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-54-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+
+
+
+
+
+class: inverse,middle,center 
+
+# plotDist
+
+---
+
+class: split-four
+
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotDist("norm")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-55-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("norm",type="h")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-56-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("norm",kind="cdf")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-57-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotDist("norm", mean=10, sd=2)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-58-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("norm", mean=10, sd=2, col="green", type="h" )
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-59-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("binom",25,.25)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-60-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotDist('binom',params=list(25,.25))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-61-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("exp")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-62-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("exp", kind='histogram')
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-63-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 4--&gt;
+  
+.column[
+.split-three[
+.row[
+
+```r
+plotDist("chisq", df=4, groups= x &gt; 6) 
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-64-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("f",df1=1, df2=99)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-65-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("t", df=99)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-66-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+
+
+---
+
+class: inverse,middle,center 
+
+# plotFun
+
+---
+
+class: split-four
+
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotFun(x^2~x,xlim=range(-5,5))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-67-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotFun(x^3~x,xlim=range(-5,5))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-68-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotFun(x^4~x,xlim=range(-5,5))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-69-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotFun(5/x~x,xlim=range(-5,5))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-70-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotFun(sqrt(25-x^2)~x,xlim=range(-5,5))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-71-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotFun(2*x+3~x,xlim=range(-5,5))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-72-1.png)&lt;!-- --&gt;
+
+```r
+plotFun(x^2~x,xlim=range(-5,5), add=T)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-72-2.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE )
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-73-1.png)&lt;!-- --&gt;
+
+```r
+ladd( panel.abline(h=0,v=0,col='gray50') )
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-73-2.png)&lt;!-- --&gt;
+
+```r
+plotFun( (x^2 -3) * (x^2 &gt; 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE )
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-73-3.png)&lt;!-- --&gt;
+]
+.row[
+
+]
+.row[
+
+]
+
+]]
+
+&lt;!--column 4--&gt;
+  
+.column[
+.split-three[
+.row[
+
+]
+.row[
+
+]
+.row[
+
+]
+
+]]
+
+
+
+---
+
+class: split-four
+
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+pnorm(650,500,100)
+```
+
+```
+[1] 0.9331928
+```
+]
+.row[
+
+```r
+xpnorm(650,500,100, return="plot")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-80-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+xpnorm(-3:3, return="plot", system="gg")  
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-81-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+xpnorm(-3:3, return="plot", system="gg")  %&gt;% 
+    gf_labs(title="My plot", x="") %&gt;% 
+    gf_theme(theme_minimal())
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-82-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+xqnorm(.75, 500, 100, return="plot")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-83-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+zscore(rnorm(100, mean=30,sd=6)) %&gt;% 
+    head(20)
+```
+
+```
+ [1]  0.90465468  0.45071075 -1.35598925 -0.53686238 -1.01476690 -0.68255995  0.88079948  1.49444672  0.53691804
+[10]  1.54802723  0.36955227 -1.16648407 -0.63653680  0.08223287  0.84212970  1.34635586  0.09865895  0.07928913
+[19] -0.76208474  0.33523410
+```
+]
+
+]]
+ 
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+findZeros( sin(t) ~ t, xlim=c(-10,10) )
+```
+
+```
+         t
+1 -12.5664
+2  -9.4248
+3  -6.2832
+4  -3.1416
+5   0.0000
+6   3.1416
+7   6.2832
+8   9.4248
+9  12.5664
+```
+]
+.row[
+
+```r
+solve(4*x+4==0 ~ x)
+```
+
+```
+   x
+1 -1
+```
+]
+.row[
+
+```r
+CIsim(n=10, samples=200)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-87-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 4--&gt;
+  
+.column[
+.split-three[
+.row[
+
+```r
+confint(t.test(rnorm(100)))
+```
+
+```
+   mean of x      lower     upper level
+1 -0.1065108 -0.3074979 0.0944763  0.95
+```
+]
+.row[
+
+```r
+pval(t.test(rnorm(100)))
+```
+
+```
+  p.value 
+0.8735058 
+```
+]
+.row[
+
+```r
+stat(t.test(rnorm(100)))
+```
+
+```
+       t 
+-2.94965 
+```
+]
+
+]]
+
+
+---
+
+.pull-left[
+
+```r
+pdist(q=1.96,  return="plot")
+```
+
+&lt;img src="demo-mosaic-master_files/figure-html/pdist1-1.png" width="100%" /&gt;
+
+```r
+pdist(q=1.96,  return="values")
+```
+
+&lt;img src="demo-mosaic-master_files/figure-html/pdist2-1.png" width="100%" /&gt;
+
+```
+[1] 0.9750021
+```
+
+]
+
+
+.pull-right[
+
+
+```r
+pdist(q=1.96, plot = FALSE  )
+```
+
+```
+[1] 0.9750021
+```
+
+```r
+pdist(q=1.96, verbose = TRUE)
+```
+
+```
+Verbose output not yet implemented.
+```
+
+![](demo-mosaic-master_files/figure-html/pdist4-1.png)&lt;!-- --&gt;
+
+```
+[1] 0.9750021
+```
+
+]
+
+---
+
+.pull-left[
+
+```r
+pdist(q=1.96,  invisible=TRUE)
+```
+
+![](demo-mosaic-master_files/figure-html/pdist5-1.png)&lt;!-- --&gt;
+
+```r
+pdist(q=1.96,  lower.tail=F)
+```
+
+![](demo-mosaic-master_files/figure-html/pdist6-1.png)&lt;!-- --&gt;
+
+```
+[1] 0.0249979
+```
+]
+
+
+.pull-right[
+
+
+```r
+pdist(q=-2:2)
+```
+
+![](demo-mosaic-master_files/figure-html/pdist7-1.png)&lt;!-- --&gt;
+
+```
+[1] 0.02275013 0.15865525 0.50000000 0.84134475 0.97724987
+```
+
+```r
+pdist(q=seq(80,120,10), mean=100,sd=10)
+```
+
+![](demo-mosaic-master_files/figure-html/pdist8-1.png)&lt;!-- --&gt;
+
+```
+[1] 0.02275013 0.15865525 0.50000000 0.84134475 0.97724987
+```
+
+]
+
+---
+
+.pull-left[
+
+```r
+pdist(q=c(-1.96,1.96),refinements = list(mytheme))
+```
+
+![](demo-mosaic-master_files/figure-html/pdist9-1.png)&lt;!-- --&gt;
+
+```
+[1] 0.0249979 0.9750021
+```
+
+```r
+qdist(p=c(.025,.975),mean=30000,sd=2500)
+```
+
+![](demo-mosaic-master_files/figure-html/pdist10-1.png)&lt;!-- --&gt;
+
+```
+[1] 25100.09 34899.91
+```
+]
+
+
+.pull-right[
+
+
+```r
+pdist(q=c(25000,35000),mean=30000,sd=2500,refinements = list(mytheme))
+```
+
+![two-tailed with mean 30000](demo-mosaic-master_files/figure-html/pdist11-1.png)
+
+```
+[1] 0.02275013 0.97724987
+```
+
+```r
+pdist(q=34899,mean=30000,sd=2500)
+```
+
+![](demo-mosaic-master_files/figure-html/pdist12-1.png)&lt;!-- --&gt;
+
+```
+[1] 0.9749787
+```
+
+]
+
+---
+
+## Right tail
+
+.pull-left[
+
+
+```r
+qr05 &lt;- qdist(p=.950,mean=30000,sd=2500, plot=F)
+ql05 &lt;- qdist(p=.050,mean=30000,sd=2500, plot=F) + 4000
+yr1 &lt;- .000008
+yr2 &lt;- .000045
+xr1 &lt;- qr05 + 1000
+xr2 &lt;- qr05 + 3000
+yl1 &lt;- .000084
+yl2 &lt;- .000100
+xl1 &lt;- ql05 - 1000
+xl2 &lt;- ql05 - 5000
+themeL05  &lt;-  list(annotate("curve",curvature=-0.3, 
+			    x=xr1,y=yr1,xend=xr2,yend=yr2, 
+			    alpha=0.3, 
+			    arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",
+				  x=xr2+400,
+				  y=yr2,
+				  label=".05") ,
+                         annotate("curve",alpha=0.3,
+				  curvature=0.3, 
+				  x=xl1,y=yl1,xend=xl2,yend=yl2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xl2-400,y=yl2,label=".95"))
+
+
+pdist(q=qr05,mean=30000,sd=2500, return="plot", 
+      refinements = list(mytheme,
+			 scale_x_continuous(breaks=c(25000,30000,34112),
+					    labels=c("25000", 
+						     expression(paste(mu,"=30000")),"34112")),
+			 geom_vline(color="red",xintercept=30000),
+			 themeL05)
+)
+```
+]
+
+
+.pull-right[
+
+![](demo-mosaic-master_files/figure-html/qdist2-out-1.png)&lt;!-- --&gt;
+
+]
+
+
+---
+
+## Left tail
+
+.pull-left[
+
+
+```r
+mu &lt;- 30000
+stdev &lt;- 2500
+qr05 &lt;- qdist(p=.950,mean=mu,sd=stdev, plot=F)
+ql05 &lt;- qdist(p=.050,mean=mu,sd=stdev, plot=F) 
+yr1 &lt;- .000008
+yr2 &lt;- .000045
+xr1 &lt;- qr05 + 1000
+xr2 &lt;- qr05 + 3000
+yl1 &lt;- .000084
+yl2 &lt;- .000100
+xl1 &lt;- ql05 + 3000
+xl2 &lt;- ql05 - 1000
+
+themeR05  &lt;-  list(annotate("curve",curvature=-0.3, 
+			    x=xr1,y=yr1,xend=xr2,yend=yr2, 
+			    alpha=0.3, 
+			    arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",
+				  x=xr2+400,
+				  y=yr2,
+				  label=".05") ,
+                         annotate("curve",alpha=0.3,
+				  curvature=0.3, 
+				  x=xl1,y=yl1,xend=xl2,yend=yl2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xl2-400,y=yl2,label=".95"))
+
+pdist(q=qr05,mean=mu,sd=stdev, return="plot", 
+      refinements = list(mytheme,
+			 scale_x_continuous(breaks=c(ql05,mu,qr05),
+					    labels=c(round(ql05), 
+						     expression(paste(mu,"=30000")),round(qr05))),
+			 geom_vline(color="red",xintercept=30000),
+			 themeR05)
+)
+```
+]
+
+
+.pull-right[
+
+![](demo-mosaic-master_files/figure-html/qdist3-out-1.png)&lt;!-- --&gt;
+
+]
+
+
+---
+
+## Two tail
+
+.pull-left[
+
+
+```r
+mu &lt;- 30000
+stdev &lt;- 2500
+qr025 &lt;- qdist(p=.975,mean=mu,sd=stdev, plot=F)
+ql025 &lt;- qdist(p=.025,mean=mu,sd=stdev, plot=F) 
+yl1 &lt;- .000008
+yl2 &lt;- .000045
+xl1 &lt;- ql025 - 1000
+xl2 &lt;- ql025 - 3000
+yr1 &lt;- .000008
+yr2 &lt;- .000045
+xr1 &lt;- qr05 + 1000
+xr2 &lt;- qr05 + 3000
+ym1 &lt;- .000100
+ym2 &lt;- .000144
+xm1 &lt;- mu + 1000
+xm2 &lt;- mu + 3000
+
+
+theme2_05  &lt;-  list(annotate("curve",curvature=-0.3, 
+			    x=xr1,y=yr1,xend=xr2,yend=yr2, 
+			    alpha=0.3, 
+			    arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",
+				  x=xr2+400,
+				  y=yr2,
+				  label=".025") ,
+                         annotate("curve",alpha=0.3,
+				  curvature=0.3, 
+				  x=xl1,y=yl1,xend=xl2,yend=yl2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xl2-400,y=yl2,label=".025"),
+                         annotate("curve",alpha=0.3,
+				  curvature=-0.3, 
+				  x=xm1,y=ym1,xend=xm2,yend=ym2,
+				  arrow=arrow(length=unit(2,"mm"))),
+			 annotate("text",x=xm2+400,y=ym2,label=".95")
+
+                         )
+
+pdist(q=c(ql025,qr025),mean=mu,sd=stdev, return="plot", 
+      refinements = list(mytheme,
+			 scale_x_continuous(breaks=c(ql025,mu,qr025),
+					    labels=c(round(ql025), 
+						     expression(paste(mu,"=30000")),round(qr025))),
+			 geom_vline(color="#FDE725",xintercept=mu),
+			 theme2_05)
+)
+```
+]
+
+
+.pull-right[
+
+![](demo-mosaic-master_files/figure-html/qdist4-out-1.png)&lt;!-- --&gt;
+
+]
+
+
+---
+
+
+
+
+
+## qdist()
+
+
+```r
+qdist(p=0.975)
+```
+
+![](demo-mosaic-master_files/figure-html/qdist-1.png)&lt;!-- --&gt;
+
+```
+[1] 1.959964
+```
+
+
+---
+
+## Breaks
+
+.pull-left[
+
+```r
+x &lt;- rbinom(100, 100, 0.4)
+p &lt;- gf_bar( ~ x)
+p %&gt;% 
+ gf_refine(scale_x_continuous(breaks = discrete_breaks()))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-91-1.png)&lt;!-- --&gt;
+
+```r
+p %&gt;% 
+ gf_refine(scale_x_continuous(breaks = discrete_breaks(5)))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-92-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+
+```r
+p %&gt;% 
+ gf_refine(scale_x_continuous(breaks = discrete_breaks(2)))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-93-1.png)&lt;!-- --&gt;
+]
+
+
+---
+
+## abline 
+
+
+.pull-left[
+
+
+```r
+mtcars2  &lt;- df_stats(wt ~ cyl, data=mtcars, median_wt=median)
+mtcars2
+```
+
+```
+  response cyl median_wt
+1       wt   4     2.200
+2       wt   6     3.215
+3       wt   8     3.755
+```
+
+```r
+gf_point(wt ~ hp, size = ~wt, color= ~cyl, data = mtcars) %&gt;% 
+    gf_abline(slope = ~0, intercept=~median_wt, color=~cyl, data=mtcars2) 
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-95-1.png)&lt;!-- --&gt;
+]
+
+
+.pull-right[
+
+
+
+]
+
+
+class: split-four
+
+&lt;!--column 1--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotDist("norm")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-98-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("norm",type="h")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-99-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("norm",kind="cdf")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-100-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 2--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotDist("norm", mean=10, sd=2)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-101-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("norm", mean=10, sd=2, col="green", type="h" )
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-102-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("binom",25,.25)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-103-1.png)&lt;!-- --&gt;
+]
+
+]]
+ 
+
+&lt;!--column 3--&gt;
+
+.column[
+.split-three[
+.row[
+
+```r
+plotDist('binom',params=list(25,.25))
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-104-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("exp")
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-105-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("exp", kind='histogram')
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-106-1.png)&lt;!-- --&gt;
+]
+
+]]
+
+&lt;!--column 4--&gt;
+  
+.column[
+.split-three[
+.row[
+
+```r
+plotDist("chisq", df=4, groups= x &gt; 6) 
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-107-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("f",df1=1, df2=99)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-108-1.png)&lt;!-- --&gt;
+]
+.row[
+
+```r
+plotDist("t", df=99)
+```
+
+![](demo-mosaic-master_files/figure-html/unnamed-chunk-109-1.png)&lt;!-- --&gt;
+]
+
+]]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
