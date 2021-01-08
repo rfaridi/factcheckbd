@@ -1,7 +1,9 @@
 ---
-title: "List of available presentations"
+title: "List of  projects"
 
 ---
+
+# Presentations
 
 
 ## [STC R Training](https://rushad.netlify.app/slides/online_2020_may_stc_prez)
@@ -15,3 +17,17 @@ title: "List of available presentations"
 ## [Mapping demo](https://rushad.netlify.app/slides/demo_mapping)
 
 ## [Demo on Mosaic Package](https://rushad.netlify.app/slides/demo-mosaic-master)
+
+# Github  projects
+
+
+## [DHS-data](https://rfaridi.github.io/DHS-data/)
+
+## [Adv-R-Training](https://rfaridi.github.io/adv-r-training)
+
+## [Write-ups](https://rfaridi.github.io/write-up)
+
+## [Time series prez](https://rfaridi.github.io/Time-series)
+
+## [BFTI Sep Training](https://github.com/rfaridi/BFTI-training-2020/)
+
